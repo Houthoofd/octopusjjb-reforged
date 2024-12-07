@@ -1,0 +1,2 @@
+var r=globalThis,e={},i={},t=r.parcelRequirec605;null==t&&((t=function(r){if(r in e)return e[r].exports;if(r in i){var t=i[r];delete i[r];var n={id:r,exports:{}};return e[r]=n,t.call(n.exports,n,n.exports),n.exports}var o=Error("Cannot find module '"+r+"'");throw o.code="MODULE_NOT_FOUND",o}).register=function(r,e){i[r]=e},r.parcelRequirec605=t),t.register;var n=t("5D1XK");t("RKbfs"),t("3I5Zu"),t("dLLJA"),t("7KTRf");let o=(0,n.html)`${r=>(0,n.html)`<inscription-page></inscription-page>`}`;(0,n.render)(o);
+//# sourceMappingURL=index.bed619da.js.map
