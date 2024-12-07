@@ -23,12 +23,18 @@ gulp.task('clean-old-bundles', async function () {
     // Garder uniquement le fichier le plus récent
     const latestFile = files[0]?.name;
 
-    // Supprimer tous les fichiers sauf le plus récent, en excluant le dossier 'images'
+    // Supprimer tous les fichiers sauf le plus récent, en excluant 'pages', 'images', et 'svg'
     if (latestFile) {
       const filesToDelete = files
         .slice(1) // Exclure le fichier le plus récent
         .map(file => path.join(dir, file.name))
-        .filter(file => !file.includes(path.join('server', 'public', 'images', 'svg'))); // Exclure les fichiers dans 'images'
+        .filter(file => {
+          // Exclure les dossiers 'pages', 'images', et 'svg' dans 'public'
+          const relativePath = path.relative(path.join('server', 'public'), file);
+          return !relativePath.startsWith('pages') &&
+                 !relativePath.startsWith('images') &&
+                 !relativePath.startsWith('svg');
+        });
 
       if (filesToDelete.length > 0) {
         await deleteAsync(filesToDelete);
