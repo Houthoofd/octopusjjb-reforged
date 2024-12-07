@@ -28,7 +28,7 @@ gulp.task('clean-old-bundles', async function () {
       const filesToDelete = files
         .slice(1) // Exclure le fichier le plus récent
         .map(file => path.join(dir, file.name))
-        .filter(file => !file.includes(path.join('server', 'public', 'images'))); // Exclure les fichiers dans 'images'
+        .filter(file => !file.includes(path.join('server', 'public', 'images', 'svg'))); // Exclure les fichiers dans 'images'
 
       if (filesToDelete.length > 0) {
         await deleteAsync(filesToDelete);

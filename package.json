@@ -5,7 +5,8 @@
   "targets": {
     "frontend": {
       "source": [
-        "ui/src/index.html"
+        "ui/src/index.html",
+        "ui/src/pages/index.html"
       ],
       "distDir": "server/public"
     },

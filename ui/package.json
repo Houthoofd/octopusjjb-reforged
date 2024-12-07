@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "source": [
-    "src/index.html"
+    "src/index.html",
+    "ui/src/pages/index.html"
   ],
   "scripts": {
     "clean": "rmdir /s /q dist ; rmdir /s /q .parcel-cache",
