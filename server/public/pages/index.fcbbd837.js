@@ -1,12 +1,4 @@
-import { html , render , WebComponent , customElement , attr , attrState , state, css, ViewTemplate, ViewContext, asyncAppend, repeat, children } from '@lithium-framework/core';
-import '@lithium-framework/router-element';
-import 'unofficial-pf-v5-wc';
-import 'unofficial-pf-v5-wc-icons';
-
-@customElement({
-   name: "vertical-navbar",
-   template : html`${(verticalNavBar: VerticalNavBar) => {
-      return html`
+var e=globalThis,t={},i={},a=e.parcelRequire1c26;null==a&&((a=function(e){if(e in t)return t[e].exports;if(e in i){var a=i[e];delete i[e];var s={id:e,exports:{}};return t[e]=s,a.call(s.exports,s,s.exports),s.exports}var l=Error("Cannot find module '"+e+"'");throw l.code="MODULE_NOT_FOUND",l}).register=function(e,t){i[e]=t},e.parcelRequire1c26=a),a.register;var s=a("7WQrb"),l=a("5D1XK");a("RKbfs"),a("3I5Zu"),a("dLLJA");var s=a("7WQrb"),l=a("5D1XK");a("RKbfs"),a("3I5Zu"),a("dLLJA");class v extends l.WebComponent{}v=(0,s.__decorate)([(0,l.customElement)({name:"vertical-navbar",template:(0,l.html)`${e=>(0,l.html)`
         <nav id="sidebar">
          <ul id="top-sidebar">
             <li>
@@ -65,17 +57,14 @@ import 'unofficial-pf-v5-wc-icons';
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></svg>
                </div>
+               <span class="switch-mode-text">Dark Mode</span>
                <div class="switch-mode-toggle">
                   <span class="switch-mode-toogle-btn"></span>
                </div>
-               <span class="switch-mode-text">Dark Mode</span>
             </li>
          </ul>
         </nav>
-      `
-   }}`,
-   styles: [
-      css`
+      `}`,styles:[(0,l.css)`
       #sidebar{
          box-sizing: border-box;
          height: 100vh;
@@ -89,7 +78,6 @@ import 'unofficial-pf-v5-wc-icons';
       }
       #sidebar ul{
          list-style: none;
-         padding: 0;
       }
       #sidebar ul li.active a{
          color: #5e63ff;
@@ -112,39 +100,84 @@ import 'unofficial-pf-v5-wc-icons';
       }
       #switch-mode{
          background-color: #222533;
+         
+      }
+      `]})],v);var s=a("7WQrb"),l=a("5D1XK");a("RKbfs"),a("3I5Zu"),a("dLLJA");class h extends l.WebComponent{}h=(0,s.__decorate)([(0,l.customElement)({name:"horizontal-navbar",template:(0,l.html)`${e=>(0,l.html)`
+        <nav id="sidebar">
+         <ul id="right-sidebar">
+            <li>
+               <a href="/pages/messages">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+               </a>
+            </li>
+            <li>
+               <a href="/pages/notifications">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+               </a>
+            </li>
+         </ul>
+        </nav>
+      `}`,styles:[(0,l.css)`
+      #sidebar{
+         box-sizing: border-box;
+         padding: 5px 1em;
+         background-color: #11121a;
+         border-bottom: 1px solid #42434a;
          display: flex;
-         padding: 10px 10px;
-         justify-content: space-between;
+         /* flex-direction: column; */
+         justify-content: flex-end;
          align-items: center;
       }
-      .moon-sun{
+      #sidebar ul{
+         list-style: none;
+      }
+      #sidebar ul li.active a{
+         color: #5e63ff;
+
+         svg{
+            fill: #5e63ff;
+         }
+      }
+      #sidebar a{
+         padding: .85rem;
+         text-decoration: none;
+         color: #e6e6ef;
          display: flex;
          align-items: center;
+         gap: 1em;
 
          svg{
             fill: #e6e6ef;
          }
       }
-      .switch-mode-toggle{
-         background-color: red;
-         width: 50px;
-         height: 35px;
+      #right-sidebar{
          display: flex;
          align-items: center;
-         justify-content: center
       }
-      .switch-mode-text{
-         display: flex;
+      `]})],h);class o extends l.WebComponent{}o=(0,s.__decorate)([(0,l.customElement)({name:"main-application",template:(0,l.html)`${e=>(0,l.html)`
+        <div id="application">
+            <div class="left-menu">
+               <vertical-navbar></vertical-navbar>
+            </div>
+            <div class="right-content">
+               <horizontal-navbar></horizontal-navbar>
+            </div>
+        </div>
+      `}`,styles:[(0,l.css)`
+      #application{
+         min-height: 100vh;
+         background-color: var(--base-clr);
+         color: var(--text-clr);
+         display: grid;
+         grid-template-columns: auto 1fr;
       }
-      .switch-mode-toogle-btn{
-         height: 22px;
-         width: 44px;
-         background-color: #DDD;
-         border-radius: 25px;
+      #left-menu{
+         width: 100%;
+         height: 100%;
       }
-      `
-   ]
-})
-export class VerticalNavBar extends WebComponent{
-
-}
+      #right-menu{
+         display: grid;
+         grid-template-rows: 10vh 1fr;
+      }
+      `]})],o),(0,l.render)((0,l.html)`<main-application></main-application>`,document.body);
+//# sourceMappingURL=index.fcbbd837.js.map
