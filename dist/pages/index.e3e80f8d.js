@@ -902,9 +902,8 @@ HorizontalNavBar = (0, _tsDecorate._)([
          border-right: 1px solid #42434a;
          justify-content: space-between;
          align-items: center;
-         justify-content: space-between;
-         align-items: center;
          display: flex;
+         background-color: #222533;
       }
       .header-sidebar li{
          list-style: none;
