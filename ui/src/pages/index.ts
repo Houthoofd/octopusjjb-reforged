@@ -9,11 +9,11 @@ import '../components';
    template : html`${(main: Main) => {
       return html`
         <div id="application">
-            <div class="left-menu">
-               <vertical-navbar></vertical-navbar>
+            <div class="header">
+               <horizontal-navbar></horizontal-navbar>
             </div>
             <div class="right-content">
-               <horizontal-navbar></horizontal-navbar>
+               <vertical-navbar></vertical-navbar>
             </div>
         </div>
       `
@@ -25,15 +25,14 @@ import '../components';
          background-color: var(--base-clr);
          color: var(--text-clr);
          display: grid;
-         grid-template-columns: auto 1fr;
-      }
-      #left-menu{
-         width: 100%;
-         height: 100%;
-      }
-      #right-menu{
-         display: grid;
          grid-template-rows: 10vh 1fr;
+      }
+      .header{
+         
+      }
+      .right-content{
+         display: grid;
+         grid-template-columns: 250px 1fr;
       }
       `
    ]

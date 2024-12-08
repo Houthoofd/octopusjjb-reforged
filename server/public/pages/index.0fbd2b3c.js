@@ -1,12 +1,4 @@
-import { html , render , WebComponent , customElement , attr , attrState , state, css, ViewTemplate, ViewContext, asyncAppend, repeat, children } from '@lithium-framework/core';
-import '@lithium-framework/router-element';
-import 'unofficial-pf-v5-wc';
-import 'unofficial-pf-v5-wc-icons';
-
-@customElement({
-   name: "vertical-navbar",
-   template : html`${(verticalNavBar: VerticalNavBar) => {
-      return html`
+var e=globalThis,t={},i={},s=e.parcelRequire1c26;null==s&&((s=function(e){if(e in t)return t[e].exports;if(e in i){var s=i[e];delete i[e];var a={id:e,exports:{}};return t[e]=a,s.call(a.exports,a,a.exports),a.exports}var l=Error("Cannot find module '"+e+"'");throw l.code="MODULE_NOT_FOUND",l}).register=function(e,t){i[e]=t},e.parcelRequire1c26=s),s.register;var a=s("7WQrb"),l=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA");var a=s("7WQrb"),l=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA");class o extends l.WebComponent{}o=(0,a.__decorate)([(0,l.customElement)({name:"vertical-navbar",template:(0,l.html)`${e=>(0,l.html)`
         <nav id="sidebar">
          <ul id="top-sidebar">
             <li>
@@ -76,13 +68,10 @@ import 'unofficial-pf-v5-wc-icons';
             </li>
          </ul>
         </nav>
-      `
-   }}`,
-   styles: [
-      css`
+      `}`,styles:[(0,l.css)`
       #sidebar{
          box-sizing: border-box;
-         height: 100%;
+         height: 100vh;
          width: 250px;
          padding: 5px 1em;
          background-color: #11121a;
@@ -90,9 +79,6 @@ import 'unofficial-pf-v5-wc-icons';
          display: flex;
          flex-direction: column;
          justify-content: space-between;
-      }
-      .header{
-         border: 1px solid #42434a;
       }
       #sidebar ul{
          list-style: none;
@@ -170,9 +156,98 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      `
-   ]
-})
-export class VerticalNavBar extends WebComponent{
+      `]})],o);var a=s("7WQrb"),l=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA");class r extends l.WebComponent{}r=(0,a.__decorate)([(0,l.customElement)({name:"horizontal-navbar",template:(0,l.html)`${e=>(0,l.html)`
+        <nav id="sidebar">
+         <ul class="header-sidebar">
+            <li>
+               <a class="member-info-initial" href="/pages/profile">HB</a>
+               <button class="toggle-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+               </button>
+            </li>
+         </ul>
+         <ul id="right-sidebar">
+            <li>
+               <div class="member-infos">
+                  <span class="member-info-nom">Houthoofd Benoit</span>
+               </div>
+            </li>
+            <li>
+               <a href="/pages/messages">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+               </a>
+            </li>
+            <li>
+               <a href="/pages/notifications">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+               </a>
+            </li>
+         </ul>
+        </nav>
+      `}`,styles:[(0,l.css)`
+      #sidebar{
+         box-sizing: border-box;
+         background-color: #11121a;
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         align-items: center;
+      }
+      .header-sidebar{
+         border-right: 1px solid #42434a;
+         border-bottom: 1px solid #42434a;
+      }
+      .header-sidebar ul{
+         padding: 0;
+      }
+      #sidebar ul{
+         list-style: none;
+      }
+      #sidebar ul li.active a{
+         color: #5e63ff;
 
-}
+         svg{
+            fill: #5e63ff;
+         }
+      }
+      #sidebar a{
+         padding: .85rem;
+         text-decoration: none;
+         color: #e6e6ef;
+         display: flex;
+         align-items: center;
+         gap: 1em;
+
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      #right-sidebar{
+         display: flex;
+         align-items: center;
+      }
+      `]})],r);class n extends l.WebComponent{}n=(0,a.__decorate)([(0,l.customElement)({name:"main-application",template:(0,l.html)`${e=>(0,l.html)`
+        <div id="application">
+            <div class="header">
+               <horizontal-navbar></horizontal-navbar>
+            </div>
+            <div class="right-content">
+               <vertical-navbar></vertical-navbar>
+            </div>
+        </div>
+      `}`,styles:[(0,l.css)`
+      #application{
+         min-height: 100vh;
+         background-color: var(--base-clr);
+         color: var(--text-clr);
+         display: grid;
+         grid-template-rows: 10vh 1fr;
+      }
+      .header{
+         
+      }
+      .right-content{
+         display: grid;
+         grid-template-columns: 250px 1fr;
+      }
+      `]})],n),(0,l.render)((0,l.html)`<main-application></main-application>`,document.body);
+//# sourceMappingURL=index.0fbd2b3c.js.map
