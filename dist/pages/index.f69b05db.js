@@ -819,6 +819,13 @@ VerticalNavBar = (0, _tsDecorate._)([
             fill: #e6e6ef;
          }
       }
+      #sidebar a:hover{
+         color: #5e63ff;
+
+         svg{
+            fill: #5e63ff;
+         }
+      }
       #sidebar a.close{
          width: 150px;
          overflow: hidden;

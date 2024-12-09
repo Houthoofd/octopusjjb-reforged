@@ -158,6 +158,13 @@ import 'unofficial-pf-v5-wc-icons';
             fill: #e6e6ef;
          }
       }
+      #sidebar a:hover{
+         color: #5e63ff;
+
+         svg{
+            fill: #5e63ff;
+         }
+      }
       #sidebar a.close{
          width: 150px;
          overflow: hidden;
