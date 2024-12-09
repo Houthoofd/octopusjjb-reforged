@@ -121,12 +121,23 @@ import 'unofficial-pf-v5-wc-icons';
       #sidebar ul{
          overflow: hidden;
       }
-      #sidebar ul li{
-         
-      }
-      #sidebar ul li.close {
+      #sidebar ul li:hover{
          background-color: #222533;
          border-radius: 10px;
+
+         color: #5e63ff;
+
+         svg{
+            fill: #5e63ff;
+         }
+      }
+      #sidebar ul li.close:hover {
+         background-color: #222533;
+         border-radius: 10px;
+
+         svg{
+            fill: #5e63ff;
+         }
       }
       #sidebar ul li.active a{
          color: #5e63ff;
