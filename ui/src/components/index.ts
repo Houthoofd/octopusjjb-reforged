@@ -1,1 +1,2 @@
-import './navigation'
+import './navigation';
+import './main-application'

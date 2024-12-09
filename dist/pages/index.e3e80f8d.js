@@ -586,96 +586,37 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"cyXZ8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Main", ()=>Main);
+parcelHelpers.export(exports, "Accueil", ()=>Accueil);
 var _tsDecorate = require("@swc/helpers/_/_ts_decorate");
 var _core = require("@lithium-framework/core");
 var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 var _components = require("../components");
-class Main extends (0, _core.WebComponent) {
-    connectedCallback() {
-        super.connectedCallback();
-        console.log("Main component connect\xe9");
-        // Écoute l'événement 'close-navbars' au niveau du document
-        document.addEventListener("close-navbars", this.handleCloseContent.bind(this));
-    }
-    handleCloseContent(event) {
-        console.log("L'\xe9v\xe9nement close-navbars a \xe9t\xe9 d\xe9tect\xe9.", event.target);
-        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
-        console.log(this);
-        if (rightContent) rightContent.classList.toggle("close");
-        // Logic pour fermer la sidebar
-        this.open = "false"; // Ferme la sidebar en changeant l'état
-    }
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "isopen") {
-            console.log(`Attribut isOpen modifi\xe9 de ${oldValue} \xe0 ${newValue}`);
-            this.open = newValue ? "true" : "false";
-            this.renderNavBar();
-        }
-    }
-    renderNavBar() {
-        console.log("Rendu de la barre de navigation avec open =", this.open);
-    }
-    constructor(...args){
-        super(...args);
-        this.open = null;
-        this.isOpen = true;
-    }
+class Accueil extends (0, _core.WebComponent) {
 }
-(0, _tsDecorate._)([
-    (0, _core.state)()
-], Main.prototype, "open", void 0);
-(0, _tsDecorate._)([
-    (0, _core.attr)()
-], Main.prototype, "isOpen", void 0);
-Main = (0, _tsDecorate._)([
+Accueil = (0, _tsDecorate._)([
     (0, _core.customElement)({
-        name: "main-application",
-        template: (0, _core.html)`${(main)=>{
+        name: "page-accueil",
+        template: (0, _core.html)`${(accueil)=>{
             return (0, _core.html)`
-        <div id="application">
-            <div class="header">
-               <horizontal-navbar></horizontal-navbar>
-            </div>
-            <div class="right-content">
-               <vertical-navbar></vertical-navbar>
-               <div class="content">
-                  <div class="accueil">
-                     <h1>Accueil</h1>
-                  </div>
+        <main-application>
+            <div slot>
+               <div class="accueil">
+                  <h1>Accueil</h1>
                </div>
             </div>
-        </div>
+        </main-application>
       `;
         }}`,
         styles: [
             (0, _core.css)`
-      #application{
-         min-height: 100vh;
-         background-color: var(--base-clr);
-         color: var(--text-clr);
-         display: grid;
-         grid-template-rows: 10vh 1fr;
-      }
-      .content{
-         margin-left: 10px;
-         margin-top: 10px;
-      }
-      .right-content{
-         display: grid;
-         grid-template-columns: 250px 1fr;
-         transition: all 0.3s ease;
-      }
-      .right-content.close{
-         grid-template-columns: 84px 1fr;
-      }
+      
       `
         ]
     })
-], Main);
-(0, _core.render)((0, _core.html)`<main-application></main-application>`, document.body);
+], Accueil);
+(0, _core.render)((0, _core.html)`<page-accueil></page-accueil>`, document.body);
 
 },{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["6aFAb","cyXZ8"], "cyXZ8", "parcelRequire1c26")
 

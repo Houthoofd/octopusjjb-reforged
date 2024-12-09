@@ -586,58 +586,38 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"iAYX9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Cours", ()=>Cours);
+parcelHelpers.export(exports, "Accueil", ()=>Accueil);
 var _tsDecorate = require("@swc/helpers/_/_ts_decorate");
 var _core = require("@lithium-framework/core");
 var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 var _components = require("../../components");
-class Cours extends (0, _core.WebComponent) {
+class Accueil extends (0, _core.WebComponent) {
 }
-Cours = (0, _tsDecorate._)([
+Accueil = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "page-cours",
-        template: (0, _core.html)`${(cours)=>{
+        template: (0, _core.html)`${(accueil)=>{
             return (0, _core.html)`
-       <div id="application">
-            <div class="header">
-               <horizontal-navbar></horizontal-navbar>
-            </div>
-            <div class="right-content">
-               <vertical-navbar></vertical-navbar>
-               <div class="content">
-                  <div class="cours">
-                     <h1>Cours</h1>
-                  </div>
+        <main-application>
+            <div slot>
+               <div class="cours">
+                  <h1>Cours</h1>
                </div>
             </div>
-        </div>
-     `;
+        </main-application>
+      `;
         }}`,
         styles: [
             (0, _core.css)`
-     #application{
-         min-height: 100vh;
-         background-color: var(--base-clr);
-         color: var(--text-clr);
-         display: grid;
-         grid-template-rows: 10vh 1fr;
-      }
-      .content{
-         margin-left: 10px;
-         margin-top: 10px;
-      }
-      .right-content{
-         display: grid;
-         grid-template-columns: 250px 1fr;
-      }
-     `
+      
+      `
         ]
     })
-], Cours);
+], Accueil);
 (0, _core.render)((0, _core.html)`<page-cours></page-cours>`, document.body);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aWpRb","iAYX9"], "iAYX9", "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../components":"HH6XE"}]},["aWpRb","iAYX9"], "iAYX9", "parcelRequire1c26")
 
 //# sourceMappingURL=index.2e6ab60a.js.map

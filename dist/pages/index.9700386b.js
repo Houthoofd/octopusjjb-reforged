@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"6hKlJ":[function(require,module,exports) {
+})({"j3EBk":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "166f941cf69b05db";
+module.bundle.HMR_BUNDLE_ID = "6b17d5ca9700386b";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -585,18 +585,21 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"HH6XE":[function(require,module,exports) {
 var _navigation = require("./navigation");
+var _mainApplication = require("./main-application");
 
-},{"./navigation":"f8xTW"}],"f8xTW":[function(require,module,exports) {
+},{"./navigation":"f8xTW","./main-application":"kOcZZ"}],"f8xTW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "VerticalNavBar", ()=>(0, _verticalNavbar1.VerticalNavBar));
 parcelHelpers.export(exports, "HorizontalNavBar", ()=>(0, _horizontalNavbar1.HorizontalNavBar));
+parcelHelpers.export(exports, "MainApplication", ()=>(0, _mainApplication.MainApplication));
 var _verticalNavbar = require("./vertical-navbar");
 var _horizontalNavbar = require("./horizontal-navbar");
+var _mainApplication = require("../main-application");
 var _verticalNavbar1 = require("./vertical-navbar/vertical-navbar");
 var _horizontalNavbar1 = require("./horizontal-navbar/horizontal-navbar");
 
-},{"./vertical-navbar":"2Sdb0","./horizontal-navbar":"fnQOT","./vertical-navbar/vertical-navbar":"umROp","./horizontal-navbar/horizontal-navbar":"kQn45","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2Sdb0":[function(require,module,exports) {
+},{"./vertical-navbar":"2Sdb0","./horizontal-navbar":"fnQOT","../main-application":"kOcZZ","./vertical-navbar/vertical-navbar":"umROp","./horizontal-navbar/horizontal-navbar":"kQn45","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2Sdb0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _verticalNavbar = require("./vertical-navbar");
@@ -1061,6 +1064,103 @@ HorizontalNavBar = (0, _tsDecorate._)([
     })
 ], HorizontalNavBar);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["6hKlJ"], null, "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kOcZZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _mainApplication = require("./main-application");
+parcelHelpers.exportAll(_mainApplication, exports);
 
-//# sourceMappingURL=index.f69b05db.js.map
+},{"./main-application":"4VLX2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4VLX2":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MainApplication", ()=>MainApplication);
+var _tsDecorate = require("@swc/helpers/_/_ts_decorate");
+var _core = require("@lithium-framework/core");
+var _routerElement = require("@lithium-framework/router-element");
+var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
+var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
+var _navigation = require("../navigation");
+class MainApplication extends (0, _core.WebComponent) {
+    connectedCallback() {
+        super.connectedCallback();
+        console.log("Main component connect\xe9");
+        // Écoute l'événement 'close-navbars' au niveau du document
+        document.addEventListener("close-navbars", this.handleCloseContent.bind(this));
+    }
+    handleCloseContent(event) {
+        console.log("L'\xe9v\xe9nement close-navbars a \xe9t\xe9 d\xe9tect\xe9.", event.target);
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        console.log(this);
+        if (rightContent) rightContent.classList.toggle("close");
+        // Logic pour fermer la sidebar
+        this.open = "false"; // Ferme la sidebar en changeant l'état
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === "isopen") {
+            console.log(`Attribut isOpen modifi\xe9 de ${oldValue} \xe0 ${newValue}`);
+            this.open = newValue ? "true" : "false";
+            this.renderNavBar();
+        }
+    }
+    renderNavBar() {
+        console.log("Rendu de la barre de navigation avec open =", this.open);
+    }
+    constructor(...args){
+        super(...args);
+        this.open = null;
+        this.isOpen = true;
+    }
+}
+(0, _tsDecorate._)([
+    (0, _core.state)()
+], MainApplication.prototype, "open", void 0);
+(0, _tsDecorate._)([
+    (0, _core.attr)()
+], MainApplication.prototype, "isOpen", void 0);
+MainApplication = (0, _tsDecorate._)([
+    (0, _core.customElement)({
+        name: "main-application",
+        template: (0, _core.html)`${(main)=>{
+            return (0, _core.html)`
+        <div id="application">
+            <div class="header">
+               <horizontal-navbar></horizontal-navbar>
+            </div>
+            <div class="right-content">
+               <vertical-navbar></vertical-navbar>
+               <div class="content">
+                  <slot></slot>
+               </div>
+            </div>
+        </div>
+      `;
+        }}`,
+        styles: [
+            (0, _core.css)`
+      #application{
+         min-height: 100vh;
+         background-color: var(--base-clr);
+         color: var(--text-clr);
+         display: grid;
+         grid-template-rows: 10vh 1fr;
+      }
+      .content{
+         margin-left: 10px;
+         margin-top: 10px;
+      }
+      .right-content{
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         transition: all 0.3s ease;
+      }
+      .right-content.close{
+         grid-template-columns: 84px 1fr;
+      }
+      `
+        ]
+    })
+], MainApplication);
+
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../navigation":"f8xTW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["j3EBk"], null, "parcelRequire1c26")
+
+//# sourceMappingURL=index.9700386b.js.map
