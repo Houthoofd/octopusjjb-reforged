@@ -14,8 +14,10 @@ import '../../components';
             </div>
             <div class="right-content">
                <vertical-navbar></vertical-navbar>
-               <div class="informations">
-                <h1>Informations</h1>
+               <div class="content">
+                  <div class="informations">
+                     <h1>Informations</h1>
+                  </div>
                </div>
             </div>
         </div>

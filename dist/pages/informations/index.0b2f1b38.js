@@ -606,8 +606,10 @@ Informations = (0, _tsDecorate._)([
             </div>
             <div class="right-content">
                <vertical-navbar></vertical-navbar>
-               <div class="informations">
-                <h1>Informations</h1>
+               <div class="content">
+                  <div class="informations">
+                     <h1>Informations</h1>
+                  </div>
                </div>
             </div>
         </div>
@@ -866,7 +868,32 @@ var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class HorizontalNavBar extends (0, _core.WebComponent) {
+    closeVerticalNavBar(horizontalNavBar) {
+        // Sélectionne un bouton dans le shadow DOM
+        const btn = this.shadowRoot?.querySelectorAll("button")?.[0];
+        // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+        const event = new CustomEvent("close-navbars", {
+            bubbles: true,
+            detail: {
+                message: "Close all external navbars"
+            }
+        });
+        // Dispatch l'événement depuis le composant
+        this.dispatchEvent(event);
+    }
+    openVerticalNavBar() {}
+    constructor(...args){
+        super(...args);
+        this.open = null;
+        this.isOpen = null;
+    }
 }
+(0, _tsDecorate._)([
+    (0, _core.state)()
+], HorizontalNavBar.prototype, "open", void 0);
+(0, _tsDecorate._)([
+    (0, _core.attr)()
+], HorizontalNavBar.prototype, "isOpen", void 0);
 HorizontalNavBar = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "horizontal-navbar",
@@ -876,7 +903,7 @@ HorizontalNavBar = (0, _tsDecorate._)([
          <ul class="header-sidebar">
             <li>
                <a class="member-info-initial" href="/pages/profil">HB</a>
-               <button class="toggle-btn">
+               <button class="toggle-btn" @click="${()=>horizontalNavBar.closeVerticalNavBar(horizontalNavBar)}">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
                </button>
             </li>

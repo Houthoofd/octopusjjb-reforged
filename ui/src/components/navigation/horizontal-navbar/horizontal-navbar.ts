@@ -11,7 +11,7 @@ import 'unofficial-pf-v5-wc-icons';
          <ul class="header-sidebar">
             <li>
                <a class="member-info-initial" href="/pages/profil">HB</a>
-               <button class="toggle-btn">
+               <button class="toggle-btn" @click="${() => horizontalNavBar.closeVerticalNavBar(horizontalNavBar)}">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
                </button>
             </li>
@@ -116,6 +116,25 @@ import 'unofficial-pf-v5-wc-icons';
    ]
 })
 export class HorizontalNavBar extends WebComponent{
+   @state() open: "true" | "false" | null = null;
 
+   @attr() isOpen:boolean = null;
+
+   closeVerticalNavBar(horizontalNavBar) {
+      // Sélectionne un bouton dans le shadow DOM
+      const btn = this.shadowRoot?.querySelectorAll('button')?.[0];
+   
+      // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+      const event = new CustomEvent('close-navbars', {
+         bubbles: true, // Permet à l'événement de remonter dans le DOM
+         detail: { message: 'Close all external navbars' }
+      });
+   
+      // Dispatch l'événement depuis le composant
+      this.dispatchEvent(event);
+   }
+   openVerticalNavBar(){
+
+   }
 }
 

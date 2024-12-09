@@ -186,5 +186,5 @@ import 'unofficial-pf-v5-wc-icons';
    ]
 })
 export class VerticalNavBar extends WebComponent{
-
+   
 }

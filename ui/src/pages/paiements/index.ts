@@ -14,8 +14,10 @@ import '../../components';
             </div>
             <div class="right-content">
                <vertical-navbar></vertical-navbar>
-               <div class="paiements">
-                <h1>Paiements</h1>
+               <div class="content">
+                  <div class="paiements">
+                     <h1>Paiements</h1>
+                  </div>
                </div>
             </div>
         </div>
@@ -30,8 +32,9 @@ import '../../components';
          display: grid;
          grid-template-rows: 10vh 1fr;
       }
-      .header{
-
+      .content{
+         margin-left: 10px;
+         margin-top: 10px;
       }
       .right-content{
          display: grid;
