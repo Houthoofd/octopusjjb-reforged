@@ -151,11 +151,16 @@ import 'unofficial-pf-v5-wc-icons';
          padding: 10px 10px;
          justify-content: space-between;
          align-items: center;
+         transition: all 0.3s ease;
+      }
+      #switch-mode.close{
+         width: 130px;
       }
       .moon-sun{
          display: grid;
          align-items: center;
          transform: translateX(2px) translateY(3px);
+         transition: all 0.3s ease;
 
          .moon-icon, .sun-icon {
             grid-column: 1;
@@ -165,6 +170,9 @@ import 'unofficial-pf-v5-wc-icons';
                fill: #e6e6ef;
             }
          }
+      }
+      .moon-sun{
+         width: 150px;
       }
       .sun-icon{
          opacity: 0;
@@ -222,11 +230,16 @@ export class VerticalNavBar extends WebComponent {
       const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
       const links = this.shadowRoot?.querySelectorAll('a');
       const ul = this.shadowRoot?.querySelectorAll('ul')[0];
+      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
+
+      
       links.forEach(link => {
          link.classList.toggle('close');
       });
       ul.classList.toggle('close');
       sidebar.classList.toggle('close')
+      switchMode.classList.toggle('close');
+      switchMode.children[0].classList.toggle('close');
       
       // Logique pour fermer la sidebar
       this.open = "false"; // Ferme la barre en changeant l'état
