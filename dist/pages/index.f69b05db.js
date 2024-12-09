@@ -628,6 +628,9 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
         links.forEach((link)=>{
             link.classList.toggle("close");
+            // li //
+            console.log(link.children[0]);
+            link.parentElement.classList.toggle("close");
         });
         ul.classList.toggle("close");
         sidebar.classList.toggle("close");
@@ -772,9 +775,19 @@ VerticalNavBar = (0, _tsDecorate._)([
          list-style: none;
          padding: 0;
          transition: all 0.3s ease;
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
       }
       #sidebar ul{
          overflow: hidden;
+      }
+      #sidebar ul li{
+         
+      }
+      #sidebar ul li.close {
+         background-color: #222533;
+         border-radius: 10px;
       }
       #sidebar ul li.active a{
          color: #5e63ff;
@@ -809,6 +822,7 @@ VerticalNavBar = (0, _tsDecorate._)([
          padding: 10px 10px;
          justify-content: space-between;
          align-items: center;
+         border-radius: 10px;
          transition: all 0.3s ease;
       }
       #switch-mode.close{
@@ -829,7 +843,7 @@ VerticalNavBar = (0, _tsDecorate._)([
             }
          }
       }
-      .moon-sun{
+      .moon-sun.close{
          width: 150px;
       }
       .sun-icon{

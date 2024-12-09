@@ -1,12 +1,4 @@
-import { html , render , WebComponent , customElement , attr , attrState , state, css, ViewTemplate, ViewContext, asyncAppend, repeat, children } from '@lithium-framework/core';
-import '@lithium-framework/router-element';
-import 'unofficial-pf-v5-wc';
-import 'unofficial-pf-v5-wc-icons';
-
-@customElement({
-   name: "vertical-navbar",
-   template : html`${(verticalNavBar: VerticalNavBar) => {
-      return html`
+var e=globalThis,t={},s={},i=e.parcelRequire1c26;null==i&&((i=function(e){if(e in t)return t[e].exports;if(e in s){var i=s[e];delete s[e];var a={id:e,exports:{}};return t[e]=a,i.call(a.exports,a,a.exports),a.exports}var l=Error("Cannot find module '"+e+"'");throw l.code="MODULE_NOT_FOUND",l}).register=function(e,t){s[e]=t},e.parcelRequire1c26=i);var a=i.register;a("7KTRf",function(e,t){i("jcBBX")}),a("jcBBX",function(e,t){i("l8jY8"),i("fw7Hj"),i("hypTO"),i("2ByoK")}),a("l8jY8",function(e,t){i("hypTO")}),a("hypTO",function(e,t){var s=i("7WQrb"),a=i("5D1XK");i("RKbfs"),i("3I5Zu"),i("dLLJA");class l extends a.WebComponent{connectedCallback(){super.connectedCallback(),console.log("VerticalNavBar connecté"),this.open=this.isOpen?"true":"false",document.addEventListener("close-navbars",this.handleCloseNavbars.bind(this))}handleCloseNavbars(e){console.log("L'événement close-navbars a été détecté.",e);let t=this.shadowRoot?.querySelectorAll("#sidebar")[0],s=this.shadowRoot?.querySelectorAll("a"),i=this.shadowRoot?.querySelectorAll("ul")[0],a=this.shadowRoot?.querySelectorAll("#switch-mode")[0];s.forEach(e=>{e.classList.toggle("close")}),i.classList.toggle("close"),t.classList.toggle("close"),a.classList.toggle("close"),a.children[0].classList.toggle("close"),this.open="false",this.renderNavBar()}attributeChangedCallback(e,t,s){"isopen"===e&&(console.log(`Attribut isOpen modifi\xe9 de ${t} \xe0 ${s}`),this.open=s?"true":"false",this.renderNavBar())}renderNavBar(){console.log("Rendu de la barre de navigation avec open =",this.open)}constructor(...e){super(...e),this.open=null,this.isOpen=!0}}(0,s.__decorate)([(0,a.state)()],l.prototype,"open",void 0),(0,s.__decorate)([(0,a.attr)()],l.prototype,"isOpen",void 0),(0,s.__decorate)([(0,a.customElement)({name:"vertical-navbar",template:(0,a.html)`${e=>(0,a.html)`
         <nav id="sidebar">
          <ul id="top-sidebar">
             <li>
@@ -88,10 +80,7 @@ import 'unofficial-pf-v5-wc-icons';
             </li>
          </ul>
         </nav>
-      `
-   }}`,
-   styles: [
-      css`
+      `}`,styles:[(0,a.css)`
       #sidebar{
          box-sizing: border-box;
          height: 100%;
@@ -114,19 +103,9 @@ import 'unofficial-pf-v5-wc-icons';
          list-style: none;
          padding: 0;
          transition: all 0.3s ease;
-         display: flex;
-         flex-direction: column;
-         gap: 10px;
       }
       #sidebar ul{
          overflow: hidden;
-      }
-      #sidebar ul li{
-         
-      }
-      #sidebar ul li.close {
-         background-color: #222533;
-         border-radius: 10px;
       }
       #sidebar ul li.active a{
          color: #5e63ff;
@@ -161,7 +140,6 @@ import 'unofficial-pf-v5-wc-icons';
          padding: 10px 10px;
          justify-content: space-between;
          align-items: center;
-         border-radius: 10px;
          transition: all 0.3s ease;
       }
       #switch-mode.close{
@@ -182,7 +160,7 @@ import 'unofficial-pf-v5-wc-icons';
             }
          }
       }
-      .moon-sun.close{
+      .moon-sun{
          width: 150px;
       }
       .sun-icon{
@@ -217,63 +195,125 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      `
-   ]
-})
-export class VerticalNavBar extends WebComponent {
-   @state() open: "true" | "false" | null = null;
-   @attr() isOpen: boolean = true;
-
-   connectedCallback() {
-      super.connectedCallback();
-      console.log('VerticalNavBar connecté');
-
-      // Initialisation de l'état de la sidebar
-      this.open = this.isOpen ? "true" : "false";
-
-      // Écoute l'événement 'close-navbars' sur le document
-      document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
-   }
-
-   handleCloseNavbars(event) {
-      console.log('L\'événement close-navbars a été détecté.', event);
-
-      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
-      const links = this.shadowRoot?.querySelectorAll('a');
-      const ul = this.shadowRoot?.querySelectorAll('ul')[0];
-      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
-
-
-      
-      links.forEach(link => {
-         link.classList.toggle('close');
-
-         // li //
-         console.log(link.children[0])
-         link.parentElement.classList.toggle('close');
-      });
-      ul.classList.toggle('close');
-      sidebar.classList.toggle('close')
-      switchMode.classList.toggle('close');
-      switchMode.children[0].classList.toggle('close');
-      
-      // Logique pour fermer la sidebar
-      this.open = "false"; // Ferme la barre en changeant l'état
-
-      // Optionnel : Mettez à jour l'affichage du composant si nécessaire
-      this.renderNavBar(); // Vous pouvez utiliser cette méthode pour gérer l'affichage
-   }
-
-   attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'isopen') {
-         console.log(`Attribut isOpen modifié de ${oldValue} à ${newValue}`);
-         this.open = newValue ? "true" : "false";
-         this.renderNavBar();
+      `]})],l)}),a("fw7Hj",function(e,t){i("2ByoK")}),a("2ByoK",function(e,t){var s=i("7WQrb"),a=i("5D1XK");i("RKbfs"),i("3I5Zu"),i("dLLJA");class l extends a.WebComponent{closeVerticalNavBar(e){let t=this.shadowRoot?.querySelectorAll("button")?.[0];(this.shadowRoot?.querySelectorAll("#sidebar")?.[0]).classList.toggle("close"),t.classList.toggle("close");let s=new CustomEvent("close-navbars",{bubbles:!0,composed:!0,detail:{message:"Close all external navbars"}});this.dispatchEvent(s)}openVerticalNavBar(){}constructor(...e){super(...e),this.open=null,this.isOpen=null}}(0,s.__decorate)([(0,a.state)()],l.prototype,"open",void 0),(0,s.__decorate)([(0,a.attr)()],l.prototype,"isOpen",void 0),(0,s.__decorate)([(0,a.customElement)({name:"horizontal-navbar",template:(0,a.html)`${e=>(0,a.html)`
+        <nav id="sidebar">
+         <ul class="header-sidebar">
+            <li>
+               <a class="member-info-initial" href="/pages/profil">HB</a>
+               <button class="toggle-btn" @click="${()=>e.closeVerticalNavBar(e)}">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+               </button>
+            </li>
+         </ul>
+         <ul id="right-sidebar">
+            <li>
+               <div class="member-infos">
+                  <span class="member-info-nom"><a href="/pages/profil">Houthoofd Benoit</a></span>
+               </div>
+            </li>
+            <li>
+               <a href="/pages/messages">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+               </a>
+            </li>
+            <li>
+               <a href="/pages/notifications">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+               </a>
+            </li>
+         </ul>
+        </nav>
+      `}`,styles:[(0,a.css)`
+      #sidebar{
+         box-sizing: border-box;
+         background-color: #11121a;
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         align-items: center;
+         height: 10vh;
+         border-bottom: 1px solid #42434a;
+         transition: all 0.3s ease;
       }
-   }
+      #sidebar.close{
+         grid-template-columns: 84px 1fr;
+      }
+      .header-sidebar{
+         padding: 0;
+         border-right: 1px solid #42434a;
+         justify-content: space-between;
+         align-items: center;
+         display: flex;
+         background-color: #222533;
+      }
+      .header-sidebar li{
+         list-style: none;
+         width: 100%;
+         padding: 0;
+         margin: 0;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+      }
+      #sidebar ul{
+         list-style: none;
+         height: 100%;
+         padding: 0;
+         margin: 0;
+      }
+      #sidebar ul li.active a{
+         color: #5e63ff;
 
-   renderNavBar() {
-      console.log('Rendu de la barre de navigation avec open =', this.open);
-   }
-}
+         svg{
+            fill: #5e63ff;
+         }
+      }
+      #sidebar a{
+         padding: .85rem;
+         text-decoration: none;
+         color: #e6e6ef;
+         display: flex;
+         align-items: center;
+         gap: 1em;
 
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      .toggle-btn{
+         width: 35px;
+         height: 35px;
+         border-radius: 50%;
+         border: none;
+         background-color: #5e63ff;
+         transform: translateX(18px) translateY(0px);
+         transition: all 0.3s ease;
+
+         svg{
+            fill: #e6e6ef;
+            transform: translateX(0px) translateY(2px);
+         }
+      }
+      .toggle-btn.close{
+         width: 23px;
+         height: 23px;
+         transform: translateX(12px) translateY(0px);
+
+         svg{
+            width: 15px;
+            height: 15px;
+            transform: translateX(-1px) translateY(2px);
+         }
+      }
+      #right-sidebar{
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+      }
+      .member-info-initial{
+         background-color: #5e63ff;
+         border-radius: 10px;
+         /* margin-left: 20px; */
+         transform: translateX(19px);
+      }
+      `]})],l)});
+//# sourceMappingURL=index.01f9d87c.js.map
