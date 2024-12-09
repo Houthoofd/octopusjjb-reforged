@@ -10,7 +10,7 @@ import 'unofficial-pf-v5-wc-icons';
         <nav id="sidebar">
          <ul class="header-sidebar">
             <li>
-               <a class="member-info-initial" href="/pages/profile">HB</a>
+               <a class="member-info-initial" href="/pages/profil">HB</a>
                <button class="toggle-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
                </button>
@@ -19,7 +19,7 @@ import 'unofficial-pf-v5-wc-icons';
          <ul id="right-sidebar">
             <li>
                <div class="member-infos">
-                  <span class="member-info-nom">Houthoofd Benoit</span>
+                  <span class="member-info-nom"><a href="/pages/profil">Houthoofd Benoit</a></span>
                </div>
             </li>
             <li>

@@ -6,7 +6,17 @@
     "frontend": {
       "source": [
         "ui/src/index.html",
-        "ui/src/pages/index.html"
+        "ui/src/pages/index.html",
+        "ui/src/pages/compte/index.html",
+        "ui/src/pages/cours/index.html",
+        "ui/src/pages/dashboard/index.html",
+        "ui/src/pages/evenements/index.html",
+        "ui/src/pages/messages/index.html",
+        "ui/src/pages/paiements/index.html",
+        "ui/src/pages/profil/index.html",
+        "ui/src/pages/utilisateurs/index.html",
+        "ui/src/pages/informations/index.html",
+        "ui/src/pages/notifications/index.html"
       ],
       "distDir": "server/public"
     },
