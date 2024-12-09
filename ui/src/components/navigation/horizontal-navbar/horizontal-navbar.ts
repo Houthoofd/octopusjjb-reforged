@@ -46,6 +46,10 @@ import 'unofficial-pf-v5-wc-icons';
          align-items: center;
          height: 10vh;
          border-bottom: 1px solid #42434a;
+         transition: all 0.3s ease;
+      }
+      #sidebar.close{
+         grid-template-columns: 84px 1fr;
       }
       .header-sidebar{
          padding: 0;
@@ -96,9 +100,22 @@ import 'unofficial-pf-v5-wc-icons';
          border: none;
          background-color: #5e63ff;
          transform: translateX(18px) translateY(0px);
+         transition: all 0.3s ease;
 
          svg{
             fill: #e6e6ef;
+            transform: translateX(0px) translateY(2px);
+         }
+      }
+      .toggle-btn.close{
+         width: 23px;
+         height: 23px;
+         transform: translateX(12px) translateY(0px);
+
+         svg{
+            width: 15px;
+            height: 15px;
+            transform: translateX(-1px) translateY(2px);
          }
       }
       #right-sidebar{
@@ -123,13 +140,18 @@ export class HorizontalNavBar extends WebComponent{
    closeVerticalNavBar(horizontalNavBar) {
       // Sélectionne un bouton dans le shadow DOM
       const btn = this.shadowRoot?.querySelectorAll('button')?.[0];
+      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')?.[0];
+
+      sidebar.classList.toggle('close');
+      btn.classList.toggle('close');
    
       // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
       const event = new CustomEvent('close-navbars', {
          bubbles: true, // Permet à l'événement de remonter dans le DOM
+         composed: true,
          detail: { message: 'Close all external navbars' }
       });
-   
+      
       // Dispatch l'événement depuis le composant
       this.dispatchEvent(event);
    }

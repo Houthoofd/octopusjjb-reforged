@@ -44,7 +44,7 @@ import '../../components';
   ]
 })
 export class Cours extends WebComponent{
-
+   
 }
 
 render(html`<page-cours></page-cours>`, document.body);

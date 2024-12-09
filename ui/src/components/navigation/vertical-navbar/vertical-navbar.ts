@@ -102,6 +102,10 @@ import 'unofficial-pf-v5-wc-icons';
          display: flex;
          flex-direction: column;
          justify-content: space-between;
+         transition: all 0.3s ease;
+      }
+      #sidebar.close{
+         width: 84px;
       }
       .header{
          border: 1px solid #42434a;
@@ -109,6 +113,10 @@ import 'unofficial-pf-v5-wc-icons';
       #sidebar ul{
          list-style: none;
          padding: 0;
+         transition: all 0.3s ease;
+      }
+      #sidebar ul{
+         overflow: hidden;
       }
       #sidebar ul li.active a{
          color: #5e63ff;
@@ -124,6 +132,14 @@ import 'unofficial-pf-v5-wc-icons';
          display: flex;
          align-items: center;
          gap: 1em;
+
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      #sidebar a.close{
+         width: 150px;
+         overflow: hidden;
 
          svg{
             fill: #e6e6ef;
@@ -185,6 +201,50 @@ import 'unofficial-pf-v5-wc-icons';
       `
    ]
 })
-export class VerticalNavBar extends WebComponent{
-   
+export class VerticalNavBar extends WebComponent {
+   @state() open: "true" | "false" | null = null;
+   @attr() isOpen: boolean = true;
+
+   connectedCallback() {
+      super.connectedCallback();
+      console.log('VerticalNavBar connecté');
+
+      // Initialisation de l'état de la sidebar
+      this.open = this.isOpen ? "true" : "false";
+
+      // Écoute l'événement 'close-navbars' sur le document
+      document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
+   }
+
+   handleCloseNavbars(event) {
+      console.log('L\'événement close-navbars a été détecté.', event);
+
+      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
+      const links = this.shadowRoot?.querySelectorAll('a');
+      const ul = this.shadowRoot?.querySelectorAll('ul')[0];
+      links.forEach(link => {
+         link.classList.toggle('close');
+      });
+      ul.classList.toggle('close');
+      sidebar.classList.toggle('close')
+      
+      // Logique pour fermer la sidebar
+      this.open = "false"; // Ferme la barre en changeant l'état
+
+      // Optionnel : Mettez à jour l'affichage du composant si nécessaire
+      this.renderNavBar(); // Vous pouvez utiliser cette méthode pour gérer l'affichage
+   }
+
+   attributeChangedCallback(name, oldValue, newValue) {
+      if (name === 'isopen') {
+         console.log(`Attribut isOpen modifié de ${oldValue} à ${newValue}`);
+         this.open = newValue ? "true" : "false";
+         this.renderNavBar();
+      }
+   }
+
+   renderNavBar() {
+      console.log('Rendu de la barre de navigation avec open =', this.open);
+   }
 }
+
