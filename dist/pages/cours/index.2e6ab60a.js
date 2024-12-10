@@ -586,24 +586,24 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"iAYX9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Accueil", ()=>Accueil);
+parcelHelpers.export(exports, "Compte", ()=>Compte);
 var _tsDecorate = require("@swc/helpers/_/_ts_decorate");
 var _core = require("@lithium-framework/core");
 var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 var _components = require("../../components");
-class Accueil extends (0, _core.WebComponent) {
+class Compte extends (0, _core.WebComponent) {
 }
-Accueil = (0, _tsDecorate._)([
+Compte = (0, _tsDecorate._)([
     (0, _core.customElement)({
-        name: "page-cours",
-        template: (0, _core.html)`${(accueil)=>{
+        name: "page-compte",
+        template: (0, _core.html)`${(compte)=>{
             return (0, _core.html)`
         <main-application>
             <div slot>
-               <div class="cours">
-                  <h1>Cours</h1>
+               <div class="compte">
+                  <h1>Compte</h1>
                </div>
             </div>
         </main-application>
@@ -615,8 +615,8 @@ Accueil = (0, _tsDecorate._)([
       `
         ]
     })
-], Accueil);
-(0, _core.render)((0, _core.html)`<page-cours></page-cours>`, document.body);
+], Compte);
+(0, _core.render)((0, _core.html)`<page-compte></page-compte>`, document.body);
 
 },{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aWpRb","iAYX9"], "iAYX9", "parcelRequire1c26")
 

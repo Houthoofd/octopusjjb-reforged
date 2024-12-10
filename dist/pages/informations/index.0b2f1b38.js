@@ -600,38 +600,19 @@ Informations = (0, _tsDecorate._)([
         name: "page-informations",
         template: (0, _core.html)`${(informations)=>{
             return (0, _core.html)`
-       <div id="application">
-            <div class="header">
-               <horizontal-navbar></horizontal-navbar>
-            </div>
-            <div class="right-content">
-               <vertical-navbar></vertical-navbar>
-               <div class="content">
-                  <div class="informations">
-                     <h1>Informations</h1>
-                  </div>
+        <main-application>
+            <div slot>
+               <div class="informations">
+                  <h1>Informations</h1>
                </div>
             </div>
-        </div>
-     `;
+        </main-application>
+      `;
         }}`,
         styles: [
             (0, _core.css)`
-     #application{
-         min-height: 100vh;
-         background-color: var(--base-clr);
-         color: var(--text-clr);
-         display: grid;
-         grid-template-rows: 10vh 1fr;
-      }
-      .header{
-
-      }
-      .right-content{
-         display: grid;
-         grid-template-columns: 250px 1fr;
-      }
-     `
+      
+      `
         ]
     })
 ], Informations);

@@ -597,46 +597,26 @@ class Messages extends (0, _core.WebComponent) {
 }
 Messages = (0, _tsDecorate._)([
     (0, _core.customElement)({
-        name: "page-message",
+        name: "page-messages",
         template: (0, _core.html)`${(messages)=>{
             return (0, _core.html)`
-       <div id="application">
-            <div class="header">
-               <horizontal-navbar></horizontal-navbar>
-            </div>
-            <div class="right-content">
-               <vertical-navbar></vertical-navbar>
-               <div class="content">
-                  <div class="messages">
-                     <h1>Messages</h1>
-                  </div>
+        <main-application>
+            <div slot>
+               <div class="messages">
+                  <h1>Messages</h1>
                </div>
             </div>
-        </div>
-     `;
+        </main-application>
+      `;
         }}`,
         styles: [
             (0, _core.css)`
-     #application{
-         min-height: 100vh;
-         background-color: var(--base-clr);
-         color: var(--text-clr);
-         display: grid;
-         grid-template-rows: 10vh 1fr;
-      }
-      .content{
-         margin-left: 10px;
-         margin-top: 10px;
-      }
-      .right-content{
-         display: grid;
-         grid-template-columns: 250px 1fr;
-      }
-     `
+      
+      `
         ]
     })
 ], Messages);
-(0, _core.render)((0, _core.html)`<page-message></page-message>`, document.body);
+(0, _core.render)((0, _core.html)`<page-messages></page-messages>`, document.body);
 
 },{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["3q5Ed","2CSAb"], "2CSAb", "parcelRequire1c26")
 

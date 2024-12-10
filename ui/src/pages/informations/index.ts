@@ -5,45 +5,26 @@ import 'unofficial-pf-v5-wc-icons';
 import '../../components';
 
 @customElement({
-  name: "page-informations",
-  template : html`${(informations: Informations) => {
-     return html`
-       <div id="application">
-            <div class="header">
-               <horizontal-navbar></horizontal-navbar>
-            </div>
-            <div class="right-content">
-               <vertical-navbar></vertical-navbar>
-               <div class="content">
-                  <div class="informations">
-                     <h1>Informations</h1>
-                  </div>
+   name: "page-informations",
+   template : html`${(informations: Informations) => {
+      return html`
+        <main-application>
+            <div slot>
+               <div class="informations">
+                  <h1>Informations</h1>
                </div>
             </div>
-        </div>
-     `
-  }}`,
-  styles: [
-     css`
-     #application{
-         min-height: 100vh;
-         background-color: var(--base-clr);
-         color: var(--text-clr);
-         display: grid;
-         grid-template-rows: 10vh 1fr;
-      }
-      .header{
-
-      }
-      .right-content{
-         display: grid;
-         grid-template-columns: 250px 1fr;
-      }
-     `
-  ]
+        </main-application>
+      `
+   }}`,
+   styles: [
+      css`
+      
+      `
+   ]
 })
 export class Informations extends WebComponent{
-
+   
 }
 
 render(html`<page-informations></page-informations>`, document.body);
