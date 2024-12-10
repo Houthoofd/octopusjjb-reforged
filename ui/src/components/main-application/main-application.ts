@@ -52,15 +52,7 @@ export class MainApplication extends WebComponent{
 
    connectedCallback() {
       super.connectedCallback();
-      console.log('VerticalNavBar connecté');
-
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
-      console.log(navbarState)
-      if (navbarState && navbarState.navbarIsOpen === "true") {
-         this.handleExpanseContent();
-      } else {
-         this.handleRemoveExpanseContent();
-      }
+      console.log('main-application connecté');
 
       // Écoute l'événement 'close-navbars' sur le document
       document.addEventListener('close-navbars', this.handleRemoveExpanseContent.bind(this));
@@ -70,31 +62,14 @@ export class MainApplication extends WebComponent{
 
    handleRemoveExpanseContent(event?: Event) {
 
-      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
-      console.log(rightContent)
-
-      rightContent.classList.toggle('close');
-
-      // Logique pour fermer la sidebar
-      this.expanse = "false";
-      this.isExpanse = false;
-
    }
 
    handleExpanseContent(event?: Event){
-      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
-      console.log(rightContent)
 
-      rightContent.classList.remove('close');
-
-      // Logique pour fermer la sidebar
-      this.expanse = "true";
-      this.isExpanse = true;
    }
 
    attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'isopen') {
-         console.log(`Attribut isOpen modifié de ${oldValue} à ${newValue}`);
+      if (name === 'isexpanse') {
          this.isExpanse = newValue === "true" ? true : false;
       }
       super.attributeChangedCallback(name, oldValue, newValue);

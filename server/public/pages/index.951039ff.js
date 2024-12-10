@@ -1,12 +1,4 @@
-import { html , render , WebComponent , customElement , attr , attrState , state, css, ViewTemplate, ViewContext, asyncAppend, repeat, children } from '@lithium-framework/core';
-import '@lithium-framework/router-element';
-import 'unofficial-pf-v5-wc';
-import 'unofficial-pf-v5-wc-icons';
-
-@customElement({
-   name: "vertical-navbar",
-   template : html`${(verticalNavBar: VerticalNavBar) => {
-      return html`
+var e=globalThis,t={},a={},s=e.parcelRequire1c26;null==s&&((s=function(e){if(e in t)return t[e].exports;if(e in a){var s=a[e];delete a[e];var i={id:e,exports:{}};return t[e]=i,s.call(i.exports,i,i.exports),i.exports}var n=Error("Cannot find module '"+e+"'");throw n.code="MODULE_NOT_FOUND",n}).register=function(e,t){a[e]=t},e.parcelRequire1c26=s);var i=s.register;i("7KTRf",function(e,t){s("jcBBX"),s("b8ikq")}),i("jcBBX",function(e,t){s("l8jY8"),s("fw7Hj"),s("b8ikq"),s("3tWFl"),s("hypTO"),s("2ByoK")}),i("l8jY8",function(e,t){s("hypTO")}),i("hypTO",function(e,t){var a=s("7WQrb"),i=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA");class n extends i.WebComponent{connectedCallback(){super.connectedCallback(),console.log("vertical navbar connecté"),document.addEventListener("close-navbars",this.handleCloseNavbars.bind(this)),document.addEventListener("open-navbars",this.handleOpenNavbars.bind(this))}handleCloseNavbars(){}handleOpenNavbars(){}attributeChangedCallback(e,t,a){"isopen"===e&&(this.isOpen="true"===a),super.attributeChangedCallback(e,t,a)}constructor(...e){super(...e),this.isOpen=!0,this.open=null}}(0,a.__decorate)([(0,i.state)()],n.prototype,"isOpen",void 0),(0,a.__decorate)([(0,i.attr)()],n.prototype,"open",void 0),(0,a.__decorate)([(0,i.customElement)({name:"vertical-navbar",template:(0,i.html)`${e=>(0,i.html)`
         <nav id="sidebar">
          <ul id="top-sidebar">
             <li>
@@ -88,10 +80,7 @@ import 'unofficial-pf-v5-wc-icons';
             </li>
          </ul>
         </nav>
-      `
-   }}`,
-   styles: [
-      css`
+      `}`,styles:[(0,i.css)`
       #sidebar{
          box-sizing: border-box;
          height: 100%;
@@ -217,72 +206,157 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      `
-   ]
-})
-export class VerticalNavBar extends WebComponent {
-   @state() isOpen: boolean = true;
-
-   @attr() open: "true" | "false" | true = true;
-
-   connectedCallback() {
-      super.connectedCallback();
-
-      console.log('vertical navbar connecté');
-      
-
-      // Écoute l'événement 'close-navbars' sur le document
-      document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
-
-      document.addEventListener('open-navbars', this.handleOpenNavbars.bind(this));
-   }
-   handleCloseNavbars(event: CustomEvent) {
-      console.log("handleCloseNavbars : signal reçu", event.detail.horizontalstate, this.open, this.isOpen);
-      
-      // Fermer la navigation si elle est ouverte
-      if (this.isOpen === true) {
-         this.isOpen = false;
+      `]})],n)}),i("fw7Hj",function(e,t){s("2ByoK")}),i("2ByoK",function(e,t){var a=s("7WQrb"),i=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA");class n extends i.WebComponent{connectedCallback(){super.connectedCallback(),console.log("horizontal navbar connecté")}toggleButton(){}closeHorizontalNavBar(){let e=new CustomEvent("close-navbars",{bubbles:!0,composed:!0,detail:{message:"Close all external navbars"}});this.dispatchEvent(e)}openHorizontalNavBar(){let e=new CustomEvent("close-navbars",{bubbles:!0,composed:!0,detail:{message:"Close all external navbars"}});this.dispatchEvent(e)}attributeChangedCallback(e,t,a){"isopen"===e&&(this.isOpen="true"===a),super.attributeChangedCallback(e,t,a)}constructor(...e){super(...e),this.isOpen=!0,this.open=null}}(0,a.__decorate)([(0,i.state)()],n.prototype,"isOpen",void 0),(0,a.__decorate)([(0,i.attr)()],n.prototype,"open",void 0),(0,a.__decorate)([(0,i.customElement)({name:"horizontal-navbar",template:(0,i.html)`${e=>(0,i.html)`
+        <nav id="sidebar">
+         <ul class="header-sidebar">
+            <li>
+               <a class="member-info-initial" href="/pages/profil">HB</a>
+               <button class="toggle-btn" @click="${()=>e.toggleButton()}">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+               </button>
+            </li>
+         </ul>
+         <ul id="right-sidebar">
+            <li>
+               <div class="member-infos">
+                  <span class="member-info-nom"><a href="/pages/profil">Houthoofd Benoit</a></span>
+               </div>
+            </li>
+            <li>
+               <a href="/pages/messages">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+               </a>
+            </li>
+            <li>
+               <a href="/pages/notifications">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+               </a>
+            </li>
+         </ul>
+        </nav>
+      `}`,styles:[(0,i.css)`
+      #sidebar{
+         box-sizing: border-box;
+         background-color: #11121a;
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         align-items: center;
+         height: 10vh;
+         border-bottom: 1px solid #42434a;
+         transition: all 0.3s ease;
       }
-      
-      // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
-      if ((event.detail.horizontalstate === false) && (this.isOpen === false)) {
-         const navigation = {
-            horizontal: event.detail.horizontalstate,
-            vertical: this.isOpen
-         };
-         console.log(navigation)
-         localStorage.setItem('navigation', JSON.stringify(navigation));
+      #sidebar.close{
+         grid-template-columns: 84px 1fr;
       }
-   }
-   
-   handleOpenNavbars(event: CustomEvent) {
-      console.log("handleOpenNavbars : signal reçu", event.detail.horizontalstate, this.open);
-   
-      if (this.isOpen === false) {
-         this.isOpen = true;
+      .header-sidebar{
+         padding: 0;
+         border-right: 1px solid #42434a;
+         justify-content: space-between;
+         align-items: center;
+         display: flex;
+         background-color: #222533;
       }
-      
-      // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
-      if ((event.detail.horizontalstate === true) && (this.isOpen === true)) {
-         const navigation = {
-            horizontal: event.detail.horizontalstate,
-            vertical: this.isOpen
-         };
-         console.log(navigation)
-         localStorage.setItem('navigation', JSON.stringify(navigation));
+      .header-sidebar li{
+         list-style: none;
+         width: 100%;
+         padding: 0;
+         margin: 0;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
       }
-   }
-   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
-      console.log(`vertical : Changement d'état entre ${oldValue} et ${newValue}`);
-      
-      if (name === 'isopen') {
-         // Assigner directement la valeur de newValue à this.open
-         this.open = newValue as any;
+      #sidebar ul{
+         list-style: none;
+         height: 100%;
+         padding: 0;
+         margin: 0;
+      }
+      #sidebar ul li.active a{
+         color: #5e63ff;
 
-         console.log(`Etat changé entre ${newValue} et ${this.open}`);
+         svg{
+            fill: #5e63ff;
+         }
       }
-   
-      super.attributeChangedCallback(name, oldValue, newValue);
-   }
-}
+      #sidebar a{
+         padding: .85rem;
+         text-decoration: none;
+         color: #e6e6ef;
+         display: flex;
+         align-items: center;
+         gap: 1em;
 
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      .toggle-btn{
+         width: 35px;
+         height: 35px;
+         border-radius: 50%;
+         border: none;
+         background-color: #5e63ff;
+         transform: translateX(18px) translateY(0px);
+         transition: all 0.3s ease;
+
+         svg{
+            fill: #e6e6ef;
+            transform: translateX(0px) translateY(2px);
+         }
+      }
+      .toggle-btn.close{
+         width: 23px;
+         height: 23px;
+         transform: translateX(12px) translateY(0px);
+
+         svg{
+            width: 15px;
+            height: 15px;
+            transform: translateX(-1px) translateY(2px);
+         }
+      }
+      #right-sidebar{
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+      }
+      .member-info-initial{
+         background-color: #5e63ff;
+         border-radius: 10px;
+         /* margin-left: 20px; */
+         transform: translateX(19px);
+      }
+      `]})],n)}),i("b8ikq",function(e,t){s("3tWFl")}),i("3tWFl",function(e,t){var a=s("7WQrb"),i=s("5D1XK");s("RKbfs"),s("3I5Zu"),s("dLLJA"),s("jcBBX");class n extends i.WebComponent{connectedCallback(){super.connectedCallback(),console.log("main-application connecté"),document.addEventListener("close-navbars",this.handleRemoveExpanseContent.bind(this)),document.addEventListener("open-navbars",this.handleExpanseContent.bind(this))}handleRemoveExpanseContent(e){}handleExpanseContent(e){}attributeChangedCallback(e,t,a){"isexpanse"===e&&(this.isExpanse="true"===a),super.attributeChangedCallback(e,t,a)}constructor(...e){super(...e),this.isExpanse=!0,this.expanse=null}}(0,a.__decorate)([(0,i.state)()],n.prototype,"isExpanse",void 0),(0,a.__decorate)([(0,i.attr)()],n.prototype,"expanse",void 0),(0,a.__decorate)([(0,i.customElement)({name:"main-application",template:(0,i.html)`${e=>(0,i.html)`
+        <div id="application">
+            <div class="header">
+               <horizontal-navbar></horizontal-navbar>
+            </div>
+            <div class="right-content">
+               <vertical-navbar></vertical-navbar>
+               <div class="content">
+                  <slot></slot>
+               </div>
+            </div>
+        </div>
+      `}`,styles:[(0,i.css)`
+      #application{
+         min-height: 100vh;
+         background-color: var(--base-clr);
+         color: var(--text-clr);
+         display: grid;
+         grid-template-rows: 10vh 1fr;
+      }
+      .content{
+         margin-left: 10px;
+         margin-top: 10px;
+      }
+      .right-content{
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         transition: all 0.3s ease;
+      }
+      .right-content.close{
+         grid-template-columns: 84px 1fr;
+      }
+      `]})],n)});
+//# sourceMappingURL=index.951039ff.js.map

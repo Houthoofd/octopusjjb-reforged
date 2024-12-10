@@ -11,7 +11,7 @@ import 'unofficial-pf-v5-wc-icons';
          <ul class="header-sidebar">
             <li>
                <a class="member-info-initial" href="/pages/profil">HB</a>
-               <button class="toggle-btn" @click="${() => horizontalNavBar.closeVerticalNavBar(horizontalNavBar)}">
+               <button class="toggle-btn" @click="${() => horizontalNavBar.toggleButton()}">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
                </button>
             </li>
@@ -135,67 +135,64 @@ import 'unofficial-pf-v5-wc-icons';
 export class HorizontalNavBar extends WebComponent{
    @state() isOpen: boolean = true;
 
-   @attr() open: "true" | "false" | null = null;
+   @attr() open: "true" | "false" | true = true;
 
    connectedCallback() {
       super.connectedCallback();
-      console.log('VerticalNavBar connecté');
 
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
-      if (navbarState && navbarState.navbarIsOpen === "true") {
-         this.closeVerticalNavBar();
-      } else {
-         this.closeVerticalNavBar();
-      }
+      console.log('horizontal navbar connecté', this.isOpen, this.open);
    }
 
-   closeVerticalNavBar() {
-      if(this.isOpen===true){
-         // Sélectionne un bouton dans le shadow DOM
-         const btn = this.shadowRoot?.querySelectorAll('button')?.[0];
-         const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')?.[0];
-
-         sidebar.classList.toggle('close');
-         btn.classList.toggle('close');
-   
-         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
-         const event = new CustomEvent('close-navbars', {
-            bubbles: true, // Permet à l'événement de remonter dans le DOM
-            composed: true,
-            detail: { message: 'Close all external navbars' }
-         });
+   toggleButton(){
+      if(this.isOpen === true){
          this.isOpen = false;
-         this.open = "false";
-         // Dispatch l'événement depuis le composant
-         this.dispatchEvent(event);
+         this.open = 'false';
+         this.closeEmitSignal(this.isOpen)
       }else{
-         // Sélectionne un bouton dans le shadow DOM
-         const btn = this.shadowRoot?.querySelectorAll('button')?.[0];
-         const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')?.[0];
-
-         sidebar.classList.remove('close');
-         btn.classList.remove('close');
-   
-         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
-         const event = new CustomEvent('open-navbars', {
-            bubbles: true, // Permet à l'événement de remonter dans le DOM
-            composed: true,
-            detail: { message: 'Open all external navbars' }
-         });
          this.isOpen = true;
-         this.open = "true";
-         // Dispatch l'événement depuis le composant
-         this.dispatchEvent(event);
+         this.open = 'true';
+         this.openEmitSignal(this.isOpen)
       }
    }
-   openVerticalNavBar(){
+   
 
+   closeEmitSignal(state: boolean) {
+   
+      // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+      const event = new CustomEvent('close-navbars', {
+         bubbles: true, // Permet à l'événement de remonter dans le DOM
+         composed: true,
+         detail: { message: 'Close all external navbars', horizontalstate: this.isOpen}
+      });
+      
+      console.log(event)
+      // Dispatch l'événement depuis le composant
+      this.dispatchEvent(event);
+   }
+   
+   openEmitSignal(state: boolean){
+   
+      // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+      const event = new CustomEvent('open-navbars', {
+         bubbles: true, // Permet à l'événement de remonter dans le DOM
+         composed: true,
+         detail: { message: 'Open all external navbars', horizontalstate: this.isOpen }
+      });
+      
+      console.log(event)
+      // Dispatch l'événement depuis le composant
+      this.dispatchEvent(event);
    }
    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+      console.log(`horizontal : Changement d'état entre ${oldValue} et ${newValue}`);
+      
       if (name === 'isopen') {
-         console.log(`Attribut isOpen modifié de ${oldValue} à ${newValue}`);
-         this.isOpen = newValue === "true" ? true : false;
+         // Assigner directement la valeur de newValue à this.open
+         this.open = newValue as any;
+
+         console.log(`Etat changé entre ${newValue} et ${this.open}`);
       }
+   
       super.attributeChangedCallback(name, oldValue, newValue);
    }
 }

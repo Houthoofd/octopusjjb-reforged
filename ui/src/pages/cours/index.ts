@@ -5,13 +5,13 @@ import 'unofficial-pf-v5-wc-icons';
 import '../../components';
 
 @customElement({
-   name: "page-compte",
-   template : html`${(compte: Compte) => {
+   name: "page-cours",
+   template : html`${(cours: Cours) => {
       return html`
         <main-application>
             <div slot>
-               <div class="compte">
-                  <h1>Compte</h1>
+               <div class="cours">
+                  <h1>Cours</h1>
                </div>
             </div>
         </main-application>
@@ -23,8 +23,8 @@ import '../../components';
       `
    ]
 })
-export class Compte extends WebComponent{
+export class Cours extends WebComponent{
    
 }
 
-render(html`<page-compte></page-compte>`, document.body);
+render(html`<page-cours></page-cours>`, document.body);
