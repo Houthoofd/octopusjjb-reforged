@@ -46,39 +46,57 @@ import '../navigation';
    ]
 })
 export class MainApplication extends WebComponent{
-   @state() open: "true" | "false" | null = null;
-   @attr() isOpen: boolean = true;
+   @state() isExpanse: boolean = true;
+
+   @attr() expanse: "true" | "false" | null = null;
 
    connectedCallback() {
       super.connectedCallback();
-      console.log('Main component connecté');
-   
-      // Écoute l'événement 'close-navbars' au niveau du document
-      document.addEventListener('close-navbars', this.handleCloseContent.bind(this));
-   }
-   
-   handleCloseContent(event) {
-      console.log('L\'événement close-navbars a été détecté.', event.target);
-      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
-      console.log(this)
-   
-      if (rightContent) {
-         rightContent.classList.toggle('close');
+      console.log('VerticalNavBar connecté');
+
+      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      console.log(navbarState)
+      if (navbarState && navbarState.navbarIsOpen === "true") {
+         this.handleExpanseContent();
+      } else {
+         this.handleRemoveExpanseContent();
       }
-   
-      // Logic pour fermer la sidebar
-      this.open = "false"; // Ferme la sidebar en changeant l'état
+
+      // Écoute l'événement 'close-navbars' sur le document
+      document.addEventListener('close-navbars', this.handleRemoveExpanseContent.bind(this));
+
+      document.addEventListener('open-navbars', this.handleExpanseContent.bind(this));
+   }
+
+   handleRemoveExpanseContent(event?: Event) {
+
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+      console.log(rightContent)
+
+      rightContent.classList.toggle('close');
+
+      // Logique pour fermer la sidebar
+      this.expanse = "false";
+      this.isExpanse = false;
+
+   }
+
+   handleExpanseContent(event?: Event){
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+      console.log(rightContent)
+
+      rightContent.classList.remove('close');
+
+      // Logique pour fermer la sidebar
+      this.expanse = "true";
+      this.isExpanse = true;
    }
 
    attributeChangedCallback(name, oldValue, newValue) {
       if (name === 'isopen') {
          console.log(`Attribut isOpen modifié de ${oldValue} à ${newValue}`);
-         this.open = newValue ? "true" : "false";
-         this.renderNavBar();
+         this.isExpanse = newValue === "true" ? true : false;
       }
-   }
-
-   renderNavBar() {
-      console.log('Rendu de la barre de navigation avec open =', this.open);
+      super.attributeChangedCallback(name, oldValue, newValue);
    }
 }

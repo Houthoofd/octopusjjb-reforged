@@ -618,6 +618,6 @@ Accueil = (0, _tsDecorate._)([
 ], Accueil);
 (0, _core.render)((0, _core.html)`<page-cours></page-cours>`, document.body);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../components":"HH6XE"}]},["aWpRb","iAYX9"], "iAYX9", "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aWpRb","iAYX9"], "iAYX9", "parcelRequire1c26")
 
 //# sourceMappingURL=index.2e6ab60a.js.map

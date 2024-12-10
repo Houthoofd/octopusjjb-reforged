@@ -618,21 +618,20 @@ class VerticalNavBar extends (0, _core.WebComponent) {
     connectedCallback() {
         super.connectedCallback();
         console.log("VerticalNavBar connect\xe9");
-        // Initialisation de l'état de la sidebar
-        this.open = this.isOpen ? "true" : "false";
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        if (navbarState && navbarState.navbarIsOpen === "true") this.handleOpenNavbars();
+        else this.handleCloseNavbars();
         // Écoute l'événement 'close-navbars' sur le document
         document.addEventListener("close-navbars", this.handleCloseNavbars.bind(this));
+        document.addEventListener("open-navbars", this.handleOpenNavbars.bind(this));
     }
     handleCloseNavbars(event) {
-        console.log("L'\xe9v\xe9nement close-navbars a \xe9t\xe9 d\xe9tect\xe9.", event);
         const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
         const links = this.shadowRoot?.querySelectorAll("a");
         const ul = this.shadowRoot?.querySelectorAll("ul")[0];
         const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
         links.forEach((link)=>{
             link.classList.toggle("close");
-            // li //
-            console.log(link.children[0]);
             link.parentElement.classList.toggle("close");
         });
         ul.classList.toggle("close");
@@ -640,32 +639,54 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         switchMode.classList.toggle("close");
         switchMode.children[0].classList.toggle("close");
         // Logique pour fermer la sidebar
-        this.open = "false"; // Ferme la barre en changeant l'état
-        // Optionnel : Mettez à jour l'affichage du composant si nécessaire
-        this.renderNavBar(); // Vous pouvez utiliser cette méthode pour gérer l'affichage
+        this.open = "false";
+        this.isOpen = false;
+        // mettre à jour l'état dans le localstorage //
+        const navigation = {
+            navbarState: this.isOpen
+        };
+        localStorage.setItem("navigation", JSON.stringify(navigation));
+    }
+    handleOpenNavbars(event) {
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const ul = this.shadowRoot?.querySelectorAll("ul")[0];
+        const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
+        links.forEach((link)=>{
+            link.classList.remove("close");
+            link.parentElement.classList.remove("close");
+        });
+        ul.classList.remove("close");
+        sidebar.classList.remove("close");
+        switchMode.classList.remove("close");
+        switchMode.children[0].classList.remove("close");
+        this.open = "true";
+        this.isOpen = true;
+        // mettre à jour l'état dans le localstorage //
+        const navigation = {
+            navbarState: this.isOpen
+        };
+        localStorage.setItem("navigation", JSON.stringify(navigation));
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "isopen") {
             console.log(`Attribut isOpen modifi\xe9 de ${oldValue} \xe0 ${newValue}`);
-            this.open = newValue ? "true" : "false";
-            this.renderNavBar();
+            this.isOpen = newValue === "true" ? true : false;
         }
-    }
-    renderNavBar() {
-        console.log("Rendu de la barre de navigation avec open =", this.open);
+        super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
         super(...args);
-        this.open = null;
         this.isOpen = true;
+        this.open = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
-], VerticalNavBar.prototype, "open", void 0);
+], VerticalNavBar.prototype, "isOpen", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
-], VerticalNavBar.prototype, "isOpen", void 0);
+], VerticalNavBar.prototype, "open", void 0);
 VerticalNavBar = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "vertical-navbar",
@@ -902,36 +923,72 @@ var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class HorizontalNavBar extends (0, _core.WebComponent) {
-    closeVerticalNavBar(horizontalNavBar) {
-        // Sélectionne un bouton dans le shadow DOM
-        const btn = this.shadowRoot?.querySelectorAll("button")?.[0];
-        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")?.[0];
-        sidebar.classList.toggle("close");
-        btn.classList.toggle("close");
-        // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
-        const event = new CustomEvent("close-navbars", {
-            bubbles: true,
-            composed: true,
-            detail: {
-                message: "Close all external navbars"
-            }
-        });
-        // Dispatch l'événement depuis le composant
-        this.dispatchEvent(event);
+    connectedCallback() {
+        super.connectedCallback();
+        console.log("VerticalNavBar connect\xe9");
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        if (navbarState && navbarState.navbarIsOpen === "true") this.closeVerticalNavBar();
+        else this.closeVerticalNavBar();
+    }
+    closeVerticalNavBar() {
+        if (this.isOpen === true) {
+            // Sélectionne un bouton dans le shadow DOM
+            const btn = this.shadowRoot?.querySelectorAll("button")?.[0];
+            const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")?.[0];
+            sidebar.classList.toggle("close");
+            btn.classList.toggle("close");
+            // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+            const event = new CustomEvent("close-navbars", {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    message: "Close all external navbars"
+                }
+            });
+            this.isOpen = false;
+            this.open = "false";
+            // Dispatch l'événement depuis le composant
+            this.dispatchEvent(event);
+        } else {
+            // Sélectionne un bouton dans le shadow DOM
+            const btn = this.shadowRoot?.querySelectorAll("button")?.[0];
+            const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")?.[0];
+            sidebar.classList.remove("close");
+            btn.classList.remove("close");
+            // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
+            const event = new CustomEvent("open-navbars", {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    message: "Open all external navbars"
+                }
+            });
+            this.isOpen = true;
+            this.open = "true";
+            // Dispatch l'événement depuis le composant
+            this.dispatchEvent(event);
+        }
     }
     openVerticalNavBar() {}
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === "isopen") {
+            console.log(`Attribut isOpen modifi\xe9 de ${oldValue} \xe0 ${newValue}`);
+            this.isOpen = newValue === "true" ? true : false;
+        }
+        super.attributeChangedCallback(name, oldValue, newValue);
+    }
     constructor(...args){
         super(...args);
+        this.isOpen = true;
         this.open = null;
-        this.isOpen = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
-], HorizontalNavBar.prototype, "open", void 0);
+], HorizontalNavBar.prototype, "isOpen", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
-], HorizontalNavBar.prototype, "isOpen", void 0);
+], HorizontalNavBar.prototype, "open", void 0);
 HorizontalNavBar = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "horizontal-navbar",
@@ -1083,40 +1140,50 @@ var _navigation = require("../navigation");
 class MainApplication extends (0, _core.WebComponent) {
     connectedCallback() {
         super.connectedCallback();
-        console.log("Main component connect\xe9");
-        // Écoute l'événement 'close-navbars' au niveau du document
-        document.addEventListener("close-navbars", this.handleCloseContent.bind(this));
+        console.log("VerticalNavBar connect\xe9");
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        console.log(navbarState);
+        if (navbarState && navbarState.navbarIsOpen === "true") this.handleExpanseContent();
+        else this.handleRemoveExpanseContent();
+        // Écoute l'événement 'close-navbars' sur le document
+        document.addEventListener("close-navbars", this.handleRemoveExpanseContent.bind(this));
+        document.addEventListener("open-navbars", this.handleExpanseContent.bind(this));
     }
-    handleCloseContent(event) {
-        console.log("L'\xe9v\xe9nement close-navbars a \xe9t\xe9 d\xe9tect\xe9.", event.target);
+    handleRemoveExpanseContent(event) {
         const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
-        console.log(this);
-        if (rightContent) rightContent.classList.toggle("close");
-        // Logic pour fermer la sidebar
-        this.open = "false"; // Ferme la sidebar en changeant l'état
+        console.log(rightContent);
+        rightContent.classList.toggle("close");
+        // Logique pour fermer la sidebar
+        this.expanse = "false";
+        this.isExpanse = false;
+    }
+    handleExpanseContent(event) {
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        console.log(rightContent);
+        rightContent.classList.remove("close");
+        // Logique pour fermer la sidebar
+        this.expanse = "true";
+        this.isExpanse = true;
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "isopen") {
             console.log(`Attribut isOpen modifi\xe9 de ${oldValue} \xe0 ${newValue}`);
-            this.open = newValue ? "true" : "false";
-            this.renderNavBar();
+            this.isExpanse = newValue === "true" ? true : false;
         }
-    }
-    renderNavBar() {
-        console.log("Rendu de la barre de navigation avec open =", this.open);
+        super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
         super(...args);
-        this.open = null;
-        this.isOpen = true;
+        this.isExpanse = true;
+        this.expanse = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
-], MainApplication.prototype, "open", void 0);
+], MainApplication.prototype, "isExpanse", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
-], MainApplication.prototype, "isOpen", void 0);
+], MainApplication.prototype, "expanse", void 0);
 MainApplication = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "main-application",
