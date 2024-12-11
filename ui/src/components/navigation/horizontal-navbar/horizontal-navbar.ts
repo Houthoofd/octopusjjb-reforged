@@ -135,12 +135,24 @@ import 'unofficial-pf-v5-wc-icons';
 export class HorizontalNavBar extends WebComponent{
    @state() isOpen: boolean = true;
 
-   @attr() open: "true" | "false" | true = true;
+   @attr() open: "true" | "false" | null = null;
 
    connectedCallback() {
       super.connectedCallback();
 
-      console.log('horizontal navbar connecté', this.isOpen, this.open);
+      console.log('horizontal navbar connecté');
+
+      this.onMounting();
+   }
+
+   onMounting() {
+      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      
+      if(navbarState.horizontal_vertical_state === false){
+         this.Minimize();
+      }else if(navbarState.horizontal_vertical_state === true){
+         this.Expand();
+      }
    }
 
    toggleButton(){
@@ -164,8 +176,8 @@ export class HorizontalNavBar extends WebComponent{
          composed: true,
          detail: { message: 'Close all external navbars', horizontalstate: this.isOpen}
       });
-      
-      console.log(event)
+      this.Minimize();
+      console.log(event);
       // Dispatch l'événement depuis le composant
       this.dispatchEvent(event);
    }
@@ -178,19 +190,31 @@ export class HorizontalNavBar extends WebComponent{
          composed: true,
          detail: { message: 'Open all external navbars', horizontalstate: this.isOpen }
       });
-      
+      this.Expand();
       console.log(event)
       // Dispatch l'événement depuis le composant
       this.dispatchEvent(event);
    }
+   Minimize() {
+      const btn = this.shadowRoot?.querySelectorAll('.toggle-btn')[0];
+      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
+
+      btn.classList.toggle('close');
+      sidebar.classList.toggle('close');
+   }
+   
+   Expand(){
+      const btn = this.shadowRoot?.querySelectorAll('.toggle-btn')[0];
+      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
+      
+      btn.classList.remove('close');
+      sidebar.classList.remove('close');
+   }
    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
-      console.log(`horizontal : Changement d'état entre ${oldValue} et ${newValue}`);
       
       if (name === 'isopen') {
          // Assigner directement la valeur de newValue à this.open
          this.open = newValue as any;
-
-         console.log(`Etat changé entre ${newValue} et ${this.open}`);
       }
    
       super.attributeChangedCallback(name, oldValue, newValue);

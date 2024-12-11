@@ -618,50 +618,80 @@ class VerticalNavBar extends (0, _core.WebComponent) {
     connectedCallback() {
         super.connectedCallback();
         console.log("vertical navbar connect\xe9");
+        this.onMounting();
         // Écoute l'événement 'close-navbars' sur le document
         document.addEventListener("close-navbars", this.handleCloseNavbars.bind(this));
         document.addEventListener("open-navbars", this.handleOpenNavbars.bind(this));
     }
+    onMounting() {
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        if (navbarState.horizontal_vertical_state === false) this.Minimize();
+        else if (navbarState.horizontal_vertical_state === true) this.Expand();
+    }
     handleCloseNavbars(event) {
         console.log("handleCloseNavbars : signal re\xe7u", event.detail.horizontalstate, this.open, this.isOpen);
         // Fermer la navigation si elle est ouverte
-        if (this.isOpen === true) this.isOpen = false;
+        if (this.isOpen === true) {
+            this.isOpen = false;
+            this.open = "false";
+        }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === false && this.isOpen === false) {
             const navigation = {
-                horizontal: event.detail.horizontalstate,
-                vertical: this.isOpen
+                horizontal_vertical_state: this.isOpen
             };
-            console.log(navigation);
+            this.Minimize();
             localStorage.setItem("navigation", JSON.stringify(navigation));
         }
     }
     handleOpenNavbars(event) {
         console.log("handleOpenNavbars : signal re\xe7u", event.detail.horizontalstate, this.open);
-        if (this.isOpen === false) this.isOpen = true;
+        if (this.isOpen === false) {
+            this.isOpen = true;
+            this.open = "true";
+        }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === true && this.isOpen === true) {
             const navigation = {
-                horizontal: event.detail.horizontalstate,
-                vertical: this.isOpen
+                horizontal_vertical_state: this.isOpen
             };
-            console.log(navigation);
+            this.Expand();
             localStorage.setItem("navigation", JSON.stringify(navigation));
         }
     }
+    Minimize() {
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
+        const moonsun = this.shadowRoot?.querySelectorAll(".moon-sun")[0];
+        links.forEach((link)=>{
+            link.classList.toggle("close");
+        });
+        switchMode.classList.toggle("close");
+        sidebar.classList.toggle("close");
+        moonsun.classList.toggle("close");
+    }
+    Expand() {
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
+        const moonsun = this.shadowRoot?.querySelectorAll(".moon-sun")[0];
+        links.forEach((link)=>{
+            link.classList.remove("close");
+        });
+        switchMode.classList.remove("close");
+        sidebar.classList.remove("close");
+        moonsun.classList.remove("close");
+    }
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log(`vertical : Changement d'\xe9tat entre ${oldValue} et ${newValue}`);
-        if (name === "isopen") {
-            // Assigner directement la valeur de newValue à this.open
-            this.open = newValue;
-            console.log(`Etat chang\xe9 entre ${newValue} et ${this.open}`);
-        }
+        if (name === "isopen") // Assigner directement la valeur de newValue à this.open
+        this.open = newValue;
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
         super(...args);
         this.isOpen = true;
-        this.open = true;
+        this.open = null;
     }
 }
 (0, _tsDecorate._)([
@@ -908,7 +938,13 @@ var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class HorizontalNavBar extends (0, _core.WebComponent) {
     connectedCallback() {
         super.connectedCallback();
-        console.log("horizontal navbar connect\xe9", this.isOpen, this.open);
+        console.log("horizontal navbar connect\xe9");
+        this.onMounting();
+    }
+    onMounting() {
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        if (navbarState.horizontal_vertical_state === false) this.Minimize();
+        else if (navbarState.horizontal_vertical_state === true) this.Expand();
     }
     toggleButton() {
         if (this.isOpen === true) {
@@ -931,6 +967,7 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
                 horizontalstate: this.isOpen
             }
         });
+        this.Minimize();
         console.log(event);
         // Dispatch l'événement depuis le composant
         this.dispatchEvent(event);
@@ -945,23 +982,32 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
                 horizontalstate: this.isOpen
             }
         });
+        this.Expand();
         console.log(event);
         // Dispatch l'événement depuis le composant
         this.dispatchEvent(event);
     }
+    Minimize() {
+        const btn = this.shadowRoot?.querySelectorAll(".toggle-btn")[0];
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        btn.classList.toggle("close");
+        sidebar.classList.toggle("close");
+    }
+    Expand() {
+        const btn = this.shadowRoot?.querySelectorAll(".toggle-btn")[0];
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        btn.classList.remove("close");
+        sidebar.classList.remove("close");
+    }
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log(`horizontal : Changement d'\xe9tat entre ${oldValue} et ${newValue}`);
-        if (name === "isopen") {
-            // Assigner directement la valeur de newValue à this.open
-            this.open = newValue;
-            console.log(`Etat chang\xe9 entre ${newValue} et ${this.open}`);
-        }
+        if (name === "isopen") // Assigner directement la valeur de newValue à this.open
+        this.open = newValue;
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
         super(...args);
         this.isOpen = true;
-        this.open = true;
+        this.open = null;
     }
 }
 (0, _tsDecorate._)([
@@ -1122,14 +1168,42 @@ class MainApplication extends (0, _core.WebComponent) {
     connectedCallback() {
         super.connectedCallback();
         console.log("main-application connect\xe9");
-        // Écoute l'événement 'close-navbars' sur le document
+        this.onMounting();
+        // Écoute l'événement 'close-navbars' et 'open-navbars' sur le document
         document.addEventListener("close-navbars", this.handleRemoveExpanseContent.bind(this));
         document.addEventListener("open-navbars", this.handleExpanseContent.bind(this));
     }
-    handleRemoveExpanseContent(event) {}
-    handleExpanseContent(event) {}
+    onMounting() {
+        const navbarState = JSON.parse(localStorage.getItem("navigation"));
+        if (navbarState.horizontal_vertical_state === false) this.Expand();
+        else if (navbarState.horizontal_vertical_state === true) this.Minimize();
+    }
+    handleRemoveExpanseContent(event) {
+        console.log("handleRemoveExpanseContent : signal re\xe7u", event.detail?.horizontalstate);
+        if (event.detail?.horizontalstate === false) {
+            this.isExpanse = false;
+            this.expanse = "false";
+            this.Expand();
+        }
+    }
+    handleExpanseContent(event) {
+        console.log("handleExpanseContent : signal re\xe7u", event.detail?.horizontalstate);
+        if (event.detail?.horizontalstate === true) {
+            this.isExpanse = true;
+            this.expanse = "true";
+            this.Minimize();
+        }
+    }
+    Expand() {
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        rightContent.classList.toggle("expand");
+    }
+    Minimize() {
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        rightContent.classList.remove("expand");
+    }
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "isexpanse") this.isExpanse = newValue === "true" ? true : false;
+        if (name === "expanse") this.expanse = newValue;
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
@@ -1180,7 +1254,7 @@ MainApplication = (0, _tsDecorate._)([
          grid-template-columns: 250px 1fr;
          transition: all 0.3s ease;
       }
-      .right-content.close{
+      .right-content.expand{
          grid-template-columns: 84px 1fr;
       }
       `

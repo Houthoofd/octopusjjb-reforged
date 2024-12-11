@@ -39,13 +39,13 @@ import '../navigation';
          grid-template-columns: 250px 1fr;
          transition: all 0.3s ease;
       }
-      .right-content.close{
+      .right-content.expand{
          grid-template-columns: 84px 1fr;
       }
       `
    ]
 })
-export class MainApplication extends WebComponent{
+export class MainApplication extends WebComponent {
    @state() isExpanse: boolean = true;
 
    @attr() expanse: "true" | "false" | null = null;
@@ -54,24 +54,60 @@ export class MainApplication extends WebComponent{
       super.connectedCallback();
       console.log('main-application connecté');
 
-      // Écoute l'événement 'close-navbars' sur le document
-      document.addEventListener('close-navbars', this.handleRemoveExpanseContent.bind(this));
+      this.onMounting();
 
+      // Écoute l'événement 'close-navbars' et 'open-navbars' sur le document
+      document.addEventListener('close-navbars', this.handleRemoveExpanseContent.bind(this));
       document.addEventListener('open-navbars', this.handleExpanseContent.bind(this));
    }
 
-   handleRemoveExpanseContent(event?: Event) {
-
+   onMounting() {
+      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      
+      if(navbarState.horizontal_vertical_state === false){
+         this.Expand();
+      }else if(navbarState.horizontal_vertical_state === true){
+         this.Minimize();
+      }
    }
 
-   handleExpanseContent(event?: Event){
+   handleRemoveExpanseContent(event: CustomEvent) {
+      console.log("handleRemoveExpanseContent : signal reçu", event.detail?.horizontalstate);
 
+      if(event.detail?.horizontalstate === false){
+         this.isExpanse = false;
+         this.expanse = "false";
+         this.Expand();
+      }
    }
 
-   attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'isexpanse') {
-         this.isExpanse = newValue === "true" ? true : false;
+   handleExpanseContent(event: CustomEvent) {
+      console.log("handleExpanseContent : signal reçu", event.detail?.horizontalstate);
+
+      if(event.detail?.horizontalstate === true){
+         this.isExpanse = true;
+         this.expanse = "true";
+         this.Minimize();
+      }
+   }
+
+   Expand() {
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+
+      rightContent.classList.toggle('expand');
+   }
+
+   Minimize() {
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+
+      rightContent.classList.remove('expand');
+   }
+
+   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+      if (name === 'expanse') {
+         this.expanse = newValue as any;
       }
       super.attributeChangedCallback(name, oldValue, newValue);
    }
 }
+
