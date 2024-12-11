@@ -188,8 +188,9 @@ export class HorizontalNavBar extends WebComponent{
 
       if (this.open === null && this.isOpen === true) {
          console.log("synchronisation des états, open est null et isOpen est true");
-         this.open = 'true';  // Synchronise seulement, sans changer isOpen
-         this.openEmitSignal(this.isOpen);  // Émet le signal d'ouverture
+         this.open = 'false';
+         this.isOpen = false;  // Synchronise seulement, sans changer isOpen
+         this.closeEmitSignal(this.isOpen);  // Émet le signal d'ouverture
          return;
       }
    

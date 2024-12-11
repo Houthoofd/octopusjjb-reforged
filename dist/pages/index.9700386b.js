@@ -973,8 +973,9 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         }
         if (this.open === null && this.isOpen === true) {
             console.log("synchronisation des \xe9tats, open est null et isOpen est true");
-            this.open = "true"; // Synchronise seulement, sans changer isOpen
-            this.openEmitSignal(this.isOpen); // Émet le signal d'ouverture
+            this.open = "false";
+            this.isOpen = false; // Synchronise seulement, sans changer isOpen
+            this.closeEmitSignal(this.isOpen); // Émet le signal d'ouverture
             return;
         }
         // Si open et isOpen sont égaux à 'true', fermer la navigation
