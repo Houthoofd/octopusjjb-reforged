@@ -946,51 +946,51 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
     }
     toggleButton() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        console.log("toggle", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
-        // Si l'état isOpen est nul et la barre horizontale est fermée
-        if (this.isOpen === null && navbarState?.horizontal_vertical_state === false) {
-            console.log("if");
-            this.isOpen = false;
-            this.open = "false";
-            this.closeEmitSignal(this.isOpen);
+        console.log("toggle initial", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
+        // Cas où open est null et isOpen est true (Initialisation avec état synchronisé)
+        if (this.open === null && this.isOpen === true) {
+            console.log("Synchronisation initiale : open est null et isOpen est true");
+            this.open = "true"; // Synchronisation de l'état 'open'
+            this.isOpen = true; // Assurez-vous que isOpen est aussi 'true'
+            this.openEmitSignal(this.isOpen); // Emission du signal pour signaler l'ouverture
             return;
         }
-        // Si l'état isOpen est nul et la barre horizontale est ouverte
-        if (this.isOpen === null && navbarState?.horizontal_vertical_state === true) {
-            console.log("else if");
+        // Cas où open est null et isOpen est false (Initialisation avec état synchronisé)
+        if (this.open === null && this.isOpen === false) {
+            console.log("Synchronisation initiale : open est null et isOpen est false");
+            this.open = "false"; // Synchronisation de l'état 'open'
+            this.isOpen = false; // Assurez-vous que isOpen est aussi 'false'
+            this.closeEmitSignal(this.isOpen); // Emission du signal pour signaler la fermeture
+            return;
+        }
+        // Cas où open est 'true' et isOpen est true (Fermeture de la navigation)
+        if (this.open === "true" && this.isOpen === true) {
+            console.log("Fermeture de la navigation");
+            this.isOpen = false;
+            this.open = "false";
+            this.closeEmitSignal(this.isOpen); // Fermeture de la navigation
+            return;
+        }
+        // Cas où open est 'false' et isOpen est false (Ouverture de la navigation)
+        if (this.open === "false" && this.isOpen === false) {
+            console.log("Ouverture de la navigation");
             this.isOpen = true;
             this.open = "true";
+            this.openEmitSignal(this.isOpen); // Ouverture de la navigation
+            return;
+        }
+        // Cas par défaut : quand open et isOpen ne sont ni 'true' ni 'false', basculer l'état
+        console.log("Basculer l'\xe9tat : toggle");
+        this.isOpen = !this.isOpen; // Inverser l'état de isOpen
+        this.open = this.isOpen ? "true" : "false"; // Synchroniser open avec isOpen
+        // Après le basculement, envoyer le signal approprié
+        if (this.isOpen) {
+            console.log("Ouverture de la navigation apr\xe8s basculement");
             this.openEmitSignal(this.isOpen);
-            return;
-        }
-        // Cas où isOpen et open sont null ou undefined, donc basculer l'état
-        if (this.open === null && this.isOpen === null) {
-            console.log("toggle", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
-            this.isOpen = !this.isOpen;
-            this.open = this.isOpen ? "true" : "false";
-            this.isOpen ? this.openEmitSignal(this.isOpen) : this.closeEmitSignal(this.isOpen);
-            return;
-        }
-        if (this.open === null && this.isOpen === true) {
-            console.log("synchronisation des \xe9tats, open est null et isOpen est true");
-            this.open = "false";
-            this.isOpen = false; // Synchronise seulement, sans changer isOpen
-            this.closeEmitSignal(this.isOpen); // Émet le signal d'ouverture
-            return;
-        }
-        // Si open et isOpen sont égaux à 'true', fermer la navigation
-        if (this.open === "true" && this.isOpen === true) {
-            console.log("fermeture navigation", this.open, this.isOpen);
-            this.isOpen = false;
-            this.open = "false";
+        } else {
+            console.log("Fermeture de la navigation apr\xe8s basculement");
             this.closeEmitSignal(this.isOpen);
-            return;
         }
-        // Sinon, ouvrir la navigation
-        console.log("ouverture navigation", this.open, this.isOpen);
-        this.isOpen = true;
-        this.open = "true";
-        this.openEmitSignal(this.isOpen);
     }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
