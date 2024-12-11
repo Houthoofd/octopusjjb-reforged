@@ -155,17 +155,22 @@ export class HorizontalNavBar extends WebComponent{
       }
    }
 
-   toggleButton(){
-      if(this.isOpen === true){
+   toggleButton() {
+      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      console.log("toggle", this.open, navbarState?.horizontal_vertical_state);
+   
+      // Vérifie si navbarState est défini et contient la propriété horizontal_vertical_state
+      if (navbarState && (this.isOpen === true || (this.open === "true" && navbarState.horizontal_vertical_state === false))) {
          this.isOpen = false;
          this.open = 'false';
-         this.closeEmitSignal(this.isOpen)
-      }else{
+         this.closeEmitSignal(this.isOpen);
+      } else {
          this.isOpen = true;
          this.open = 'true';
-         this.openEmitSignal(this.isOpen)
+         this.openEmitSignal(this.isOpen);
       }
    }
+   
    
 
    closeEmitSignal(state: boolean) {
