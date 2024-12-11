@@ -862,7 +862,7 @@ VerticalNavBar = (0, _tsDecorate._)([
             fill: #e6e6ef;
          }
       }
-      li.close:hover{
+      #sidebar ul li.close:hover{
          background-color: #222533;
          border-radius: 10px;
 

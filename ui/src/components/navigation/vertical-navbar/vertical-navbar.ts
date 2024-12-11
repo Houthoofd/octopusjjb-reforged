@@ -164,7 +164,7 @@ import 'unofficial-pf-v5-wc-icons';
             fill: #e6e6ef;
          }
       }
-      li.close:hover{
+      #sidebar ul li.close:hover{
          background-color: #222533;
          border-radius: 10px;
 
