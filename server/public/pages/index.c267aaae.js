@@ -1,12 +1,4 @@
-import { html , render , WebComponent , customElement , attr , attrState , state, css, ViewTemplate, ViewContext, asyncAppend, repeat, children } from '@lithium-framework/core';
-import '@lithium-framework/router-element';
-import 'unofficial-pf-v5-wc';
-import 'unofficial-pf-v5-wc-icons';
-
-@customElement({
-   name: "vertical-navbar",
-   template : html`${(verticalNavBar: VerticalNavBar) => {
-      return html`
+var e=globalThis,t={},s={},i=e.parcelRequire1c26;null==i&&((i=function(e){if(e in t)return t[e].exports;if(e in s){var i=s[e];delete s[e];var a={id:e,exports:{}};return t[e]=a,i.call(a.exports,a,a.exports),a.exports}var l=Error("Cannot find module '"+e+"'");throw l.code="MODULE_NOT_FOUND",l}).register=function(e,t){s[e]=t},e.parcelRequire1c26=i);var a=i.register;a("7KTRf",function(e,t){i("jcBBX"),i("b8ikq")}),a("jcBBX",function(e,t){i("l8jY8"),i("fw7Hj"),i("b8ikq"),i("3tWFl"),i("hypTO"),i("2ByoK")}),a("l8jY8",function(e,t){i("hypTO")}),a("hypTO",function(e,t){var s=i("7WQrb"),a=i("5D1XK");i("RKbfs"),i("3I5Zu"),i("dLLJA");class l extends a.WebComponent{connectedCallback(){super.connectedCallback(),console.log("vertical navbar connecté"),this.onMounting(),document.addEventListener("close-navbars",this.handleCloseNavbars.bind(this)),document.addEventListener("open-navbars",this.handleOpenNavbars.bind(this))}onMounting(){let e=JSON.parse(localStorage.getItem("navigation"));!1===e.horizontal_vertical_state?this.Minimize():!0===e.horizontal_vertical_state&&this.Expand()}handleCloseNavbars(e){if(!0===this.isOpen&&(this.isOpen=!1,this.open="false"),!1===e.detail.horizontalstate&&!1===this.isOpen){let e={horizontal_vertical_state:this.isOpen};this.Minimize(),localStorage.setItem("navigation",JSON.stringify(e))}}handleOpenNavbars(e){if(!1===this.isOpen&&(this.isOpen=!0,this.open="true"),!0===e.detail.horizontalstate&&!0===this.isOpen){let e={horizontal_vertical_state:this.isOpen};this.Expand(),localStorage.setItem("navigation",JSON.stringify(e))}}Minimize(){let e=this.shadowRoot?.querySelectorAll("#sidebar")[0],t=this.shadowRoot?.querySelectorAll("a"),s=this.shadowRoot?.querySelectorAll("#switch-mode")[0],i=this.shadowRoot?.querySelectorAll(".moon-sun")[0];t.forEach(e=>{e.classList.toggle("close"),e.parentElement.classList.toggle("close")}),s.classList.toggle("close"),e.classList.toggle("close"),i.classList.toggle("close")}Expand(){let e=this.shadowRoot?.querySelectorAll("#sidebar")[0],t=this.shadowRoot?.querySelectorAll("a"),s=this.shadowRoot?.querySelectorAll("#switch-mode")[0],i=this.shadowRoot?.querySelectorAll(".moon-sun")[0];t.forEach(e=>{e.classList.remove("close"),e.parentElement.classList.remove("close")}),s.classList.remove("close"),e.classList.remove("close"),i.classList.remove("close")}attributeChangedCallback(e,t,s){"isopen"===e&&(this.open=s),super.attributeChangedCallback(e,t,s)}constructor(...e){super(...e),this.isOpen=!0,this.open=null}}(0,s.__decorate)([(0,a.state)()],l.prototype,"isOpen",void 0),(0,s.__decorate)([(0,a.attr)()],l.prototype,"open",void 0),(0,s.__decorate)([(0,a.customElement)({name:"vertical-navbar",template:(0,a.html)`${e=>(0,a.html)`
         <nav id="sidebar">
          <ul id="top-sidebar">
             <li>
@@ -100,10 +92,7 @@ import 'unofficial-pf-v5-wc-icons';
             </li>
          </ul>
         </nav>
-      `
-   }}`,
-   styles: [
-      css`
+      `}`,styles:[(0,a.css)`
       #sidebar{
          box-sizing: border-box;
          height: 100%;
@@ -246,108 +235,158 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      `
-   ]
-})
-export class VerticalNavBar extends WebComponent {
-   @state() isOpen: boolean = true;
-
-   @attr() open: "true" | "false" | null = null;
-
-   connectedCallback() {
-      super.connectedCallback();
-
-      console.log('vertical navbar connecté');
-
-      this.onMounting()
-      
-
-      // Écoute l'événement 'close-navbars' sur le document
-      document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
-
-      document.addEventListener('open-navbars', this.handleOpenNavbars.bind(this));
-   }
-   onMounting() {
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
-      
-      if(navbarState.horizontal_vertical_state === false){
-         this.Minimize();
-      }else if(navbarState.horizontal_vertical_state === true){
-         this.Expand();
+      `]})],l)}),a("fw7Hj",function(e,t){i("2ByoK")}),a("2ByoK",function(e,t){var s=i("7WQrb"),a=i("5D1XK");i("RKbfs"),i("3I5Zu"),i("dLLJA");class l extends a.WebComponent{connectedCallback(){super.connectedCallback(),console.log("horizontal navbar connecté"),this.onMounting()}onMounting(){let e=JSON.parse(localStorage.getItem("navigation"));!1===e.horizontal_vertical_state?this.Minimize():!0===e.horizontal_vertical_state&&this.Expand()}toggleButton(){let e=JSON.parse(localStorage.getItem("navigation"));if(console.log("toggle initial",this.open,e?.horizontal_vertical_state,this.isOpen),null===this.open&&!0===this.isOpen){console.log("Synchronisation initiale : open est null et isOpen est true"),this.open="true",this.isOpen=!0,this.openEmitSignal(this.isOpen);return}if(null===this.open&&!1===this.isOpen){console.log("Synchronisation initiale : open est null et isOpen est false"),this.open="false",this.isOpen=!1,this.closeEmitSignal(this.isOpen);return}if("true"===this.open&&!0===this.isOpen){console.log("Fermeture de la navigation"),this.isOpen=!1,this.open="false",this.closeEmitSignal(this.isOpen);return}if("false"===this.open&&!1===this.isOpen){console.log("Ouverture de la navigation"),this.isOpen=!0,this.open="true",this.openEmitSignal(this.isOpen);return}console.log("Basculer l'état : toggle"),this.isOpen=!this.isOpen,this.open=this.isOpen?"true":"false",this.isOpen?(console.log("Ouverture de la navigation après basculement"),this.openEmitSignal(this.isOpen)):(console.log("Fermeture de la navigation après basculement"),this.closeEmitSignal(this.isOpen))}closeEmitSignal(e){let t=new CustomEvent("close-navbars",{bubbles:!0,composed:!0,detail:{message:"Close all external navbars",horizontalstate:this.isOpen}});this.Minimize(),console.log(t),this.dispatchEvent(t)}openEmitSignal(e){let t=new CustomEvent("open-navbars",{bubbles:!0,composed:!0,detail:{message:"Open all external navbars",horizontalstate:this.isOpen}});this.Expand(),console.log(t),this.dispatchEvent(t)}Minimize(){let e=this.shadowRoot?.querySelectorAll(".toggle-btn")[0],t=this.shadowRoot?.querySelectorAll("#sidebar")[0];e.classList.toggle("close"),t.classList.toggle("close")}Expand(){let e=this.shadowRoot?.querySelectorAll(".toggle-btn")[0],t=this.shadowRoot?.querySelectorAll("#sidebar")[0];e.classList.remove("close"),t.classList.remove("close")}attributeChangedCallback(e,t,s){"isopen"===e&&(this.open=s),super.attributeChangedCallback(e,t,s)}constructor(...e){super(...e),this.isOpen=!0,this.open=null}}(0,s.__decorate)([(0,a.state)()],l.prototype,"isOpen",void 0),(0,s.__decorate)([(0,a.attr)()],l.prototype,"open",void 0),(0,s.__decorate)([(0,a.customElement)({name:"horizontal-navbar",template:(0,a.html)`${e=>(0,a.html)`
+        <nav id="sidebar">
+         <ul class="header-sidebar">
+            <li>
+               <a class="member-info-initial" href="/pages/profil">HB</a>
+               <button class="toggle-btn" @click="${()=>e.toggleButton()}">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+               </button>
+            </li>
+         </ul>
+         <ul id="right-sidebar">
+            <li>
+               <div class="member-infos">
+                  <span class="member-info-nom"><a href="/pages/profil">Houthoofd Benoit</a></span>
+               </div>
+            </li>
+            <li>
+               <a href="/pages/messages">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+               </a>
+            </li>
+            <li>
+               <a href="/pages/notifications">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+               </a>
+            </li>
+         </ul>
+        </nav>
+      `}`,styles:[(0,a.css)`
+      #sidebar{
+         box-sizing: border-box;
+         background-color: #11121a;
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         align-items: center;
+         height: 10vh;
+         border-bottom: 1px solid #42434a;
+         transition: all 0.3s ease;
       }
-   }
-   
-   handleCloseNavbars(event: CustomEvent) {
-      
-      // Fermer la navigation si elle est ouverte
-      if (this.isOpen === true) {
-         this.isOpen = false;
-         this.open = "false";
+      #sidebar.close{
+         grid-template-columns: 84px 1fr;
       }
-      
-      // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
-      if ((event.detail.horizontalstate === false) && (this.isOpen === false)) {
-         const navigation = {
-            horizontal_vertical_state: this.isOpen
-         };
-         this.Minimize();
-         localStorage.setItem('navigation', JSON.stringify(navigation));
+      .header-sidebar{
+         padding: 0;
+         border-right: 1px solid #42434a;
+         justify-content: space-between;
+         align-items: center;
+         display: flex;
+         background-color: #222533;
       }
-   }
-   
-   handleOpenNavbars(event: CustomEvent) {
-   
-      if (this.isOpen === false) {
-         this.isOpen = true;
-         this.open = "true";
+      .header-sidebar li{
+         list-style: none;
+         width: 100%;
+         padding: 0;
+         margin: 0;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
       }
-      
-      // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
-      if ((event.detail.horizontalstate === true) && (this.isOpen === true)) {
-         const navigation = {
-            horizontal_vertical_state: this.isOpen
-         };
-         this.Expand();
-         localStorage.setItem('navigation', JSON.stringify(navigation));
+      #sidebar ul{
+         list-style: none;
+         height: 100%;
+         padding: 0;
+         margin: 0;
       }
-   }
-   Minimize() {
-      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
-      const links = this.shadowRoot?.querySelectorAll('a');
-      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
-      const moonsun = this.shadowRoot?.querySelectorAll('.moon-sun')[0];
-   
-      links.forEach((link) => {
-         link.classList.toggle('close');
-         link.parentElement.classList.toggle('close');
-      });
-      switchMode.classList.toggle('close');
-      sidebar.classList.toggle('close');
-      moonsun.classList.toggle('close');
-   }
-   
-   Expand(){
-      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
-      const links = this.shadowRoot?.querySelectorAll('a');
-      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
-      const moonsun = this.shadowRoot?.querySelectorAll('.moon-sun')[0];
-   
-      links.forEach((link) => {
-         link.classList.remove('close')
-         link.parentElement.classList.remove('close');
-      });
-      switchMode.classList.remove('close');
-      sidebar.classList.remove('close');
-      moonsun.classList.remove('close');
-   }
-   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
-      
-      if (name === 'isopen') {
-         // Assigner directement la valeur de newValue à this.open
-         this.open = newValue as any;
-      }
-   
-      super.attributeChangedCallback(name, oldValue, newValue);
-   }
-}
+      #sidebar ul li.active a{
+         color: #5e63ff;
 
+         svg{
+            fill: #5e63ff;
+         }
+      }
+      #sidebar a{
+         padding: .85rem;
+         text-decoration: none;
+         color: #e6e6ef;
+         display: flex;
+         align-items: center;
+         gap: 1em;
+         transition: all 0.3s ease;
+
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      .toggle-btn{
+         width: 35px;
+         height: 35px;
+         border-radius: 50%;
+         border: none;
+         background-color: #5e63ff;
+         transform: translateX(18px) translateY(0px);
+         transition: all 0.3s ease;
+
+         svg{
+            fill: #e6e6ef;
+            transform: translateX(0px) translateY(2px);
+         }
+      }
+      .toggle-btn.close{
+         width: 23px;
+         height: 23px;
+         transform: translateX(12px) translateY(0px);
+
+         svg{
+            width: 15px;
+            height: 15px;
+            transform: translateX(-1px) translateY(2px);
+         }
+      }
+      #right-sidebar{
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+      }
+      .member-info-initial{
+         background-color: #5e63ff;
+         border-radius: 10px;
+         /* margin-left: 20px; */
+         transform: translateX(19px);
+      }
+      `]})],l)}),a("b8ikq",function(e,t){i("3tWFl")}),a("3tWFl",function(e,t){var s=i("7WQrb"),a=i("5D1XK");i("RKbfs"),i("3I5Zu"),i("dLLJA"),i("jcBBX");class l extends a.WebComponent{connectedCallback(){super.connectedCallback(),console.log("main-application connecté"),this.onMounting(),document.addEventListener("close-navbars",this.handleRemoveExpanseContent.bind(this)),document.addEventListener("open-navbars",this.handleExpanseContent.bind(this))}onMounting(){let e=JSON.parse(localStorage.getItem("navigation"));!1===e.horizontal_vertical_state?this.Expand():!0===e.horizontal_vertical_state&&this.Minimize()}handleRemoveExpanseContent(e){e.detail?.horizontalstate===!1&&(this.isExpanse=!1,this.expanse="false",this.Expand())}handleExpanseContent(e){e.detail?.horizontalstate===!0&&(this.isExpanse=!0,this.expanse="true",this.Minimize())}Expand(){(this.shadowRoot?.querySelectorAll(".right-content")[0]).classList.toggle("expand")}Minimize(){(this.shadowRoot?.querySelectorAll(".right-content")[0]).classList.remove("expand")}attributeChangedCallback(e,t,s){"expanse"===e&&(this.expanse=s),super.attributeChangedCallback(e,t,s)}constructor(...e){super(...e),this.isExpanse=!0,this.expanse=null}}(0,s.__decorate)([(0,a.state)()],l.prototype,"isExpanse",void 0),(0,s.__decorate)([(0,a.attr)()],l.prototype,"expanse",void 0),(0,s.__decorate)([(0,a.customElement)({name:"main-application",template:(0,a.html)`${e=>(0,a.html)`
+        <div id="application">
+            <div class="header">
+               <horizontal-navbar></horizontal-navbar>
+            </div>
+            <div class="right-content">
+               <vertical-navbar></vertical-navbar>
+               <div class="content">
+                  <slot></slot>
+               </div>
+            </div>
+        </div>
+      `}`,styles:[(0,a.css)`
+      #application{
+         min-height: 100vh;
+         background-color: var(--base-clr);
+         color: var(--text-clr);
+         display: grid;
+         grid-template-rows: 10vh 1fr;
+      }
+      .content{
+         margin-left: 10px;
+         margin-top: 10px;
+      }
+      .right-content{
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         transition: all 0.3s ease;
+      }
+      .right-content.expand{
+         grid-template-columns: 84px 1fr;
+      }
+      `]})],l)});
+//# sourceMappingURL=index.c267aaae.js.map

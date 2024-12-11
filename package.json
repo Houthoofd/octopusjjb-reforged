@@ -16,7 +16,9 @@
         "ui/src/pages/profil/index.html",
         "ui/src/pages/utilisateurs/index.html",
         "ui/src/pages/informations/index.html",
-        "ui/src/pages/notifications/index.html"
+        "ui/src/pages/notifications/index.html",
+        "ui/src/pages/chat/index.html",
+        "ui/src/pages/store/index.html"
       ],
       "distDir": "server/public"
     },

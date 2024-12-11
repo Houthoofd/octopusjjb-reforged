@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"3q5Ed":[function(require,module,exports) {
+})({"htMvr":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "130dd3854f6623eb";
+module.bundle.HMR_BUNDLE_ID = "f63557141607c0bf";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -583,27 +583,27 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     });
 }
 
-},{}],"2CSAb":[function(require,module,exports) {
+},{}],"g9gwX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Mails", ()=>Mails);
+parcelHelpers.export(exports, "Magasin", ()=>Magasin);
 var _tsDecorate = require("@swc/helpers/_/_ts_decorate");
 var _core = require("@lithium-framework/core");
 var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 var _components = require("../../components");
-class Mails extends (0, _core.WebComponent) {
+class Magasin extends (0, _core.WebComponent) {
 }
-Mails = (0, _tsDecorate._)([
+Magasin = (0, _tsDecorate._)([
     (0, _core.customElement)({
-        name: "page-mails",
-        template: (0, _core.html)`${(mails)=>{
+        name: "page-magasin",
+        template: (0, _core.html)`${(magasin)=>{
             return (0, _core.html)`
         <main-application>
             <div slot>
-               <div class="mails">
-                  <h1>Mails</h1>
+               <div class="magasin">
+                  <h1>Magasin</h1>
                </div>
             </div>
         </main-application>
@@ -615,9 +615,9 @@ Mails = (0, _tsDecorate._)([
       `
         ]
     })
-], Mails);
-(0, _core.render)((0, _core.html)`<page-mails></page-mails>`, document.body);
+], Magasin);
+(0, _core.render)((0, _core.html)`<page-magasin></page-magasin>`, document.body);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["3q5Ed","2CSAb"], "2CSAb", "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../components":"HH6XE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["htMvr","g9gwX"], "g9gwX", "parcelRequire1c26")
 
-//# sourceMappingURL=index.4f6623eb.js.map
+//# sourceMappingURL=index.1607c0bf.js.map
