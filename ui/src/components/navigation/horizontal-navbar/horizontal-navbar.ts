@@ -88,6 +88,7 @@ import 'unofficial-pf-v5-wc-icons';
          display: flex;
          align-items: center;
          gap: 1em;
+         transition: all 0.3s ease;
 
          svg{
             fill: #e6e6ef;

@@ -664,6 +664,7 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         const moonsun = this.shadowRoot?.querySelectorAll(".moon-sun")[0];
         links.forEach((link)=>{
             link.classList.toggle("close");
+            link.parentElement.classList.toggle("close");
         });
         switchMode.classList.toggle("close");
         sidebar.classList.toggle("close");
@@ -676,6 +677,7 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         const moonsun = this.shadowRoot?.querySelectorAll(".moon-sun")[0];
         links.forEach((link)=>{
             link.classList.remove("close");
+            link.parentElement.classList.remove("close");
         });
         switchMode.classList.remove("close");
         sidebar.classList.remove("close");
@@ -817,11 +819,19 @@ VerticalNavBar = (0, _tsDecorate._)([
       #sidebar ul{
          overflow: hidden;
       }
-      #sidebar ul li.active a{
-         color: #5e63ff;
+      #sidebar ul li.active.close a{
+         background-color: #5e63ff
 
          svg{
-            fill: #5e63ff;
+            fill: #e6e6ef;
+         }
+      }
+      li.active.close {
+         background-color: #5e63ff;
+         border-radius: 10px;
+
+         svg{
+            fill: #e6e6ef;
          }
       }
       #sidebar a{
@@ -846,9 +856,18 @@ VerticalNavBar = (0, _tsDecorate._)([
       #sidebar a.close{
          width: 150px;
          overflow: hidden;
+         transition: all 0.3s ease;
 
          svg{
             fill: #e6e6ef;
+         }
+      }
+      li.close:hover{
+         background-color: #222533;
+         border-radius: 10px;
+
+         svg{
+            fill: #5e63ff;
          }
       }
       #switch-mode{
@@ -1137,6 +1156,7 @@ HorizontalNavBar = (0, _tsDecorate._)([
          display: flex;
          align-items: center;
          gap: 1em;
+         transition: all 0.3s ease;
 
          svg{
             fill: #e6e6ef;
