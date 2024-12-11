@@ -629,7 +629,6 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         else if (navbarState.horizontal_vertical_state === true) this.Expand();
     }
     handleCloseNavbars(event) {
-        console.log("handleCloseNavbars : signal re\xe7u", event.detail.horizontalstate, this.open, this.isOpen);
         // Fermer la navigation si elle est ouverte
         if (this.isOpen === true) {
             this.isOpen = false;
@@ -645,7 +644,6 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         }
     }
     handleOpenNavbars(event) {
-        console.log("handleOpenNavbars : signal re\xe7u", event.detail.horizontalstate, this.open);
         if (this.isOpen === false) {
             this.isOpen = true;
             this.open = "true";
@@ -948,14 +946,14 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
     }
     toggleButton() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        console.log("toggle", this.open, navbarState?.horizontal_vertical_state);
+        console.log("toggle", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
         // Si l'état isOpen est nul et la barre horizontale est fermée
         if (this.isOpen === null && navbarState?.horizontal_vertical_state === false) {
             console.log("if");
             this.isOpen = false;
             this.open = "false";
             this.closeEmitSignal(this.isOpen);
-            return; // Stoppe l'exécution de la fonction ici
+            return;
         }
         // Si l'état isOpen est nul et la barre horizontale est ouverte
         if (this.isOpen === null && navbarState?.horizontal_vertical_state === true) {
@@ -963,21 +961,35 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
             this.isOpen = true;
             this.open = "true";
             this.openEmitSignal(this.isOpen);
-            return; // Stoppe l'exécution de la fonction ici
+            return;
         }
-        // Si l'état open est nul mais isOpen est vrai
+        // Cas où isOpen et open sont null ou undefined, donc basculer l'état
+        if (this.open === null && this.isOpen === null) {
+            console.log("toggle", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
+            this.isOpen = !this.isOpen;
+            this.open = this.isOpen ? "true" : "false";
+            this.isOpen ? this.openEmitSignal(this.isOpen) : this.closeEmitSignal(this.isOpen);
+            return;
+        }
         if (this.open === null && this.isOpen === true) {
-            console.log("else --if", this.open, this.isOpen);
-            this.isOpen = true;
-            this.open = "true";
-            this.openEmitSignal(this.isOpen);
-            return; // Stoppe l'exécution de la fonction ici
+            console.log("synchronisation des \xe9tats, open est null et isOpen est true");
+            this.open = "true"; // Synchronise seulement, sans changer isOpen
+            this.openEmitSignal(this.isOpen); // Émet le signal d'ouverture
+            return;
         }
-        // Si aucune condition n'est remplie, inverser l'état et fermer
-        console.log("else", this.open, this.isOpen);
-        this.isOpen = false;
-        this.open = "false";
-        this.closeEmitSignal(this.isOpen);
+        // Si open et isOpen sont égaux à 'true', fermer la navigation
+        if (this.open === "true" && this.isOpen === true) {
+            console.log("fermeture navigation", this.open, this.isOpen);
+            this.isOpen = false;
+            this.open = "false";
+            this.closeEmitSignal(this.isOpen);
+            return;
+        }
+        // Sinon, ouvrir la navigation
+        console.log("ouverture navigation", this.open, this.isOpen);
+        this.isOpen = true;
+        this.open = "true";
+        this.openEmitSignal(this.isOpen);
     }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
@@ -1201,7 +1213,6 @@ class MainApplication extends (0, _core.WebComponent) {
         else if (navbarState.horizontal_vertical_state === true) this.Minimize();
     }
     handleRemoveExpanseContent(event) {
-        console.log("handleRemoveExpanseContent : signal re\xe7u", event.detail?.horizontalstate);
         if (event.detail?.horizontalstate === false) {
             this.isExpanse = false;
             this.expanse = "false";
@@ -1209,7 +1220,6 @@ class MainApplication extends (0, _core.WebComponent) {
         }
     }
     handleExpanseContent(event) {
-        console.log("handleExpanseContent : signal re\xe7u", event.detail?.horizontalstate);
         if (event.detail?.horizontalstate === true) {
             this.isExpanse = true;
             this.expanse = "true";

@@ -72,7 +72,6 @@ export class MainApplication extends WebComponent {
    }
 
    handleRemoveExpanseContent(event: CustomEvent) {
-      console.log("handleRemoveExpanseContent : signal reçu", event.detail?.horizontalstate);
 
       if(event.detail?.horizontalstate === false){
          this.isExpanse = false;
@@ -82,7 +81,6 @@ export class MainApplication extends WebComponent {
    }
 
    handleExpanseContent(event: CustomEvent) {
-      console.log("handleExpanseContent : signal reçu", event.detail?.horizontalstate);
 
       if(event.detail?.horizontalstate === true){
          this.isExpanse = true;

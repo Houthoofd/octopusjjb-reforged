@@ -249,7 +249,6 @@ export class VerticalNavBar extends WebComponent {
    }
    
    handleCloseNavbars(event: CustomEvent) {
-      console.log("handleCloseNavbars : signal reçu", event.detail.horizontalstate, this.open, this.isOpen);
       
       // Fermer la navigation si elle est ouverte
       if (this.isOpen === true) {
@@ -268,7 +267,6 @@ export class VerticalNavBar extends WebComponent {
    }
    
    handleOpenNavbars(event: CustomEvent) {
-      console.log("handleOpenNavbars : signal reçu", event.detail.horizontalstate, this.open);
    
       if (this.isOpen === false) {
          this.isOpen = true;
