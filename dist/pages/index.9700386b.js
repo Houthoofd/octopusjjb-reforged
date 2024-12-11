@@ -949,16 +949,35 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
     toggleButton() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
         console.log("toggle", this.open, navbarState?.horizontal_vertical_state);
-        // Vérifie si navbarState est défini et contient la propriété horizontal_vertical_state
-        if (navbarState && (this.isOpen === true || this.open === "true" && navbarState.horizontal_vertical_state === false)) {
+        // Si l'état isOpen est nul et la barre horizontale est fermée
+        if (this.isOpen === null && navbarState?.horizontal_vertical_state === false) {
+            console.log("if");
             this.isOpen = false;
             this.open = "false";
             this.closeEmitSignal(this.isOpen);
-        } else {
+            return; // Stoppe l'exécution de la fonction ici
+        }
+        // Si l'état isOpen est nul et la barre horizontale est ouverte
+        if (this.isOpen === null && navbarState?.horizontal_vertical_state === true) {
+            console.log("else if");
             this.isOpen = true;
             this.open = "true";
             this.openEmitSignal(this.isOpen);
+            return; // Stoppe l'exécution de la fonction ici
         }
+        // Si l'état open est nul mais isOpen est vrai
+        if (this.open === null && this.isOpen === true) {
+            console.log("else --if", this.open, this.isOpen);
+            this.isOpen = true;
+            this.open = "true";
+            this.openEmitSignal(this.isOpen);
+            return; // Stoppe l'exécution de la fonction ici
+        }
+        // Si aucune condition n'est remplie, inverser l'état et fermer
+        console.log("else", this.open, this.isOpen);
+        this.isOpen = false;
+        this.open = "false";
+        this.closeEmitSignal(this.isOpen);
     }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
