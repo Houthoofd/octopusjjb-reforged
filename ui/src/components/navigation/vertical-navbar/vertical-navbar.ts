@@ -217,6 +217,9 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
+      svg.light {
+         fill: red;
+      }
       `
    ]
 })
@@ -314,7 +317,14 @@ export class VerticalNavBar extends WebComponent {
    }
 
    switchMode(){
-      console.log("switch mode")
+      const sidebar = this.shadowRoot?.querySelectorAll('#sidebar')[0];
+      const links = this.shadowRoot?.querySelectorAll('a');
+   
+      links.forEach((link) => {
+         link.classList.remove('close')
+         link.parentElement.classList.remove('close');
+      });
+      sidebar.classList.remove('close');
    }
 }
 

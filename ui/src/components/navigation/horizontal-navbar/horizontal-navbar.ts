@@ -63,6 +63,9 @@ import 'unofficial-pf-v5-wc-icons';
          border-bottom: 1px solid #42434a;
          transition: all 0.3s ease;
       }
+      #sidebar.light{
+         background-color: #E4E9F7;
+      }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
       }
@@ -178,6 +181,22 @@ import 'unofficial-pf-v5-wc-icons';
       .sun-icon{
          opacity: 0;
       }
+      #right-sidebar li a svg.light {
+         fill: #9E9E9E;
+      }
+      #right-sidebar li a.light {
+         color: #9E9E9E;
+      }
+      #switch-mode.light {
+         background-color: #5e63ff;
+
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      .header-sidebar.light {
+         background-color: #E4E9F7;
+      }
       `
    ]
 })
@@ -259,9 +278,29 @@ export class HorizontalNavBar extends WebComponent{
       }
   }
   
-  switchMode(){
+  switchMode() {
+      const vertical = this.shadowRoot?.querySelector('#sidebar');
+      const links = this.shadowRoot?.querySelectorAll('a');
+      const svgs = this.shadowRoot?.querySelectorAll('svg');
+      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
+      const header = this.shadowRoot?.querySelectorAll('.header-sidebar')[0];
 
-  }
+      if (vertical) {
+         vertical.classList.toggle('light');
+      }
+
+      links.forEach((link) => {
+         link.classList.toggle('light');
+       
+         if(link.parentElement) {
+           link.parentElement.classList.toggle('light');
+         }
+      });
+      svgs.forEach((icon) => icon.classList.toggle('light'));
+      header.classList.toggle('light');
+      switchMode.classList.toggle('light')
+   }
+
 
    closeEmitSignal(state: boolean) {
    

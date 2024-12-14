@@ -681,7 +681,13 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     switchMode() {
-        console.log("switch mode");
+        const sidebar = this.shadowRoot?.querySelectorAll("#sidebar")[0];
+        const links = this.shadowRoot?.querySelectorAll("a");
+        links.forEach((link)=>{
+            link.classList.remove("close");
+            link.parentElement.classList.remove("close");
+        });
+        sidebar.classList.remove("close");
     }
     constructor(...args){
         super(...args);
@@ -910,6 +916,9 @@ VerticalNavBar = (0, _tsDecorate._)([
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
+      svg.light {
+         fill: red;
+      }
       `
         ]
     })
@@ -989,7 +998,21 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
             this.closeEmitSignal(this.isOpen);
         }
     }
-    switchMode() {}
+    switchMode() {
+        const vertical = this.shadowRoot?.querySelector("#sidebar");
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const svgs = this.shadowRoot?.querySelectorAll("svg");
+        const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
+        const header = this.shadowRoot?.querySelectorAll(".header-sidebar")[0];
+        if (vertical) vertical.classList.toggle("light");
+        links.forEach((link)=>{
+            link.classList.toggle("light");
+            if (link.parentElement) link.parentElement.classList.toggle("light");
+        });
+        svgs.forEach((icon)=>icon.classList.toggle("light"));
+        header.classList.toggle("light");
+        switchMode.classList.toggle("light");
+    }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
         const event = new CustomEvent("close-navbars", {
@@ -1110,6 +1133,9 @@ HorizontalNavBar = (0, _tsDecorate._)([
          border-bottom: 1px solid #42434a;
          transition: all 0.3s ease;
       }
+      #sidebar.light{
+         background-color: #E4E9F7;
+      }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
       }
@@ -1224,6 +1250,22 @@ HorizontalNavBar = (0, _tsDecorate._)([
       }
       .sun-icon{
          opacity: 0;
+      }
+      #right-sidebar li a svg.light {
+         fill: #9E9E9E;
+      }
+      #right-sidebar li a.light {
+         color: #9E9E9E;
+      }
+      #switch-mode.light {
+         background-color: #5e63ff;
+
+         svg{
+            fill: #e6e6ef;
+         }
+      }
+      .header-sidebar.light {
+         background-color: #E4E9F7;
       }
       `
         ]
