@@ -225,8 +225,11 @@ import 'unofficial-pf-v5-wc-icons';
 })
 export class VerticalNavBar extends WebComponent {
    @state() isOpen: boolean = true;
+   @state() isDark: boolean = true;
+
 
    @attr() open: "true" | "false" | null = null;
+   @attr() dark: "true" | "false" | null = null;
 
    connectedCallback() {
       super.connectedCallback();
@@ -238,8 +241,9 @@ export class VerticalNavBar extends WebComponent {
 
       // Écoute l'événement 'close-navbars' sur le document
       document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
-
       document.addEventListener('open-navbars', this.handleOpenNavbars.bind(this));
+      document.addEventListener('dark-mode', this.handleCloseNavbars.bind(this));
+      document.addEventListener('light-mode', this.handleOpenNavbars.bind(this));
    }
    onMounting() {
       const navbarState = JSON.parse(localStorage.getItem('navigation'));

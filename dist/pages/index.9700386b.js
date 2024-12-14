@@ -622,6 +622,8 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         // Écoute l'événement 'close-navbars' sur le document
         document.addEventListener("close-navbars", this.handleCloseNavbars.bind(this));
         document.addEventListener("open-navbars", this.handleOpenNavbars.bind(this));
+        document.addEventListener("dark-mode", this.handleCloseNavbars.bind(this));
+        document.addEventListener("light-mode", this.handleOpenNavbars.bind(this));
     }
     onMounting() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
@@ -692,15 +694,23 @@ class VerticalNavBar extends (0, _core.WebComponent) {
     constructor(...args){
         super(...args);
         this.isOpen = true;
+        this.isDark = true;
         this.open = null;
+        this.dark = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
 ], VerticalNavBar.prototype, "isOpen", void 0);
 (0, _tsDecorate._)([
+    (0, _core.state)()
+], VerticalNavBar.prototype, "isDark", void 0);
+(0, _tsDecorate._)([
     (0, _core.attr)()
 ], VerticalNavBar.prototype, "open", void 0);
+(0, _tsDecorate._)([
+    (0, _core.attr)()
+], VerticalNavBar.prototype, "dark", void 0);
 VerticalNavBar = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "vertical-navbar",
@@ -1013,6 +1023,14 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         header.classList.toggle("light");
         switchMode.classList.toggle("light");
     }
+    emitCustomEvent(customEvent, detail = {}) {
+        const event = new CustomEvent(customEvent, {
+            bubbles: true,
+            composed: true,
+            detail: detail
+        });
+        this.dispatchEvent(event);
+    }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
         const event = new CustomEvent("close-navbars", {
@@ -1063,15 +1081,23 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
     constructor(...args){
         super(...args);
         this.isOpen = true;
+        this.isDark = true;
         this.open = null;
+        this.dark = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
 ], HorizontalNavBar.prototype, "isOpen", void 0);
 (0, _tsDecorate._)([
+    (0, _core.state)()
+], HorizontalNavBar.prototype, "isDark", void 0);
+(0, _tsDecorate._)([
     (0, _core.attr)()
 ], HorizontalNavBar.prototype, "open", void 0);
+(0, _tsDecorate._)([
+    (0, _core.attr)()
+], HorizontalNavBar.prototype, "dark", void 0);
 HorizontalNavBar = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "horizontal-navbar",

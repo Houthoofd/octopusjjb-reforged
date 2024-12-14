@@ -202,8 +202,11 @@ import 'unofficial-pf-v5-wc-icons';
 })
 export class HorizontalNavBar extends WebComponent{
    @state() isOpen: boolean = true;
+   @state() isDark: boolean = true;
+
 
    @attr() open: "true" | "false" | null = null;
+   @attr() dark: "true" | "false" | null = null;
 
    connectedCallback() {
       super.connectedCallback();
@@ -300,6 +303,17 @@ export class HorizontalNavBar extends WebComponent{
       header.classList.toggle('light');
       switchMode.classList.toggle('light')
    }
+
+   emitCustomEvent(customEvent: string, detail: object = {}) {
+      const event = new CustomEvent(customEvent, {
+          bubbles: true,
+          composed: true,
+          detail: detail
+      });
+  
+      this.dispatchEvent(event);
+   }
+  
 
 
    closeEmitSignal(state: boolean) {
