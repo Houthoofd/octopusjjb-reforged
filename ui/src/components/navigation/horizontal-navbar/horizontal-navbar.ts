@@ -64,7 +64,7 @@ import 'unofficial-pf-v5-wc-icons';
          transition: all 0.3s ease;
       }
       #sidebar.light{
-         background-color: #E4E9F7;
+         background-color: #ffffff;
       }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
@@ -182,10 +182,10 @@ import 'unofficial-pf-v5-wc-icons';
          opacity: 0;
       }
       #right-sidebar li a svg.light {
-         fill: #9E9E9E;
+         fill: #82828f;
       }
       #right-sidebar li a.light {
-         color: #9E9E9E;
+         color: #82828f;
       }
       #switch-mode.light {
          background-color: #5e63ff;
@@ -195,7 +195,7 @@ import 'unofficial-pf-v5-wc-icons';
          }
       }
       .header-sidebar.light {
-         background-color: #E4E9F7;
+         background-color: #ffffff
       }
       `
    ]
@@ -217,18 +217,18 @@ export class HorizontalNavBar extends WebComponent{
    }
 
    onMounting() {
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      const navigation = JSON.parse(localStorage.getItem('navigation'));
       
-      if(navbarState.horizontal_vertical_state === false){
+      if(navigation.horizontal_vertical_state === false){
          this.Minimize();
-      }else if(navbarState.horizontal_vertical_state === true){
+      }else if(navigation.horizontal_vertical_state === true){
          this.Expand();
       }
    }
 
    toggleButton() {
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
-      console.log("toggle initial", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
+      const navigation = JSON.parse(localStorage.getItem('navigation'));
+      console.log("toggle initial", this.open, navigation?.horizontal_vertical_state, this.isOpen);
   
       // Cas où open est null et isOpen est true (Initialisation avec état synchronisé)
       if (this.open === null && this.isOpen === true) {
@@ -281,7 +281,29 @@ export class HorizontalNavBar extends WebComponent{
       }
   }
   
-  switchMode() {
+   switchMode() {
+      console.log(this.isDark)
+      if(this.isDark === true){
+         this.isDark = false;
+         this.emitCustomEvent('light-mode',{message: 'light mode', dark_mode: this.isDark});
+         this.lightMode();
+      }else{
+         this.isDark = true;
+         this.emitCustomEvent('dark-mode',{message: 'dark mode', dark_mode: this.isDark});
+         this.darkMode();
+      }
+   }
+
+   emitCustomEvent(customEvent: string, detail: object = {}) {
+      const event = new CustomEvent(customEvent, {
+          bubbles: true,
+          composed: true,
+          detail: detail
+      });
+      this.dispatchEvent(event);
+   }
+
+   lightMode(){
       const vertical = this.shadowRoot?.querySelector('#sidebar');
       const links = this.shadowRoot?.querySelectorAll('a');
       const svgs = this.shadowRoot?.querySelectorAll('svg');
@@ -303,15 +325,27 @@ export class HorizontalNavBar extends WebComponent{
       header.classList.toggle('light');
       switchMode.classList.toggle('light')
    }
+   darkMode(){
+      const vertical = this.shadowRoot?.querySelector('#sidebar');
+      const links = this.shadowRoot?.querySelectorAll('a');
+      const svgs = this.shadowRoot?.querySelectorAll('svg');
+      const switchMode = this.shadowRoot?.querySelectorAll('#switch-mode')[0];
+      const header = this.shadowRoot?.querySelectorAll('.header-sidebar')[0];
 
-   emitCustomEvent(customEvent: string, detail: object = {}) {
-      const event = new CustomEvent(customEvent, {
-          bubbles: true,
-          composed: true,
-          detail: detail
+      if (vertical) {
+         vertical.classList.remove('light');
+      }
+
+      links.forEach((link) => {
+         link.classList.remove('light');
+       
+         if(link.parentElement) {
+           link.parentElement.classList.remove('light');
+         }
       });
-  
-      this.dispatchEvent(event);
+      svgs.forEach((icon) => icon.classList.remove('light'));
+      header.classList.remove('light');
+      switchMode.classList.remove('light')
    }
   
 
@@ -361,8 +395,10 @@ export class HorizontalNavBar extends WebComponent{
    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
       
       if (name === 'isopen') {
-         // Assigner directement la valeur de newValue à this.open
          this.open = newValue as any;
+      }
+      if (name === 'isdark') {
+         this.dark = newValue as any;
       }
    
       super.attributeChangedCallback(name, oldValue, newValue);

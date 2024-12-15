@@ -622,15 +622,52 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         // Écoute l'événement 'close-navbars' sur le document
         document.addEventListener("close-navbars", this.handleCloseNavbars.bind(this));
         document.addEventListener("open-navbars", this.handleOpenNavbars.bind(this));
-        document.addEventListener("dark-mode", this.handleCloseNavbars.bind(this));
-        document.addEventListener("light-mode", this.handleOpenNavbars.bind(this));
+        document.addEventListener("dark-mode", this.handleMode.bind(this));
+        document.addEventListener("light-mode", this.handleMode.bind(this));
     }
     onMounting() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
         if (navbarState.horizontal_vertical_state === false) this.Minimize();
         else if (navbarState.horizontal_vertical_state === true) this.Expand();
     }
+    handleMode(event) {
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        if (event.detail.dark_mode === true && this.isDark === false) {
+            this.isDark = true;
+            this.darkMode();
+            navigation.dark_mode = this.isDark;
+            localStorage.setItem("navigation", JSON.stringify(navigation));
+        } else if (event.detail.dark_mode === false && this.isDark === true) {
+            this.isDark = false;
+            this.lightMode();
+            navigation.dark_mode = this.isDark;
+            localStorage.setItem("navigation", JSON.stringify(navigation));
+        }
+    }
+    darkMode() {
+        const vertical = this.shadowRoot?.querySelector("#sidebar");
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const svgs = this.shadowRoot?.querySelectorAll("svg");
+        if (vertical) vertical.classList.remove("light");
+        links.forEach((link)=>{
+            link.classList.remove("light");
+            if (link.parentElement) link.parentElement.classList.remove("light");
+        });
+        svgs.forEach((icon)=>icon.classList.remove("light"));
+    }
+    lightMode() {
+        const vertical = this.shadowRoot?.querySelector("#sidebar");
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const svgs = this.shadowRoot?.querySelectorAll("svg");
+        if (vertical) vertical.classList.toggle("light");
+        links.forEach((link)=>{
+            link.classList.toggle("light");
+            if (link.parentElement) link.parentElement.classList.toggle("light");
+        });
+        svgs.forEach((icon)=>icon.classList.toggle("light"));
+    }
     handleCloseNavbars(event) {
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
         // Fermer la navigation si elle est ouverte
         if (this.isOpen === true) {
             this.isOpen = false;
@@ -638,25 +675,22 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === false && this.isOpen === false) {
-            const navigation = {
-                horizontal_vertical_state: this.isOpen
-            };
-            this.Minimize();
+            navigation.horizontal_vertical_state = this.isOpen;
             localStorage.setItem("navigation", JSON.stringify(navigation));
+            this.Minimize();
         }
     }
     handleOpenNavbars(event) {
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
         if (this.isOpen === false) {
             this.isOpen = true;
             this.open = "true";
         }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === true && this.isOpen === true) {
-            const navigation = {
-                horizontal_vertical_state: this.isOpen
-            };
-            this.Expand();
+            navigation.horizontal_vertical_state = this.isOpen;
             localStorage.setItem("navigation", JSON.stringify(navigation));
+            this.Expand();
         }
     }
     Minimize() {
@@ -796,6 +830,10 @@ VerticalNavBar = (0, _tsDecorate._)([
          justify-content: center;
          transition: all 0.3s ease;
       }
+      #sidebar.light{
+         background-color: #ffffff;
+         color: #82828f;
+      }
       #sidebar.close{
          width: 84px;
       }
@@ -926,8 +964,29 @@ VerticalNavBar = (0, _tsDecorate._)([
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      svg.light {
-         fill: red;
+      #right-sidebar ul li.light a svg.light {
+         fill: #82828f;
+      }
+      #right-sidebar ul li.light{
+         color: #82828f;
+
+         svg{
+            fill: #82828f;
+         }
+      }
+      #right-sidebar > ul > li.light > a{
+         color: #82828f;
+
+      }
+      #right-sidebar > ul > li.light {
+         color: #82828f;
+      }
+      #sidebar ul li.light a {
+         color: #82828f;
+
+         > svg{
+            fill: #82828f;
+         }
       }
       `
         ]
@@ -956,13 +1015,13 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         this.onMounting();
     }
     onMounting() {
-        const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        if (navbarState.horizontal_vertical_state === false) this.Minimize();
-        else if (navbarState.horizontal_vertical_state === true) this.Expand();
+        const navigation = JSON.parse(localStorage.getItem("navigation"));
+        if (navigation.horizontal_vertical_state === false) this.Minimize();
+        else if (navigation.horizontal_vertical_state === true) this.Expand();
     }
     toggleButton() {
-        const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        console.log("toggle initial", this.open, navbarState?.horizontal_vertical_state, this.isOpen);
+        const navigation = JSON.parse(localStorage.getItem("navigation"));
+        console.log("toggle initial", this.open, navigation?.horizontal_vertical_state, this.isOpen);
         // Cas où open est null et isOpen est true (Initialisation avec état synchronisé)
         if (this.open === null && this.isOpen === true) {
             console.log("Synchronisation initiale : open est null et isOpen est true");
@@ -1009,6 +1068,32 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         }
     }
     switchMode() {
+        console.log(this.isDark);
+        if (this.isDark === true) {
+            this.isDark = false;
+            this.emitCustomEvent("light-mode", {
+                message: "light mode",
+                dark_mode: this.isDark
+            });
+            this.lightMode();
+        } else {
+            this.isDark = true;
+            this.emitCustomEvent("dark-mode", {
+                message: "dark mode",
+                dark_mode: this.isDark
+            });
+            this.darkMode();
+        }
+    }
+    emitCustomEvent(customEvent, detail = {}) {
+        const event = new CustomEvent(customEvent, {
+            bubbles: true,
+            composed: true,
+            detail: detail
+        });
+        this.dispatchEvent(event);
+    }
+    lightMode() {
         const vertical = this.shadowRoot?.querySelector("#sidebar");
         const links = this.shadowRoot?.querySelectorAll("a");
         const svgs = this.shadowRoot?.querySelectorAll("svg");
@@ -1023,13 +1108,20 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         header.classList.toggle("light");
         switchMode.classList.toggle("light");
     }
-    emitCustomEvent(customEvent, detail = {}) {
-        const event = new CustomEvent(customEvent, {
-            bubbles: true,
-            composed: true,
-            detail: detail
+    darkMode() {
+        const vertical = this.shadowRoot?.querySelector("#sidebar");
+        const links = this.shadowRoot?.querySelectorAll("a");
+        const svgs = this.shadowRoot?.querySelectorAll("svg");
+        const switchMode = this.shadowRoot?.querySelectorAll("#switch-mode")[0];
+        const header = this.shadowRoot?.querySelectorAll(".header-sidebar")[0];
+        if (vertical) vertical.classList.remove("light");
+        links.forEach((link)=>{
+            link.classList.remove("light");
+            if (link.parentElement) link.parentElement.classList.remove("light");
         });
-        this.dispatchEvent(event);
+        svgs.forEach((icon)=>icon.classList.remove("light"));
+        header.classList.remove("light");
+        switchMode.classList.remove("light");
     }
     closeEmitSignal(state) {
         // Émettre un événement personnalisé pour notifier qu'il faut manipuler les navbars à l'extérieur
@@ -1074,8 +1166,8 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         sidebar.classList.remove("close");
     }
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "isopen") // Assigner directement la valeur de newValue à this.open
-        this.open = newValue;
+        if (name === "isopen") this.open = newValue;
+        if (name === "isdark") this.dark = newValue;
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
@@ -1160,7 +1252,7 @@ HorizontalNavBar = (0, _tsDecorate._)([
          transition: all 0.3s ease;
       }
       #sidebar.light{
-         background-color: #E4E9F7;
+         background-color: #ffffff;
       }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
@@ -1278,10 +1370,10 @@ HorizontalNavBar = (0, _tsDecorate._)([
          opacity: 0;
       }
       #right-sidebar li a svg.light {
-         fill: #9E9E9E;
+         fill: #82828f;
       }
       #right-sidebar li a.light {
-         color: #9E9E9E;
+         color: #82828f;
       }
       #switch-mode.light {
          background-color: #5e63ff;
@@ -1291,7 +1383,7 @@ HorizontalNavBar = (0, _tsDecorate._)([
          }
       }
       .header-sidebar.light {
-         background-color: #E4E9F7;
+         background-color: #ffffff
       }
       `
         ]
@@ -1322,11 +1414,26 @@ class MainApplication extends (0, _core.WebComponent) {
         // Écoute l'événement 'close-navbars' et 'open-navbars' sur le document
         document.addEventListener("close-navbars", this.handleRemoveExpanseContent.bind(this));
         document.addEventListener("open-navbars", this.handleExpanseContent.bind(this));
+        document.addEventListener("dark-mode", this.handleMode.bind(this));
+        document.addEventListener("light-mode", this.handleMode.bind(this));
     }
     onMounting() {
         const navbarState = JSON.parse(localStorage.getItem("navigation"));
         if (navbarState.horizontal_vertical_state === false) this.Expand();
         else if (navbarState.horizontal_vertical_state === true) this.Minimize();
+    }
+    handleMode(event) {
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        if (event.detail.dark_mode === true && this.isDark === false) this.darkMode();
+        else if (event.detail.dark_mode === false && this.isDark === true) this.lightMode();
+    }
+    darkMode() {
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        rightContent.classList.remove("expand");
+    }
+    lightMode() {
+        const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
+        rightContent.classList.toggle("light");
     }
     handleRemoveExpanseContent(event) {
         if (event.detail?.horizontalstate === false) {
@@ -1356,16 +1463,24 @@ class MainApplication extends (0, _core.WebComponent) {
     }
     constructor(...args){
         super(...args);
-        this.isExpanse = true;
-        this.expanse = null;
+        this.isOpen = true;
+        this.isDark = true;
+        this.open = null;
+        this.dark = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
-], MainApplication.prototype, "isExpanse", void 0);
+], MainApplication.prototype, "isOpen", void 0);
+(0, _tsDecorate._)([
+    (0, _core.state)()
+], MainApplication.prototype, "isDark", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
-], MainApplication.prototype, "expanse", void 0);
+], MainApplication.prototype, "open", void 0);
+(0, _tsDecorate._)([
+    (0, _core.attr)()
+], MainApplication.prototype, "dark", void 0);
 MainApplication = (0, _tsDecorate._)([
     (0, _core.customElement)({
         name: "main-application",
@@ -1404,6 +1519,12 @@ MainApplication = (0, _tsDecorate._)([
       }
       .right-content.expand{
          grid-template-columns: 84px 1fr;
+      }
+      .right-content.expand.light {
+         background-color: #ffffff;
+      }
+      .right-content.light {
+         background-color: #ffffff;
       }
       `
         ]

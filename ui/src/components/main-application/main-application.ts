@@ -42,13 +42,22 @@ import '../navigation';
       .right-content.expand{
          grid-template-columns: 84px 1fr;
       }
+      .right-content.expand.light {
+         background-color: #ffffff;
+      }
+      .right-content.light {
+         background-color: #ffffff;
+      }
       `
    ]
 })
 export class MainApplication extends WebComponent {
-   @state() isExpanse: boolean = true;
+   @state() isOpen: boolean = true;
+   @state() isDark: boolean = true;
 
-   @attr() expanse: "true" | "false" | null = null;
+
+   @attr() open: "true" | "false" | null = null;
+   @attr() dark: "true" | "false" | null = null;
 
    connectedCallback() {
       super.connectedCallback();
@@ -59,6 +68,8 @@ export class MainApplication extends WebComponent {
       // Écoute l'événement 'close-navbars' et 'open-navbars' sur le document
       document.addEventListener('close-navbars', this.handleRemoveExpanseContent.bind(this));
       document.addEventListener('open-navbars', this.handleExpanseContent.bind(this));
+      document.addEventListener('dark-mode', this.handleMode.bind(this));
+      document.addEventListener('light-mode', this.handleMode.bind(this));
    }
 
    onMounting() {
@@ -69,6 +80,29 @@ export class MainApplication extends WebComponent {
       }else if(navbarState.horizontal_vertical_state === true){
          this.Minimize();
       }
+   }
+
+   handleMode(event: CustomEvent) {
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
+  
+      if(event.detail.dark_mode === true && this.isDark === false) {
+         this.darkMode();
+      } 
+      else if(event.detail.dark_mode === false && this.isDark === true) {
+         this.lightMode();
+      }
+   }
+
+   darkMode(){
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+
+      rightContent.classList.remove('expand');
+   }
+   lightMode(){
+
+      const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
+
+      rightContent.classList.toggle('light');
    }
 
    handleRemoveExpanseContent(event: CustomEvent) {

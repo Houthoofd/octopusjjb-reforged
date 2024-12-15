@@ -87,6 +87,10 @@ import 'unofficial-pf-v5-wc-icons';
          justify-content: center;
          transition: all 0.3s ease;
       }
+      #sidebar.light{
+         background-color: #ffffff;
+         color: #82828f;
+      }
       #sidebar.close{
          width: 84px;
       }
@@ -217,8 +221,29 @@ import 'unofficial-pf-v5-wc-icons';
          transform: translateX(3px) translateY(3px);
          cursor: pointer;
       }
-      svg.light {
-         fill: red;
+      #right-sidebar ul li.light a svg.light {
+         fill: #82828f;
+      }
+      #right-sidebar ul li.light{
+         color: #82828f;
+
+         svg{
+            fill: #82828f;
+         }
+      }
+      #right-sidebar > ul > li.light > a{
+         color: #82828f;
+
+      }
+      #right-sidebar > ul > li.light {
+         color: #82828f;
+      }
+      #sidebar ul li.light a {
+         color: #82828f;
+
+         > svg{
+            fill: #82828f;
+         }
       }
       `
    ]
@@ -242,8 +267,8 @@ export class VerticalNavBar extends WebComponent {
       // Écoute l'événement 'close-navbars' sur le document
       document.addEventListener('close-navbars', this.handleCloseNavbars.bind(this));
       document.addEventListener('open-navbars', this.handleOpenNavbars.bind(this));
-      document.addEventListener('dark-mode', this.handleCloseNavbars.bind(this));
-      document.addEventListener('light-mode', this.handleOpenNavbars.bind(this));
+      document.addEventListener('dark-mode', this.handleMode.bind(this));
+      document.addEventListener('light-mode', this.handleMode.bind(this));
    }
    onMounting() {
       const navbarState = JSON.parse(localStorage.getItem('navigation'));
@@ -254,8 +279,67 @@ export class VerticalNavBar extends WebComponent {
          this.Expand();
       }
    }
+   handleMode(event: CustomEvent) {
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
+  
+      if(event.detail.dark_mode === true && this.isDark === false) {
+          this.isDark = true;
+          this.darkMode();
+  
+         navigation.dark_mode = this.isDark;
+  
+         localStorage.setItem('navigation', JSON.stringify(navigation));
+      } 
+      else if(event.detail.dark_mode === false && this.isDark === true) {
+          this.isDark = false;
+          this.lightMode();
+         navigation.dark_mode = this.isDark;
+  
+         
+         localStorage.setItem('navigation', JSON.stringify(navigation));
+      }
+   }
+  
+  
+   darkMode(){
+      const vertical = this.shadowRoot?.querySelector('#sidebar');
+      const links = this.shadowRoot?.querySelectorAll('a');
+      const svgs = this.shadowRoot?.querySelectorAll('svg');
+
+      if (vertical) {
+         vertical.classList.remove('light');
+      }
+
+      links.forEach((link) => {
+         link.classList.remove('light');
+       
+         if(link.parentElement) {
+           link.parentElement.classList.remove('light');
+         }
+      });
+      svgs.forEach((icon) => icon.classList.remove('light'));
+   }
+   lightMode(){
+      const vertical = this.shadowRoot?.querySelector('#sidebar');
+      const links = this.shadowRoot?.querySelectorAll('a');
+      const svgs = this.shadowRoot?.querySelectorAll('svg');
+
+      if (vertical) {
+         vertical.classList.toggle('light');
+      }
+
+      links.forEach((link) => {
+         link.classList.toggle('light');
+       
+         if(link.parentElement) {
+           link.parentElement.classList.toggle('light');
+         }
+      });
+      svgs.forEach((icon) => icon.classList.toggle('light'));
+   }
    
    handleCloseNavbars(event: CustomEvent) {
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
       
       // Fermer la navigation si elle est ouverte
       if (this.isOpen === true) {
@@ -265,15 +349,15 @@ export class VerticalNavBar extends WebComponent {
       
       // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
       if ((event.detail.horizontalstate === false) && (this.isOpen === false)) {
-         const navigation = {
-            horizontal_vertical_state: this.isOpen
-         };
-         this.Minimize();
+         navigation.horizontal_vertical_state = this.isOpen;
+         
          localStorage.setItem('navigation', JSON.stringify(navigation));
+         this.Minimize();
       }
    }
    
    handleOpenNavbars(event: CustomEvent) {
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
    
       if (this.isOpen === false) {
          this.isOpen = true;
@@ -282,11 +366,10 @@ export class VerticalNavBar extends WebComponent {
       
       // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
       if ((event.detail.horizontalstate === true) && (this.isOpen === true)) {
-         const navigation = {
-            horizontal_vertical_state: this.isOpen
-         };
-         this.Expand();
+         navigation.horizontal_vertical_state = this.isOpen;
+         
          localStorage.setItem('navigation', JSON.stringify(navigation));
+         this.Expand();
       }
    }
    Minimize() {
