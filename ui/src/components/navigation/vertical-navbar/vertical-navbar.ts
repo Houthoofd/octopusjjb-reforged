@@ -89,7 +89,7 @@ import 'unofficial-pf-v5-wc-icons';
       }
       #sidebar.light{
          background-color: #ffffff;
-         color: #82828f;
+         border-right: 1px solid #e6e6ef;
       }
       #sidebar.close{
          width: 84px;
@@ -271,14 +271,31 @@ export class VerticalNavBar extends WebComponent {
       document.addEventListener('light-mode', this.handleMode.bind(this));
    }
    onMounting() {
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
-      
-      if(navbarState.horizontal_vertical_state === false){
-         this.Minimize();
-      }else if(navbarState.horizontal_vertical_state === true){
-         this.Expand();
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
+      console.log("vertical navbar" + navigation.horizontal_vertical_open)
+      // Gestion de l'état horizontal_vertical_state
+      if (typeof navigation.horizontal_vertical_open !== 'undefined') {
+          if (navigation.horizontal_vertical_open === false) {
+              this.Expand();
+          } else if (navigation.horizontal_vertical_open === true) {
+              this.Minimize();
+          }
+      } else {
+          console.log("Aucun état horizontal/vertical trouvé, utilisation de l'état par défaut.");
       }
-   }
+  
+      // Gestion du mode sombre
+      if (typeof navigation.dark_mode !== 'undefined') {
+          if (navigation.dark_mode === false) {
+              this.lightMode();
+          } else if (navigation.dark_mode === true) {
+              this.darkMode();
+          }
+      } else {
+          console.log("Aucun état de mode sombre trouvé, utilisation de l'état par défaut.");
+      }
+  }
+  
    handleMode(event: CustomEvent) {
       const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
   
@@ -349,7 +366,7 @@ export class VerticalNavBar extends WebComponent {
       
       // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
       if ((event.detail.horizontalstate === false) && (this.isOpen === false)) {
-         navigation.horizontal_vertical_state = this.isOpen;
+         navigation.horizontal_vertical_open = this.isOpen;
          
          localStorage.setItem('navigation', JSON.stringify(navigation));
          this.Minimize();
@@ -366,7 +383,7 @@ export class VerticalNavBar extends WebComponent {
       
       // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
       if ((event.detail.horizontalstate === true) && (this.isOpen === true)) {
-         navigation.horizontal_vertical_state = this.isOpen;
+         navigation.horizontal_vertical_open = this.isOpen;
          
          localStorage.setItem('navigation', JSON.stringify(navigation));
          this.Expand();

@@ -626,9 +626,18 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         document.addEventListener("light-mode", this.handleMode.bind(this));
     }
     onMounting() {
-        const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        if (navbarState.horizontal_vertical_state === false) this.Minimize();
-        else if (navbarState.horizontal_vertical_state === true) this.Expand();
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        console.log("vertical navbar" + navigation.horizontal_vertical_open);
+        // Gestion de l'état horizontal_vertical_state
+        if (typeof navigation.horizontal_vertical_open !== "undefined") {
+            if (navigation.horizontal_vertical_open === false) this.Expand();
+            else if (navigation.horizontal_vertical_open === true) this.Minimize();
+        } else console.log("Aucun \xe9tat horizontal/vertical trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
+        // Gestion du mode sombre
+        if (typeof navigation.dark_mode !== "undefined") {
+            if (navigation.dark_mode === false) this.lightMode();
+            else if (navigation.dark_mode === true) this.darkMode();
+        } else console.log("Aucun \xe9tat de mode sombre trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
     }
     handleMode(event) {
         const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
@@ -675,7 +684,7 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === false && this.isOpen === false) {
-            navigation.horizontal_vertical_state = this.isOpen;
+            navigation.horizontal_vertical_open = this.isOpen;
             localStorage.setItem("navigation", JSON.stringify(navigation));
             this.Minimize();
         }
@@ -688,7 +697,7 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         }
         // Sauvegarder l'état de la navigation seulement si la barre horizontale est active et la verticale ouverte
         if (event.detail.horizontalstate === true && this.isOpen === true) {
-            navigation.horizontal_vertical_state = this.isOpen;
+            navigation.horizontal_vertical_open = this.isOpen;
             localStorage.setItem("navigation", JSON.stringify(navigation));
             this.Expand();
         }
@@ -832,7 +841,7 @@ VerticalNavBar = (0, _tsDecorate._)([
       }
       #sidebar.light{
          background-color: #ffffff;
-         color: #82828f;
+         border-right: 1px solid #e6e6ef;
       }
       #sidebar.close{
          width: 84px;
@@ -1015,57 +1024,43 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         this.onMounting();
     }
     onMounting() {
-        const navigation = JSON.parse(localStorage.getItem("navigation"));
-        if (navigation.horizontal_vertical_state === false) this.Minimize();
-        else if (navigation.horizontal_vertical_state === true) this.Expand();
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        console.log("horizontal navbar" + navigation.horizontal_vertical_open);
+        // Gestion de l'état horizontal_vertical_state
+        if (typeof navigation.horizontal_vertical_open !== "undefined") {
+            if (navigation.horizontal_vertical_open === false) this.Expand();
+            else if (navigation.horizontal_vertical_open === true) this.Minimize();
+        } else console.log("Aucun \xe9tat horizontal/vertical trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
+        // Gestion du mode sombre
+        if (typeof navigation.dark_mode !== "undefined") {
+            if (navigation.dark_mode === false) this.lightMode();
+            else if (navigation.dark_mode === true) this.darkMode();
+        } else console.log("Aucun \xe9tat de mode sombre trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
     }
     toggleButton() {
-        const navigation = JSON.parse(localStorage.getItem("navigation"));
-        console.log("toggle initial", this.open, navigation?.horizontal_vertical_state, this.isOpen);
-        // Cas où open est null et isOpen est true (Initialisation avec état synchronisé)
-        if (this.open === null && this.isOpen === true) {
-            console.log("Synchronisation initiale : open est null et isOpen est true");
-            this.open = "true"; // Synchronisation de l'état 'open'
-            this.isOpen = true; // Assurez-vous que isOpen est aussi 'true'
-            this.openEmitSignal(this.isOpen); // Emission du signal pour signaler l'ouverture
-            return;
+        // Récupérer l'état actuel du localStorage
+        let navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        // Initialisation des états si nécessaire
+        if (this.open === null) {
+            // Initialisation basée sur horizontal_vertical_open dans le localStorage
+            this.isOpen = navigation.horizontal_vertical_open === true;
+            this.open = this.isOpen ? "true" : "false";
         }
-        // Cas où open est null et isOpen est false (Initialisation avec état synchronisé)
-        if (this.open === null && this.isOpen === false) {
-            console.log("Synchronisation initiale : open est null et isOpen est false");
-            this.open = "false"; // Synchronisation de l'état 'open'
-            this.isOpen = false; // Assurez-vous que isOpen est aussi 'false'
-            this.closeEmitSignal(this.isOpen); // Emission du signal pour signaler la fermeture
-            return;
-        }
-        // Cas où open est 'true' et isOpen est true (Fermeture de la navigation)
-        if (this.open === "true" && this.isOpen === true) {
-            console.log("Fermeture de la navigation");
-            this.isOpen = false;
-            this.open = "false";
-            this.closeEmitSignal(this.isOpen); // Fermeture de la navigation
-            return;
-        }
-        // Cas où open est 'false' et isOpen est false (Ouverture de la navigation)
-        if (this.open === "false" && this.isOpen === false) {
-            console.log("Ouverture de la navigation");
-            this.isOpen = true;
-            this.open = "true";
-            this.openEmitSignal(this.isOpen); // Ouverture de la navigation
-            return;
-        }
-        // Cas par défaut : quand open et isOpen ne sont ni 'true' ni 'false', basculer l'état
-        console.log("Basculer l'\xe9tat : toggle");
-        this.isOpen = !this.isOpen; // Inverser l'état de isOpen
-        this.open = this.isOpen ? "true" : "false"; // Synchroniser open avec isOpen
+        // Basculer l'état de isOpen et open
+        this.isOpen = !this.isOpen;
+        this.open = this.isOpen ? "true" : "false";
+        // Mise à jour de l'état dans l'objet navigation
+        navigation.horizontal_vertical_open = this.isOpen;
         // Après le basculement, envoyer le signal approprié
         if (this.isOpen) {
-            console.log("Ouverture de la navigation apr\xe8s basculement");
+            console.log("Ouverture de la navigation");
             this.openEmitSignal(this.isOpen);
         } else {
-            console.log("Fermeture de la navigation apr\xe8s basculement");
+            console.log("Fermeture de la navigation");
             this.closeEmitSignal(this.isOpen);
         }
+        // Mise à jour du localStorage avec l'état modifié
+        localStorage.setItem("navigation", JSON.stringify(navigation));
     }
     switchMode() {
         console.log(this.isDark);
@@ -1134,7 +1129,6 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
             }
         });
         this.Minimize();
-        console.log(event);
         // Dispatch l'événement depuis le composant
         this.dispatchEvent(event);
     }
@@ -1149,7 +1143,6 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
             }
         });
         this.Expand();
-        console.log(event);
         // Dispatch l'événement depuis le composant
         this.dispatchEvent(event);
     }
@@ -1253,6 +1246,7 @@ HorizontalNavBar = (0, _tsDecorate._)([
       }
       #sidebar.light{
          background-color: #ffffff;
+         border-bottom: 1px solid #e6e6ef;
       }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
@@ -1264,6 +1258,10 @@ HorizontalNavBar = (0, _tsDecorate._)([
          align-items: center;
          display: flex;
          background-color: #222533;
+      }
+      .header-sidebar.light {
+         background-color: #ffffff;
+         border-right: 1px solid;
       }
       .header-sidebar li{
          list-style: none;
@@ -1418,18 +1416,39 @@ class MainApplication extends (0, _core.WebComponent) {
         document.addEventListener("light-mode", this.handleMode.bind(this));
     }
     onMounting() {
-        const navbarState = JSON.parse(localStorage.getItem("navigation"));
-        if (navbarState.horizontal_vertical_state === false) this.Expand();
-        else if (navbarState.horizontal_vertical_state === true) this.Minimize();
+        const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
+        // Gestion de l'état horizontal_vertical_state
+        if (typeof navigation.horizontal_vertical_open !== "undefined") {
+            if (navigation.horizontal_vertical_open === false) this.Expand();
+            else if (navigation.horizontal_vertical_open === true) this.Minimize();
+        } else console.log("Aucun \xe9tat horizontal/vertical trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
+        // Gestion du mode sombre
+        if (typeof navigation.dark_mode !== "undefined") {
+            if (navigation.dark_mode === false) this.lightMode();
+            else if (navigation.dark_mode === true) this.darkMode();
+        } else console.log("Aucun \xe9tat de mode sombre trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
     }
     handleMode(event) {
+        // Récupérer l'état actuel du localStorage
         const navigation = JSON.parse(localStorage.getItem("navigation")) || {};
-        if (event.detail.dark_mode === true && this.isDark === false) this.darkMode();
-        else if (event.detail.dark_mode === false && this.isDark === true) this.lightMode();
+        console.log(this.isDark, event.detail.dark_mode);
+        if (event.detail.dark_mode === true) {
+            console.log("if");
+            this.isDark = event.detail.dark_mode;
+            navigation.dark_mode = this.isDark;
+            localStorage.setItem("navigation", JSON.stringify(navigation));
+            this.darkMode();
+        } else {
+            console.log("else");
+            this.isDark = event.detail.dark_mode;
+            navigation.dark_mode = this.isDark;
+            localStorage.setItem("navigation", JSON.stringify(navigation));
+            this.lightMode();
+        }
     }
     darkMode() {
         const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
-        rightContent.classList.remove("expand");
+        rightContent.classList.remove("light");
     }
     lightMode() {
         const rightContent = this.shadowRoot?.querySelectorAll(".right-content")[0];
@@ -1459,25 +1478,26 @@ class MainApplication extends (0, _core.WebComponent) {
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "expanse") this.expanse = newValue;
+        if (name === "dark") this.dark = newValue;
         super.attributeChangedCallback(name, oldValue, newValue);
     }
     constructor(...args){
         super(...args);
-        this.isOpen = true;
+        this.isExpanse = true;
         this.isDark = true;
-        this.open = null;
+        this.expanse = null;
         this.dark = null;
     }
 }
 (0, _tsDecorate._)([
     (0, _core.state)()
-], MainApplication.prototype, "isOpen", void 0);
+], MainApplication.prototype, "isExpanse", void 0);
 (0, _tsDecorate._)([
     (0, _core.state)()
 ], MainApplication.prototype, "isDark", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
-], MainApplication.prototype, "open", void 0);
+], MainApplication.prototype, "expanse", void 0);
 (0, _tsDecorate._)([
     (0, _core.attr)()
 ], MainApplication.prototype, "dark", void 0);

@@ -65,6 +65,7 @@ import 'unofficial-pf-v5-wc-icons';
       }
       #sidebar.light{
          background-color: #ffffff;
+         border-bottom: 1px solid #e6e6ef;
       }
       #sidebar.close{
          grid-template-columns: 84px 1fr;
@@ -76,6 +77,10 @@ import 'unofficial-pf-v5-wc-icons';
          align-items: center;
          display: flex;
          background-color: #222533;
+      }
+      .header-sidebar.light {
+         background-color: #ffffff;
+         border-right: 1px solid;
       }
       .header-sidebar li{
          list-style: none;
@@ -217,69 +222,64 @@ export class HorizontalNavBar extends WebComponent{
    }
 
    onMounting() {
-      const navigation = JSON.parse(localStorage.getItem('navigation'));
-      
-      if(navigation.horizontal_vertical_state === false){
-         this.Minimize();
-      }else if(navigation.horizontal_vertical_state === true){
-         this.Expand();
-      }
-   }
-
-   toggleButton() {
-      const navigation = JSON.parse(localStorage.getItem('navigation'));
-      console.log("toggle initial", this.open, navigation?.horizontal_vertical_state, this.isOpen);
-  
-      // Cas où open est null et isOpen est true (Initialisation avec état synchronisé)
-      if (this.open === null && this.isOpen === true) {
-          console.log("Synchronisation initiale : open est null et isOpen est true");
-          this.open = 'true';  // Synchronisation de l'état 'open'
-          this.isOpen = true;  // Assurez-vous que isOpen est aussi 'true'
-          this.openEmitSignal(this.isOpen);  // Emission du signal pour signaler l'ouverture
-          return;
-      }
-  
-      // Cas où open est null et isOpen est false (Initialisation avec état synchronisé)
-      if (this.open === null && this.isOpen === false) {
-          console.log("Synchronisation initiale : open est null et isOpen est false");
-          this.open = 'false';  // Synchronisation de l'état 'open'
-          this.isOpen = false;  // Assurez-vous que isOpen est aussi 'false'
-          this.closeEmitSignal(this.isOpen);  // Emission du signal pour signaler la fermeture
-          return;
-      }
-  
-      // Cas où open est 'true' et isOpen est true (Fermeture de la navigation)
-      if (this.open === 'true' && this.isOpen === true) {
-          console.log("Fermeture de la navigation");
-          this.isOpen = false;
-          this.open = 'false';
-          this.closeEmitSignal(this.isOpen);  // Fermeture de la navigation
-          return;
-      }
-  
-      // Cas où open est 'false' et isOpen est false (Ouverture de la navigation)
-      if (this.open === 'false' && this.isOpen === false) {
-          console.log("Ouverture de la navigation");
-          this.isOpen = true;
-          this.open = 'true';
-          this.openEmitSignal(this.isOpen);  // Ouverture de la navigation
-          return;
-      }
-  
-      // Cas par défaut : quand open et isOpen ne sont ni 'true' ni 'false', basculer l'état
-      console.log("Basculer l'état : toggle");
-      this.isOpen = !this.isOpen;  // Inverser l'état de isOpen
-      this.open = this.isOpen ? 'true' : 'false';  // Synchroniser open avec isOpen
-  
-      // Après le basculement, envoyer le signal approprié
-      if (this.isOpen) {
-          console.log("Ouverture de la navigation après basculement");
-          this.openEmitSignal(this.isOpen);
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
+      console.log("horizontal navbar" + navigation.horizontal_vertical_open)
+      // Gestion de l'état horizontal_vertical_state
+      if (typeof navigation.horizontal_vertical_open !== 'undefined') {
+          if (navigation.horizontal_vertical_open === false) {
+              this.Expand();
+          } else if (navigation.horizontal_vertical_open === true) {
+              this.Minimize();
+          }
       } else {
-          console.log("Fermeture de la navigation après basculement");
-          this.closeEmitSignal(this.isOpen);
+          console.log("Aucun état horizontal/vertical trouvé, utilisation de l'état par défaut.");
+      }
+  
+      // Gestion du mode sombre
+      if (typeof navigation.dark_mode !== 'undefined') {
+          if (navigation.dark_mode === false) {
+              this.lightMode();
+          } else if (navigation.dark_mode === true) {
+              this.darkMode();
+          }
+      } else {
+          console.log("Aucun état de mode sombre trouvé, utilisation de l'état par défaut.");
       }
   }
+  
+
+  toggleButton() {
+      // Récupérer l'état actuel du localStorage
+      let navigation = JSON.parse(localStorage.getItem('navigation')) || {};
+
+      // Initialisation des états si nécessaire
+      if (this.open === null) {
+         // Initialisation basée sur horizontal_vertical_open dans le localStorage
+         this.isOpen = navigation.horizontal_vertical_open === true;
+         this.open = this.isOpen ? 'true' : 'false';
+      }
+
+      // Basculer l'état de isOpen et open
+      this.isOpen = !this.isOpen;
+      this.open = this.isOpen ? 'true' : 'false';
+
+      // Mise à jour de l'état dans l'objet navigation
+      navigation.horizontal_vertical_open = this.isOpen;
+
+      // Après le basculement, envoyer le signal approprié
+      if (this.isOpen) {
+         console.log("Ouverture de la navigation");
+         this.openEmitSignal(this.isOpen);
+      } else {
+         console.log("Fermeture de la navigation");
+         this.closeEmitSignal(this.isOpen);
+      }
+
+      // Mise à jour du localStorage avec l'état modifié
+      localStorage.setItem('navigation', JSON.stringify(navigation));
+   }
+
+
   
    switchMode() {
       console.log(this.isDark)
@@ -359,7 +359,6 @@ export class HorizontalNavBar extends WebComponent{
          detail: { message: 'Close all external navbars', horizontalstate: this.isOpen}
       });
       this.Minimize();
-      console.log(event);
       // Dispatch l'événement depuis le composant
       this.dispatchEvent(event);
    }
@@ -373,7 +372,6 @@ export class HorizontalNavBar extends WebComponent{
          detail: { message: 'Open all external navbars', horizontalstate: this.isOpen }
       });
       this.Expand();
-      console.log(event)
       // Dispatch l'événement depuis le composant
       this.dispatchEvent(event);
    }

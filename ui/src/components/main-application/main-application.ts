@@ -52,11 +52,11 @@ import '../navigation';
    ]
 })
 export class MainApplication extends WebComponent {
-   @state() isOpen: boolean = true;
+   @state() isExpanse: boolean = true;
    @state() isDark: boolean = true;
 
 
-   @attr() open: "true" | "false" | null = null;
+   @attr() expanse: "true" | "false" | null = null;
    @attr() dark: "true" | "false" | null = null;
 
    connectedCallback() {
@@ -73,30 +73,58 @@ export class MainApplication extends WebComponent {
    }
 
    onMounting() {
-      const navbarState = JSON.parse(localStorage.getItem('navigation'));
+      const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
       
-      if(navbarState.horizontal_vertical_state === false){
-         this.Expand();
-      }else if(navbarState.horizontal_vertical_state === true){
-         this.Minimize();
+      // Gestion de l'état horizontal_vertical_state
+      if (typeof navigation.horizontal_vertical_open !== 'undefined') {
+          if (navigation.horizontal_vertical_open === false) {
+              this.Expand();
+          } else if (navigation.horizontal_vertical_open === true) {
+              this.Minimize();
+          }
+      } else {
+          console.log("Aucun état horizontal/vertical trouvé, utilisation de l'état par défaut.");
       }
-   }
+  
+      // Gestion du mode sombre
+      if (typeof navigation.dark_mode !== 'undefined') {
+          if (navigation.dark_mode === false) {
+              this.lightMode();
+          } else if (navigation.dark_mode === true) {
+              this.darkMode();
+          }
+      } else {
+          console.log("Aucun état de mode sombre trouvé, utilisation de l'état par défaut.");
+      }
+  }
+  
+  
 
    handleMode(event: CustomEvent) {
+      // Récupérer l'état actuel du localStorage
       const navigation = JSON.parse(localStorage.getItem('navigation')) || {};
-  
-      if(event.detail.dark_mode === true && this.isDark === false) {
+      console.log(this.isDark, event.detail.dark_mode)
+
+      if (event.detail.dark_mode === true) {
+         console.log("if")
+         this.isDark = event.detail.dark_mode;
+         navigation.dark_mode = this.isDark;
+         localStorage.setItem('navigation', JSON.stringify(navigation));
          this.darkMode();
-      } 
-      else if(event.detail.dark_mode === false && this.isDark === true) {
+      }else{
+         console.log("else")
+         this.isDark = event.detail.dark_mode;
+         navigation.dark_mode = this.isDark;
+         localStorage.setItem('navigation', JSON.stringify(navigation));
          this.lightMode();
       }
    }
 
+
    darkMode(){
       const rightContent = this.shadowRoot?.querySelectorAll('.right-content')[0];
 
-      rightContent.classList.remove('expand');
+      rightContent.classList.remove('light');
    }
    lightMode(){
 
@@ -138,6 +166,9 @@ export class MainApplication extends WebComponent {
    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
       if (name === 'expanse') {
          this.expanse = newValue as any;
+      }
+      if (name === 'dark') {
+         this.dark = newValue as any;
       }
       super.attributeChangedCallback(name, oldValue, newValue);
    }
