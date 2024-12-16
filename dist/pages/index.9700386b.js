@@ -630,8 +630,8 @@ class VerticalNavBar extends (0, _core.WebComponent) {
         console.log("vertical navbar" + navigation.horizontal_vertical_open);
         // Gestion de l'état horizontal_vertical_state
         if (typeof navigation.horizontal_vertical_open !== "undefined") {
-            if (navigation.horizontal_vertical_open === false) this.Expand();
-            else if (navigation.horizontal_vertical_open === true) this.Minimize();
+            if (navigation.horizontal_vertical_open === false) this.Minimize();
+            else if (navigation.horizontal_vertical_open === true) this.Expand();
         } else console.log("Aucun \xe9tat horizontal/vertical trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
         // Gestion du mode sombre
         if (typeof navigation.dark_mode !== "undefined") {
@@ -1028,8 +1028,8 @@ class HorizontalNavBar extends (0, _core.WebComponent) {
         console.log("horizontal navbar" + navigation.horizontal_vertical_open);
         // Gestion de l'état horizontal_vertical_state
         if (typeof navigation.horizontal_vertical_open !== "undefined") {
-            if (navigation.horizontal_vertical_open === false) this.Expand();
-            else if (navigation.horizontal_vertical_open === true) this.Minimize();
+            if (navigation.horizontal_vertical_open === false) this.Minimize();
+            else if (navigation.horizontal_vertical_open === true) this.Expand();
         } else console.log("Aucun \xe9tat horizontal/vertical trouv\xe9, utilisation de l'\xe9tat par d\xe9faut.");
         // Gestion du mode sombre
         if (typeof navigation.dark_mode !== "undefined") {

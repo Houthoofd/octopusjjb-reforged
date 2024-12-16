@@ -227,9 +227,9 @@ export class HorizontalNavBar extends WebComponent{
       // Gestion de l'état horizontal_vertical_state
       if (typeof navigation.horizontal_vertical_open !== 'undefined') {
           if (navigation.horizontal_vertical_open === false) {
-              this.Expand();
-          } else if (navigation.horizontal_vertical_open === true) {
               this.Minimize();
+          } else if (navigation.horizontal_vertical_open === true) {
+              this.Expand();
           }
       } else {
           console.log("Aucun état horizontal/vertical trouvé, utilisation de l'état par défaut.");
