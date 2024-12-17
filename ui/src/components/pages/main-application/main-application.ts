@@ -2,7 +2,7 @@ import { html , render , WebComponent , customElement , attr , attrState , state
 import '@lithium-framework/router-element';
 import 'unofficial-pf-v5-wc';
 import 'unofficial-pf-v5-wc-icons';
-import '../navigation';
+import '../../navigation';
 
 @customElement({
    name: "main-application",

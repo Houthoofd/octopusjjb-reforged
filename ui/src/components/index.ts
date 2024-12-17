@@ -1,2 +1,3 @@
 import './navigation';
-import './main-application'
+import './pages/main-application';
+import './pages/inscription';
