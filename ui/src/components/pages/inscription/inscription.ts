@@ -10,39 +10,47 @@ import 'unofficial-pf-v5-wc-icons';
       <div id="inscription">
         <!-- Indicateurs d'étapes avec connexion verticale -->
         <div class="step-indicators">
-  <div class="step-container">
-    <div class="step-indicator ${inscription.currentStep >= 1 ? 'active' : ''}">1</div>
-    <span class="step-name">Étape 1 : Informations personnelles</span>
-  </div>
-  <div class="step-line ${inscription.currentStep >= 2 ? 'active' : ''}"></div>
-  <div class="step-container">
-    <div class="step-indicator ${inscription.currentStep >= 2 ? 'active' : ''}">2</div>
-    <span class="step-name">Étape 2 : Détails de connexion</span>
-  </div>
-  <div class="step-line ${inscription.currentStep >= 3 ? 'active' : ''}"></div>
-  <div class="step-container">
-    <div class="step-indicator ${inscription.currentStep >= 3 ? 'active' : ''}">3</div>
-    <span class="step-name">Étape 3 : Confirmation</span>
-  </div>
-</div>
+          <div class="step-container">
+            <div class="step-indicator ${inscription.currentStep >= 1 ? 'active' : ''}">1</div>
+            <span class="step-name">Étape 1 : Informations personnelles</span>
+          </div>
+          <div class="step-line ${inscription.currentStep >= 2 ? 'active' : ''}"></div>
+          <div class="step-container">
+            <div class="step-indicator ${inscription.currentStep >= 2 ? 'active' : ''}">2</div>
+            <span class="step-name">Étape 2 : Détails de connexion</span>
+          </div>
+          <div class="step-line ${inscription.currentStep >= 3 ? 'active' : ''}"></div>
+          <div class="step-container">
+            <div class="step-indicator ${inscription.currentStep >= 3 ? 'active' : ''}">3</div>
+            <span class="step-name">Étape 3 : Confirmation</span>
+          </div>
+        </div>
         <div class="inscription-form">
           <div class="step">
             ${inscription.currentStep === 1
               ? html`
                   <h2>Étape 1 : Informations personnelles</h2>
-                  <label for="name">Nom :</label>
-                  <input type="text" id="name" name="name" />
-                  <label for="email">Email :</label>
-                  <input type="email" id="email" name="email" />
+                  <div class="input-field">
+                    <label for="name">Nom :</label>
+                    <input type="text" id="name" name="name" />
+                  </div>
+                  <div class="input-field">
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" />
+                  </div>
                 `
               : ''}
             ${inscription.currentStep === 2
               ? html`
                   <h2>Étape 2 : Détails de connexion</h2>
-                  <label for="username">Nom d'utilisateur :</label>
-                  <input type="text" id="username" name="username" />
-                  <label for="password">Mot de passe :</label>
-                  <input type="password" id="password" name="password" />
+                  <div class="input-field">
+                    <label for="username">Nom d'utilisateur :</label>
+                    <input type="text" id="username" name="username" />
+                  </div>
+                  <div class="input-field">
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="password" />
+                  </div>
                 `
               : ''}
             ${inscription.currentStep === 3
@@ -80,27 +88,28 @@ import 'unofficial-pf-v5-wc-icons';
   styles: [
     css`
       #inscription {
-        display: flex;
         height: 50%;
         width: 50%;
-        background-color: #9e9e9e14;
+        background-color: #7235dd;
         justify-content: space-around;
         position: absolute;
         right: 25%;
         top: 25%;
+        display: grid;
+        grid-template-columns: 350px 1fr;
         font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
       .inscription-form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        background-color: cadetblue;
+        background-color: #ffffff;
       }
       .step {
         display: flex;
         flex-direction: column;
-        width: 400px;
-        height: 400px;
+        margin-left: 15px;
+        margin-right: 15px;
       }
       .navigation {
         display: flex;
@@ -158,6 +167,20 @@ import 'unofficial-pf-v5-wc-icons';
 
     .step-line.active {
       background-color: #4caf50;
+    }
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input[type="text"]{
+      padding: 10px 10px;
+    }
+    input[type="email"]{
+      padding: 10px 10px;
+    }
+    input[type="password"]{
+      padding: 10px 10px;
     }
     `,
   ],
