@@ -1664,18 +1664,21 @@ Inscription = (0, _tsDecorate._)([
       <div id="inscription">
         <!-- Indicateurs d'étapes avec connexion verticale -->
         <div class="step-indicators">
-          <div class="step-indicator ${inscription.currentStep >= 1 ? "active" : ""}">
-            1
-          </div>
-          <div class="step-line ${inscription.currentStep >= 2 ? "active" : ""}"></div>
-          <div class="step-indicator ${inscription.currentStep >= 2 ? "active" : ""}">
-            2
-          </div>
-          <div class="step-line ${inscription.currentStep >= 3 ? "active" : ""}"></div>
-          <div class="step-indicator ${inscription.currentStep >= 3 ? "active" : ""}">
-            3
-          </div>
-        </div>
+  <div class="step-container">
+    <div class="step-indicator ${inscription.currentStep >= 1 ? "active" : ""}">1</div>
+    <span class="step-name">Étape 1 : Informations personnelles</span>
+  </div>
+  <div class="step-line ${inscription.currentStep >= 2 ? "active" : ""}"></div>
+  <div class="step-container">
+    <div class="step-indicator ${inscription.currentStep >= 2 ? "active" : ""}">2</div>
+    <span class="step-name">Étape 2 : Détails de connexion</span>
+  </div>
+  <div class="step-line ${inscription.currentStep >= 3 ? "active" : ""}"></div>
+  <div class="step-container">
+    <div class="step-indicator ${inscription.currentStep >= 3 ? "active" : ""}">3</div>
+    <span class="step-name">Étape 3 : Confirmation</span>
+  </div>
+</div>
         <div class="inscription-form">
           <div class="step">
             ${inscription.currentStep === 1 ? (0, _core.html)`
@@ -1726,9 +1729,26 @@ Inscription = (0, _tsDecorate._)([
             (0, _core.css)`
       #inscription {
         display: flex;
+        height: 50%;
+        width: 50%;
+        background-color: #9e9e9e14;
+        justify-content: space-around;
+        position: absolute;
+        right: 25%;
+        top: 25%;
+        font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .inscription-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: cadetblue;
       }
       .step {
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        height: 400px;
       }
       .navigation {
         display: flex;
@@ -1741,47 +1761,52 @@ Inscription = (0, _tsDecorate._)([
       }
 
       /* Styles pour les indicateurs d'étapes et lignes connectées */
-      .step-indicators {
-        display: flex;
-        flex-direction: column; /* Orientation verticale */
-        justify-content: space-between;
-        align-items: center;
-        width: 250px;
-        position: relative;
-        margin-bottom: 20px;
-      }
+    .step-indicators {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      margin-left: 15px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
 
-      .step-indicator {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        position: relative;
-        z-index: 1;
-        margin: 0; /* Suppression de la marge */
-      }
+    .step-container {
+      display: flex;
+      align-items: center;
+    }
 
-      .step-indicator.active {
-        background-color: #4caf50;
-        color: white;
-      }
+    .step-indicator {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
 
-      .step-line {
-        width: 4px; /* Lignes plus fines pour le format vertical */
-        height: 50px; /* Ajustez la hauteur des lignes */
-        background-color: #ddd;
-        position: relative;
-        z-index: 0;
-        margin: 0; /* Suppression de la marge */
-      }
+    .step-indicator.active {
+      background-color: #4caf50;
+      color: white;
+    }
 
-      .step-line.active {
-        background-color: #4caf50;
-      }
+    .step-name {
+      font-size: 16px;
+    }
+
+    .step-line {
+      width: 4px;
+      height: 110px; /* Ajustez la hauteur des lignes */
+      background-color: #ddd;
+      margin-left: 18px; /* Aligner avec les cercles */
+    }
+
+    .step-line.active {
+      background-color: #4caf50;
+    }
     `
         ]
     })
