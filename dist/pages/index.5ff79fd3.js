@@ -1665,24 +1665,24 @@ Inscription = (0, _tsDecorate._)([
         <!-- Indicateurs d'étapes avec connexion verticale -->
         <div class="step-indicators">
           <div class="step-container">
-            <div class="step-indicator ${inscription.currentStep >= 1 ? "active" : ""}">1</div>
-            <span class="step-name">Étape 1 : Informations personnelles</span>
+            <div class="step-indicator ${inscription.currentStep >= 1 ? "active" : ""}"></div>
+            <span class="step-name">Informations personnelles</span>
           </div>
           <div class="step-line ${inscription.currentStep >= 2 ? "active" : ""}"></div>
           <div class="step-container">
-            <div class="step-indicator ${inscription.currentStep >= 2 ? "active" : ""}">2</div>
-            <span class="step-name">Étape 2 : Détails de connexion</span>
+            <div class="step-indicator ${inscription.currentStep >= 2 ? "active" : ""}"></div>
+            <span class="step-name">Détails de connexion</span>
           </div>
           <div class="step-line ${inscription.currentStep >= 3 ? "active" : ""}"></div>
           <div class="step-container">
-            <div class="step-indicator ${inscription.currentStep >= 3 ? "active" : ""}">3</div>
-            <span class="step-name">Étape 3 : Confirmation</span>
+            <div class="step-indicator ${inscription.currentStep >= 3 ? "active" : ""}"></div>
+            <span class="step-name">Confirmation</span>
           </div>
         </div>
         <div class="inscription-form">
           <div class="step">
             ${inscription.currentStep === 1 ? (0, _core.html)`
-                  <h2>Étape 1 : Informations personnelles</h2>
+                  <h2>Informations personnelles</h2>
                   <div class="row">
                       <div class="input-field">
                         <label for="name">Nom</label>
@@ -1724,7 +1724,7 @@ Inscription = (0, _tsDecorate._)([
                   </div>
                 ` : ""}
             ${inscription.currentStep === 2 ? (0, _core.html)`
-                  <h2>Étape 2 : Détails de connexion</h2>
+                  <h2>Détails de connexion</h2>
                   <div class="row">
                       <div class="input-field">
                         <label for="username">Nom d'utilisateur</label>
@@ -1737,7 +1737,7 @@ Inscription = (0, _tsDecorate._)([
                   </div>
                 ` : ""}
             ${inscription.currentStep === 3 ? (0, _core.html)`
-                  <h2>Étape 3 : Confirmation</h2>
+                  <h2>Confirmation</h2>
                   <p>Vérifiez les informations que vous avez fournies avant de soumettre.</p>
                   <ul>
                     <li>Nom : ${inscription.getValueById("name")}</li>
@@ -1773,7 +1773,6 @@ Inscription = (0, _tsDecorate._)([
             (0, _core.css)`
       #inscription {
         height: 500px;
-        background-color: #005eff;
         justify-content: space-around;
         position: absolute;
         right: 25%;
@@ -1905,27 +1904,27 @@ Inscription = (0, _tsDecorate._)([
     }
   
     input[type="date"]::placeholder {
-      color: #888; /* Placeholder color (although not typically visible for date inputs) */
+      color: #888;
     }
 
     input[type="date"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focus, select {
-      border-color: #005eff; /* Green border when focused */
+      border-color: #005eff;
       outline: none;
     }
-    /* Styliser le select */
-select {
-    padding: 9px 10px;
-    width: 25ch;
-    border-radius: 5px;
-    background-color: #ffffff;
-    border: 1px solid #e2e8f1;
-    font-size: 16px;
-    color: #333;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-    position: relative;
-}
+    
+    select {
+      padding: 9px 10px;
+      width: 25ch;
+      border-radius: 5px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f1;
+      font-size: 16px;
+      color: #333;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      position: relative;
+    }
 
 /* Ajouter une icône de flèche personnalisée */
 select::after {
