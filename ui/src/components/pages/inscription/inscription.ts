@@ -52,12 +52,21 @@ import 'unofficial-pf-v5-wc-icons';
                   </div>
                   <div class="row">
                       <div class="input-field">
-                        <label for="name">genre</label>
-                        <input type="text" id="name" name="name" />
+                        <label for="genre">genre</label>
+                        <select id="genre" name="cars">
+                            <option value=""></option>
+                            <option value="homme">Homme</option>
+                            <option value="femme">Femme</option>
+                        </select>
                       </div>
                       <div class="input-field">
-                        <label for="email">plan tarifaire</label>
-                        <input type="date" id="email" name="email" />
+                        <label for="tarifs">plan tarifaire</label>
+                        <select id="tarifs" name="cars">
+                            <option value=""></option>
+                            <option value="mensuel">mensuel : 30 euros</option>
+                            <option value="trimestriel">trimestriel : 100 euros</option>
+                            <option value="annuel">annuel : 250 euros</option>
+                        </select>
                       </div>
                   </div>
                 `
@@ -217,6 +226,7 @@ import 'unofficial-pf-v5-wc-icons';
     }
     .input-field label{
       color: #b1b3bc;
+      font-size: 13px;
     }
     input[type="text"]{
       padding: 10px 10px;
@@ -252,10 +262,41 @@ import 'unofficial-pf-v5-wc-icons';
       color: #888; /* Placeholder color (although not typically visible for date inputs) */
     }
 
-    input[type="date"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focus {
+    input[type="date"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focus, select {
       border-color: #005eff; /* Green border when focused */
       outline: none;
     }
+    /* Styliser le select */
+select {
+    padding: 9px 10px;
+    width: 25ch;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f1;
+    font-size: 16px;
+    color: #333;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Ajouter une icône de flèche personnalisée */
+select::after {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ignore les clics pour permettre d'interagir avec le select */
+}
+
+/* Styliser les options (limité dans CSS natif) */
+option {
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
     `,
   ],
 })
