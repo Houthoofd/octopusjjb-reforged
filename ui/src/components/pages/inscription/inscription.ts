@@ -32,21 +32,31 @@ import 'unofficial-pf-v5-wc-icons';
                   <h2>Étape 1 : Informations personnelles</h2>
                   <div class="row">
                       <div class="input-field">
-                        <label for="name">Nom :</label>
+                        <label for="name">Nom</label>
                         <input type="text" id="name" name="name" />
                       </div>
                       <div class="input-field">
-                        <label for="email">Email :</label>
+                        <label for="email">Email</label>
                         <input type="email" id="email" name="email" />
                       </div>
                   </div>
                   <div class="row">
                       <div class="input-field">
-                        <label for="name">Prénom :</label>
+                        <label for="name">Prénom</label>
                         <input type="text" id="name" name="name" />
                       </div>
                       <div class="input-field">
-                        <label for="email">Date de naissance :</label>
+                        <label for="email">Date de naissance</label>
+                        <input type="date" id="email" name="email" />
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="input-field">
+                        <label for="name">genre</label>
+                        <input type="text" id="name" name="name" />
+                      </div>
+                      <div class="input-field">
+                        <label for="email">plan tarifaire</label>
                         <input type="date" id="email" name="email" />
                       </div>
                   </div>
@@ -57,11 +67,11 @@ import 'unofficial-pf-v5-wc-icons';
                   <h2>Étape 2 : Détails de connexion</h2>
                   <div class="row">
                       <div class="input-field">
-                        <label for="username">Nom d'utilisateur :</label>
+                        <label for="username">Nom d'utilisateur</label>
                         <input type="text" id="username" name="username" />
                     </div>
                     <div class="input-field">
-                      <label for="password">Mot de passe :</label>
+                      <label for="password">Mot de passe</label>
                       <input type="password" id="password" name="password" />
                     </div>
                   </div>
@@ -114,7 +124,7 @@ import 'unofficial-pf-v5-wc-icons';
         right: 25%;
         top: 25%;
         display: grid;
-        grid-template-columns: 350px 1fr;
+        grid-template-columns: 350px 500px;
         font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
       }
@@ -130,7 +140,7 @@ import 'unofficial-pf-v5-wc-icons';
         margin-left: 15px;
         margin-right: 15px;
         gap: 20px;
-        height: 250px;
+        height: 80%;
       }
       .row{
         display: flex;
@@ -140,11 +150,17 @@ import 'unofficial-pf-v5-wc-icons';
       .navigation {
         display: flex;
         justify-content: space-between;
-        width: 100%;
+        margin-right: 15px;
+        margin-left: 15px;
       }
       button {
-        padding: 10px;
+        padding: 10px 10px;
         font-size: 16px;
+        width: 15ch;
+        background-color: #005eff;
+        border: none;
+        color: #ffffff;
+        border-radius: 5px;
       }
 
       /* Styles pour les indicateurs d'étapes et lignes connectées */
@@ -199,18 +215,46 @@ import 'unofficial-pf-v5-wc-icons';
       flex-direction: column;
       gap: 10px;
     }
+    .input-field label{
+      color: #b1b3bc;
+    }
     input[type="text"]{
       padding: 10px 10px;
+      width: 27ch;
+      border: 1px solid #e2e8f1;
+      border-radius: 5px;
     }
     input[type="email"]{
       padding: 10px 10px;
+      width: 27ch;
+      border: 1px solid #e2e8f1;
+      border-radius: 5px;
     }
     input[type="password"]{
       padding: 10px 10px;
+      width: 27ch;
+      border: 1px solid #e2e8f1;
+      border-radius: 5px;
     }
     input[type="date"]{
-      padding: 10px 10px;
-      width: 23ch;
+      padding: 9px 10px;
+      width: 27ch;
+      border: 1px solid #e2e8f1;
+      border-radius: 5px;
+      color: #b1b3bc;
+
+      svg{
+        fill: #b1b3bc;
+      }
+    }
+  
+    input[type="date"]::placeholder {
+      color: #888; /* Placeholder color (although not typically visible for date inputs) */
+    }
+
+    input[type="date"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focus {
+      border-color: #005eff; /* Green border when focused */
+      outline: none;
     }
     `,
   ],
