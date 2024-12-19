@@ -189,7 +189,7 @@ import 'unofficial-pf-v5-wc-icons';
         align-items: flex-start;
         position: relative;
         margin-left: 15px;
-        margin-top: 15px;
+        margin-top: 28px;
         margin-bottom: 15px;
       }
 
@@ -216,7 +216,7 @@ import 'unofficial-pf-v5-wc-icons';
       }
 
       .step-name {
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .step-line {
