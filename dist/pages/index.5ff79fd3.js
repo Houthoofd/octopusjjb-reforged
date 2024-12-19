@@ -1804,13 +1804,13 @@ Inscription = (0, _tsDecorate._)([
         margin-right: 15px;
         gap: 20px;
         height: 400px;
-        width: 100%;
       }
       .row {
         display: flex;
         align-items: center;
         gap: 10px;
         width: 100%;
+        justify-content: space-between;
       }
       .navigation {
         display: flex;
@@ -1845,8 +1845,8 @@ Inscription = (0, _tsDecorate._)([
       }
 
       .step-indicator {
-        width: 40px;
-        height: 40px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background-color: #ddd;
         display: flex;
@@ -1857,8 +1857,8 @@ Inscription = (0, _tsDecorate._)([
       }
 
       .step-indicator.active {
-        background-color: #4caf50;
-        color: white;
+        background-color: #ffff;
+        border: 1px solid #005eff;
       }
 
       .step-name {
@@ -1866,14 +1866,14 @@ Inscription = (0, _tsDecorate._)([
       }
 
       .step-line {
-        width: 4px;
+        width: 2px;
         height: 110px; /* Ajustez la hauteur des lignes */
-        background-color: #ddd;
-        margin-left: 18px; /* Aligner avec les cercles */
+        background-color: #d3ddeb;
+        margin-left: 5px; /* Aligner avec les cercles */
       }
 
       .step-line.active {
-        background-color: #4caf50;
+        background-color: #005eff;
       }
 
       .input-field {
@@ -1929,13 +1929,12 @@ Inscription = (0, _tsDecorate._)([
       }
       .dropdown{
         color: #b1b3bc;
-        width: 100%;
         display: flex;
         flex-direction: column;
       }
       select {
         padding: 9px 10px;
-        width: 25ch;
+        width: 30ch;
         border-radius: 5px;
         background-color: #ffffff;
         border: 1px solid #e2e8f1;
@@ -1965,6 +1964,9 @@ Inscription = (0, _tsDecorate._)([
         background-color: #ffffff;
         box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
         width: 70px;
+      }
+      .divider-text {
+        color: #b1b3bc;
       }
     `
         ]
