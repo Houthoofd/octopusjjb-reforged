@@ -1625,29 +1625,72 @@ var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class Inscription extends (0, _core.WebComponent) {
-    // Méthode pour changer d'étape
+    firstUpdated() {
+        // Synchroniser la valeur du genre avec le select
+        const genreElement = this.shadowRoot?.getElementById("genre");
+        if (genreElement && this.genre) genreElement.value = this.genre; // Définir la valeur sélectionnée pour genre
+        // Ajouter un écouteur pour mettre à jour genre lorsqu'une nouvelle valeur est sélectionnée
+        if (genreElement) genreElement.addEventListener("change", (event)=>{
+            this.genre = event.target.value; // Mettre à jour genre
+        });
+        // Synchroniser la valeur du plan tarifaire avec le select
+        const tarifsElement = this.shadowRoot?.getElementById("tarifs");
+        if (tarifsElement && this.plan_tarifaire) tarifsElement.value = this.plan_tarifaire; // Définir la valeur sélectionnée pour plan_tarifaire
+        // Ajouter un écouteur pour mettre à jour plan_tarifaire lorsqu'une nouvelle valeur est sélectionnée
+        if (tarifsElement) tarifsElement.addEventListener("change", (event)=>{
+            this.plan_tarifaire = event.target.value; // Mettre à jour plan_tarifaire
+        });
+    }
     goToStep(step) {
+        if (this.currentStep === 1) {
+            this.nom = this.getValueById("nom");
+            this.prenom = this.getValueById("prenom");
+            this.date_de_naissance = this.getValueById("date-de-naissance");
+            this.email = this.getValueById("email");
+            this.genre = this.getValueById("genre");
+            this.plan_tarifaire = this.getValueById("tarifs");
+        } else if (this.currentStep === 2) {
+            this.nom_utilisateur = this.getValueById("username");
+            this.password = this.getValueById("password");
+        }
         if (step >= 1 && step <= 3) this.currentStep = step;
     }
-    // Méthode pour obtenir la valeur d'un champ de formulaire par son ID
     getValueById(id) {
         const input = this.shadowRoot.getElementById(id);
-        return input ? input.value : "";
+        if (input instanceof HTMLSelectElement) return input.value; // Récupérer la valeur d'un select
+        else if (input instanceof HTMLInputElement) return input.value; // Récupérer la valeur d'un input classique
+        return ""; // Retourner une valeur vide si l'élément n'est pas trouvé
     }
-    // Méthode pour soumettre le formulaire
     submitForm() {
-        console.log("Formulaire soumis avec succ\xe8s");
-    // Logique de traitement des données du formulaire
-    }
-    // Méthode pour gérer la connexion avec Google
-    connectedCallback() {
-        super.connectedCallback();
-    //this.loadGoogleSignIn();
+        const submitBtn = this.shadowRoot?.querySelectorAll("button")[1];
+        console.log(this.nom, this.prenom, this.email, this.genre, this.date_de_naissance, this.plan_tarifaire, this.nom_utilisateur, this.password);
+        if (submitBtn) {
+            const originalText = submitBtn.innerText;
+            submitBtn.classList.add("loading");
+            submitBtn.innerText = "";
+            submitBtn.disabled = true;
+            setTimeout(()=>{
+                submitBtn.classList.remove("loading");
+                submitBtn.innerText = "Inscription r\xe9ussie !";
+                submitBtn.disabled = false;
+                setTimeout(()=>{
+                    submitBtn.innerText = originalText;
+                }, 3000);
+            }, 2000);
+        } else console.error("Le bouton de soumission n'a pas \xe9t\xe9 trouv\xe9");
     }
     constructor(...args){
         super(...args);
         this.currentStep = 1;
         this.step = null;
+        this.nom = "";
+        this.prenom = "";
+        this.date_de_naissance = "";
+        this.email = "";
+        this.genre = "";
+        this.plan_tarifaire = "";
+        this.nom_utilisateur = "";
+        this.password = "";
     }
 }
 (0, _tsDecorate._)([
@@ -1666,17 +1709,17 @@ Inscription = (0, _tsDecorate._)([
         <div class="step-indicators">
           <div class="step-container">
             <div class="step-indicator ${inscription.currentStep >= 1 ? "active" : ""}"></div>
-            <span class="step-name">Informations personnelles</span>
+            <span class="step-name ${inscription.currentStep >= 1 ? "active" : ""}">Informations personnelles</span>
           </div>
           <div class="step-line ${inscription.currentStep >= 2 ? "active" : ""}"></div>
           <div class="step-container">
             <div class="step-indicator ${inscription.currentStep >= 2 ? "active" : ""}"></div>
-            <span class="step-name">Détails de connexion</span>
+            <span class="step-name ${inscription.currentStep >= 2 ? "active" : ""}">Détails de connexion</span>
           </div>
           <div class="step-line ${inscription.currentStep >= 3 ? "active" : ""}"></div>
           <div class="step-container">
             <div class="step-indicator ${inscription.currentStep >= 3 ? "active" : ""}"></div>
-            <span class="step-name">Confirmation</span>
+            <span class="step-name ${inscription.currentStep >= 3 ? "active" : ""}">Confirmation</span>
           </div>
         </div>
         <div class="inscription-form">
@@ -1685,40 +1728,38 @@ Inscription = (0, _tsDecorate._)([
                   <h2>Informations personnelles</h2>
                   <div class="row">
                     <div class="input-field">
-                      <label for="name">Nom</label>
-                      <input type="text" id="name" name="name" />
+                      <label for="nom">Nom</label>
+                      <input type="text" id="nom" name="nom" value="${inscription.nom}"/>
                     </div>
                     <div class="input-field">
                       <label for="email">Email</label>
-                      <input type="email" id="email" name="email" />
+                      <input type="email" id="email" name="email" value="${inscription.email}"/>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field">
-                      <label for="name">Prénom</label>
-                      <input type="text" id="name" name="name" />
+                      <label for="prenom">Prénom</label>
+                      <input type="text" id="prenom" name="prenom" value="${inscription.prenom}"/>
                     </div>
                     <div class="input-field">
-                      <label for="email">Date de naissance</label>
-                      <input type="date" id="email" name="email" />
+                      <label for="date-de-naissance">Date de naissance</label>
+                      <input type="date" id="date-de-naissance" name="date-de-naissance" value="${inscription.date_de_naissance}"/>
                     </div>
                   </div>
                   <div class="row">
                     <div class="dropdown">
                       <label for="genre">Genre</label>
-                      <select id="genre" name="cars">
-                        <option value=""></option>
-                        <option value="homme">Homme</option>
-                        <option value="femme">Femme</option>
+                      <select id="genre" name="genre">
+                        <option value="homme" ?selected="${inscription.genre === "homme"}">Homme</option>
+                        <option value="femme" ?selected="${inscription.genre === "femme"}">Femme</option>
                       </select>
                     </div>
                     <div class="dropdown">
                       <label for="tarifs">Plan tarifaire</label>
-                      <select id="tarifs" name="cars">
-                        <option value=""></option>
-                        <option value="mensuel">Mensuel : 30 euros</option>
-                        <option value="trimestriel">Trimestriel : 100 euros</option>
-                        <option value="annuel">Annuel : 250 euros</option>
+                      <select id="tarifs" name="tarifs">
+                        <option value="mensuel" ?selected="${inscription.plan_tarifaire === "mensuel"}">Mensuel : 30 euros</option>
+                        <option value="trimestriel" ?selected="${inscription.plan_tarifaire === "trimestriel"}">Trimestriel : 100 euros</option>
+                        <option value="annuel" ?selected="${inscription.plan_tarifaire === "annuel"}">Annuel : 250 euros</option>
                       </select>
                     </div>
                   </div>
@@ -1728,11 +1769,11 @@ Inscription = (0, _tsDecorate._)([
                   <div class="row">
                     <div class="input-field">
                       <label for="username">Nom d'utilisateur</label>
-                      <input type="text" id="username" name="username" />
+                      <input type="text" id="username" name="username" value="${inscription.nom_utilisateur}"/>
                     </div>
                     <div class="input-field">
                       <label for="password">Mot de passe</label>
-                      <input type="password" id="password" name="password" />
+                      <input type="password" id="password" name="password" value="${inscription.password}"/>
                     </div>
                   </div>
                 ` : ""}
@@ -1740,9 +1781,14 @@ Inscription = (0, _tsDecorate._)([
                   <h2>Confirmation</h2>
                   <p>Vérifiez les informations que vous avez fournies avant de soumettre.</p>
                   <ul>
-                    <li>Nom : ${inscription.getValueById("name")}</li>
-                    <li>Email : ${inscription.getValueById("email")}</li>
-                    <li>Nom d'utilisateur : ${inscription.getValueById("username")}</li>
+                    <li>Nom : ${inscription.nom}</li>
+                    <li>Prénom : ${inscription.prenom}</li>
+                    <li>E-mail : ${inscription.email}</li>
+                    <li>Date de naissance : ${inscription.date_de_naissance}</li>
+                    <li>Genre : ${inscription.genre}</li>
+                    <li>Plan tarifaire : ${inscription.plan_tarifaire}</li>
+                    <li>Nom d'utilisateur : ${inscription.nom_utilisateur}</li>
+                    <li>Mot de passe : ${inscription.password}</li>
                   </ul>
                 ` : ""}
           </div>
@@ -1754,7 +1800,7 @@ Inscription = (0, _tsDecorate._)([
             >
               Précédent
             </button>
-            ${inscription.currentStep === 3 ? (0, _core.html)`<button @click="${inscription.submitForm}">Soumettre</button>` : (0, _core.html)`
+            ${inscription.currentStep === 3 ? (0, _core.html)`<button @click="${()=>inscription.submitForm()}">Soumettre</button>` : (0, _core.html)`
                   <button
                     @click="${()=>inscription.goToStep(inscription.currentStep + 1)}"
                     ?disabled="${inscription.currentStep === 3}"
@@ -1770,7 +1816,7 @@ Inscription = (0, _tsDecorate._)([
           </span>
           <div class="google-register">
               <button>
-                <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
               </button>
           </div>
         </div>
@@ -1803,7 +1849,7 @@ Inscription = (0, _tsDecorate._)([
         margin-left: 15px;
         margin-right: 15px;
         gap: 20px;
-        height: 400px;
+        height: 450px;
       }
       .row {
         display: flex;
@@ -1827,6 +1873,34 @@ Inscription = (0, _tsDecorate._)([
         color: #ffffff;
         border-radius: 5px;
       }
+      button.loading {
+  position: relative;
+  color: transparent; /* Masquer le texte du bouton */
+}
+
+button.loading::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FFF;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation pour faire tourner le loader */
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
 
       /* Styles pour les indicateurs d'étapes et lignes connectées */
       .step-indicators {
@@ -1863,6 +1937,10 @@ Inscription = (0, _tsDecorate._)([
 
       .step-name {
         font-size: 14px;
+        color: #b1b3bc;
+      }
+      .step-name.active{
+        color: #005eff;
       }
 
       .step-line {
