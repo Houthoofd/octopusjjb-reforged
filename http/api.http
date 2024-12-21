@@ -1,3 +1,12 @@
 ### Get infos set à rien
 
-GET http://www.octopusjjb.ovh/accueil
+### Get Roles
+GET http://localhost:3000/informations/roles
+
+
+### Get abonnement
+GET http://localhost:3000/informations/abonnement
+
+
+### Get genres
+GET http://localhost:3000/informations/genres

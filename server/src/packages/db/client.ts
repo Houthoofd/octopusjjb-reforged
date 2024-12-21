@@ -85,8 +85,7 @@ export class Client{
     obtenirLesRoles(): Promise<any> {
         return new Promise((resolve, reject) => {
             const mysqlConnector = new MysqlConnector();
-            const sql = `
-                SELECT nom_role FROM roles`;
+            const sql = `SELECT * FROM roles`;
     
             console.log("Exécution de la requête pour obtenir les rôles");
     
@@ -110,7 +109,7 @@ export class Client{
         return new Promise((resolve, reject) => {
             const mysqlConnector = new MysqlConnector();
             const sql = `
-                SELECT * FROM plan_tarifaires`;
+                SELECT * FROM plans_tarifaires`;
     
             console.log("Exécution de la requête pour obtenir les rôles");
     
