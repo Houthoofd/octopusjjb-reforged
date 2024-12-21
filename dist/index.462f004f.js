@@ -1333,12 +1333,6 @@ Footer = (0, _tsDecorate._)([
 ], Footer);
 (0, _core.render)((0, _core.html)`<main-home></main-home>`, document.body);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../url":"2Klj6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2Klj6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "url", ()=>url);
-const url = "http://ec2-18-185-136-232.eu-central-1.compute.amazonaws.com:3000/";
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["89kOC","03LU1"], "03LU1", "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../url":"2Klj6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["89kOC","03LU1"], "03LU1", "parcelRequire1c26")
 
 //# sourceMappingURL=index.462f004f.js.map

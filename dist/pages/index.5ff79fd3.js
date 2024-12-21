@@ -1624,6 +1624,7 @@ var _core = require("@lithium-framework/core");
 var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
+var _url = require("../../../../../url");
 class Inscription extends (0, _core.WebComponent) {
     firstUpdated() {
         // Synchroniser la valeur du genre avec le select
@@ -1640,6 +1641,47 @@ class Inscription extends (0, _core.WebComponent) {
         if (tarifsElement) tarifsElement.addEventListener("change", (event)=>{
             this.plan_tarifaire = event.target.value; // Mettre à jour plan_tarifaire
         });
+    }
+    async handleUserIsExist() {
+        const informationsDiv = this.shadowRoot?.querySelectorAll(".informations")[0];
+        const spanInfo = informationsDiv.children[0];
+        const userData = {
+            nom: this.getValueById("nom"),
+            prenom: this.getValueById("prenom"),
+            email: this.getValueById("email"),
+            date_naissance: this.getValueById("date-de-naissance")
+        };
+        // Vérification basique que tous les champs sont remplis
+        if (!userData.nom || !userData.prenom || !userData.email || !userData.date_naissance) {
+            console.log("Donn\xe9es invalides, la requ\xeate ne sera pas envoy\xe9e.");
+            alert("Veuillez remplir tous les champs.");
+            return;
+        }
+        console.log("Envoi des donn\xe9es:", userData);
+        try {
+            const response = await fetch(`${(0, _url.destinationUrl)}/utilisateurs/verification`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+            if (response.ok) {
+                const result = await response.json();
+                informationsDiv.classList.toggle("active");
+                spanInfo.innerHTML = result.message;
+            //window.location.href = '/pages/connexion';
+            } else {
+                console.error("Erreur lors de l'enregistrement :", response.statusText);
+                alert("Une erreur s'est produite. Veuillez r\xe9essayer.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la requ\xeate :", error);
+            alert("Impossible d'enregistrer la r\xe9servation.");
+        }
+    }
+    validateStep() {
+        return true;
     }
     goToStep(step) {
         if (this.currentStep === 1) {
@@ -1661,14 +1703,41 @@ class Inscription extends (0, _core.WebComponent) {
         else if (input instanceof HTMLInputElement) return input.value; // Récupérer la valeur d'un input classique
         return ""; // Retourner une valeur vide si l'élément n'est pas trouvé
     }
-    submitForm() {
+    async submitForm() {
         const submitBtn = this.shadowRoot?.querySelectorAll("button")[1];
-        console.log(this.nom, this.prenom, this.email, this.genre, this.date_de_naissance, this.plan_tarifaire, this.nom_utilisateur, this.password);
+        const userData = {
+            nom: this.nom,
+            prenom: this.prenom,
+            email: this.email,
+            date_naissance: this.date_de_naissance,
+            genre: this.genre,
+            plan_tarifaire: this.plan_tarifaire,
+            nom_utilisateur: this.nom_utilisateur,
+            password: this.password
+        };
+        console.log(userData);
         if (submitBtn) {
             const originalText = submitBtn.innerText;
             submitBtn.classList.add("loading");
             submitBtn.innerText = "";
             submitBtn.disabled = true;
+            try {
+                const response = await fetch(`${(0, _url.destinationUrl)}/utilisateurs/inscription`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(userData)
+                });
+                if (response.ok) ;
+                else {
+                    console.error("Erreur lors de l'enregistrement :", response.statusText);
+                    alert("Une erreur s'est produite. Veuillez r\xe9essayer.");
+                }
+            } catch (error) {
+                console.error("Erreur lors de la requ\xeate :", error);
+                alert("Impossible d'enregistrer la r\xe9servation.");
+            }
             setTimeout(()=>{
                 submitBtn.classList.remove("loading");
                 submitBtn.innerText = "Inscription r\xe9ussie !";
@@ -1729,21 +1798,24 @@ Inscription = (0, _tsDecorate._)([
                   <div class="row">
                     <div class="input-field">
                       <label for="nom">Nom</label>
-                      <input type="text" id="nom" name="nom" value="${inscription.nom}"/>
+                      <input type="text" id="nom" name="nom" value="${inscription.nom}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Nom d'utilisateur invalide.</span>
                     </div>
                     <div class="input-field">
-                      <label for="email">Email</label>
-                      <input type="email" id="email" name="email" value="${inscription.email}"/>
+                      <label for="prenom">Prénom</label>
+                      <input type="text" id="prenom" name="prenom" value="${inscription.prenom}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Prénom d'utilisateur invalide.</span>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field">
-                      <label for="prenom">Prénom</label>
-                      <input type="text" id="prenom" name="prenom" value="${inscription.prenom}"/>
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" value="${inscription.email}" required/>
                     </div>
                     <div class="input-field">
                       <label for="date-de-naissance">Date de naissance</label>
-                      <input type="date" id="date-de-naissance" name="date-de-naissance" value="${inscription.date_de_naissance}"/>
+                      <input type="date" id="date-de-naissance" name="date-de-naissance" value="${inscription.date_de_naissance}" @change="${()=>inscription.handleUserIsExist()}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Date de naissance d'utilisateur invalide.</span>
                     </div>
                   </div>
                   <div class="row">
@@ -1773,7 +1845,8 @@ Inscription = (0, _tsDecorate._)([
                     </div>
                     <div class="input-field">
                       <label for="password">Mot de passe</label>
-                      <input type="password" id="password" name="password" value="${inscription.password}"/>
+                      <input type="password" id="password" name="password" value="${inscription.password}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Mot de passe invalide.</span>
                     </div>
                   </div>
                 ` : ""}
@@ -1791,6 +1864,10 @@ Inscription = (0, _tsDecorate._)([
                     <li>Mot de passe : ${inscription.password}</li>
                   </ul>
                 ` : ""}
+          </div>
+
+          <div class="informations">
+            <span class="global-informations"></span>
           </div>
 
           <div class="navigation">
@@ -1865,9 +1942,9 @@ Inscription = (0, _tsDecorate._)([
         margin-left: 15px;
       }
       button {
-        padding: 10px 10px;
+        padding: 15px 10px;
         font-size: 16px;
-        width: 15ch;
+        width: 20ch;
         background-color: #005eff;
         border: none;
         color: #ffffff;
@@ -2046,11 +2123,24 @@ button.loading::before {
       .divider-text {
         color: #b1b3bc;
       }
+      .informations {
+        display: none;
+      }
+      .informations.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: azure;
+        margin-right: 15px;
+        margin-left: 15px;
+        padding: 10px 10px;
+      }
     `
         ]
     })
 ], Inscription);
 
-},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2Oeia"], null, "parcelRequire1c26")
+},{"@swc/helpers/_/_ts_decorate":"lX6TJ","@lithium-framework/core":"hmv1B","@lithium-framework/router-element":"cZ2Eg","unofficial-pf-v5-wc":"bU1uI","unofficial-pf-v5-wc-icons":"7gm82","../../../../../url":"2Klj6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2Oeia"], null, "parcelRequire1c26")
 
 //# sourceMappingURL=index.5ff79fd3.js.map

@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"7hjPs":[function(require,module,exports) {
+})({"d5RpL":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "3dbfbc43d48e8ba2";
+module.bundle.HMR_BUNDLE_ID = "b06c69ea85698321";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -50240,6 +50240,16 @@ var global = arguments[3];
         })(), s;
     })());
 
-},{}]},["7hjPs"], null, "parcelRequire1c26")
+},{}],"2Klj6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "url", ()=>url);
+parcelHelpers.export(exports, "originUrl", ()=>originUrl);
+parcelHelpers.export(exports, "destinationUrl", ()=>destinationUrl);
+const url = "http://ec2-18-185-136-232.eu-central-1.compute.amazonaws.com:3000/";
+const originUrl = "http://localhost:1234";
+const destinationUrl = "http://localhost:3000";
 
-//# sourceMappingURL=index.d48e8ba2.js.map
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d5RpL"], null, "parcelRequire1c26")
+
+//# sourceMappingURL=index.85698321.js.map

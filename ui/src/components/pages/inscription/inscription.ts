@@ -2,6 +2,7 @@ import { html , render , WebComponent , customElement , attr , attrState , state
 import '@lithium-framework/router-element';
 import 'unofficial-pf-v5-wc';
 import 'unofficial-pf-v5-wc-icons';
+import {destinationUrl} from '../../../../../url';
 
 @customElement({
   name: 'page-inscription',
@@ -33,21 +34,24 @@ import 'unofficial-pf-v5-wc-icons';
                   <div class="row">
                     <div class="input-field">
                       <label for="nom">Nom</label>
-                      <input type="text" id="nom" name="nom" value="${inscription.nom}"/>
+                      <input type="text" id="nom" name="nom" value="${inscription.nom}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Nom d'utilisateur invalide.</span>
                     </div>
                     <div class="input-field">
-                      <label for="email">Email</label>
-                      <input type="email" id="email" name="email" value="${inscription.email}"/>
+                      <label for="prenom">Prénom</label>
+                      <input type="text" id="prenom" name="prenom" value="${inscription.prenom}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Prénom d'utilisateur invalide.</span>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field">
-                      <label for="prenom">Prénom</label>
-                      <input type="text" id="prenom" name="prenom" value="${inscription.prenom}"/>
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" value="${inscription.email}" required/>
                     </div>
                     <div class="input-field">
                       <label for="date-de-naissance">Date de naissance</label>
-                      <input type="date" id="date-de-naissance" name="date-de-naissance" value="${inscription.date_de_naissance}"/>
+                      <input type="date" id="date-de-naissance" name="date-de-naissance" value="${inscription.date_de_naissance}" @change="${() => inscription.handleUserIsExist()}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Date de naissance d'utilisateur invalide.</span>
                     </div>
                   </div>
                   <div class="row">
@@ -79,7 +83,8 @@ import 'unofficial-pf-v5-wc-icons';
                     </div>
                     <div class="input-field">
                       <label for="password">Mot de passe</label>
-                      <input type="password" id="password" name="password" value="${inscription.password}"/>
+                      <input type="password" id="password" name="password" value="${inscription.password}" required/>
+                      <span id="nom-error" style="color: red; display: none;">Mot de passe invalide.</span>
                     </div>
                   </div>
                 `
@@ -100,6 +105,10 @@ import 'unofficial-pf-v5-wc-icons';
                   </ul>
                 `
               : ''}
+          </div>
+
+          <div class="informations">
+            <span class="global-informations"></span>
           </div>
 
           <div class="navigation">
@@ -176,9 +185,9 @@ import 'unofficial-pf-v5-wc-icons';
         margin-left: 15px;
       }
       button {
-        padding: 10px 10px;
+        padding: 15px 10px;
         font-size: 16px;
-        width: 15ch;
+        width: 20ch;
         background-color: #005eff;
         border: none;
         color: #ffffff;
@@ -357,6 +366,19 @@ button.loading::before {
       .divider-text {
         color: #b1b3bc;
       }
+      .informations {
+        display: none;
+      }
+      .informations.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: azure;
+        margin-right: 15px;
+        margin-left: 15px;
+        padding: 10px 10px;
+      }
     `,
   ],
 })
@@ -403,6 +425,55 @@ export class Inscription extends WebComponent {
       });
     }
   }
+
+  async handleUserIsExist() {
+    const informationsDiv = this.shadowRoot?.querySelectorAll('.informations')[0];
+    const spanInfo = informationsDiv.children[0];
+
+    const userData = {
+      nom: this.getValueById('nom'),
+      prenom: this.getValueById('prenom'),
+      email: this.getValueById('email'), 
+      date_naissance: this.getValueById('date-de-naissance')
+    };
+    
+    // Vérification basique que tous les champs sont remplis
+    if (!userData.nom || !userData.prenom || !userData.email || !userData.date_naissance) {
+      console.log('Données invalides, la requête ne sera pas envoyée.');
+      alert('Veuillez remplir tous les champs.');
+      return;
+    }
+  
+    console.log('Envoi des données:', userData);
+  
+    try {
+      const response = await fetch(`${destinationUrl}/utilisateurs/verification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),  // Envoie des données JSON
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        informationsDiv.classList.toggle('active')
+        spanInfo.innerHTML = result.message;
+        //window.location.href = '/pages/connexion';
+      } else {
+        console.error("Erreur lors de l'enregistrement :", response.statusText);
+        alert("Une erreur s'est produite. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la requête :", error);
+      alert("Impossible d'enregistrer la réservation.");
+    }
+  }  
+
+  validateStep(): boolean {
+    return true
+  }
+  
   
 
   goToStep(step: number) {
@@ -433,15 +504,45 @@ export class Inscription extends WebComponent {
     return ''; // Retourner une valeur vide si l'élément n'est pas trouvé
   }
 
-  submitForm(){
+  async submitForm(){
     const submitBtn = this.shadowRoot?.querySelectorAll("button")[1] as HTMLButtonElement;
-    console.log(this.nom, this.prenom, this.email, this.genre, this.date_de_naissance, this.plan_tarifaire, this.nom_utilisateur, this.password)
+    const userData = {
+      nom: this.nom,
+      prenom: this.prenom,
+      email: this.email, 
+      date_naissance: this.date_de_naissance,
+      genre: this.genre,
+      plan_tarifaire: this.plan_tarifaire,
+      nom_utilisateur: this.nom_utilisateur,
+      password: this.password
+    }
+    console.log(userData)
     if (submitBtn) {
       const originalText = submitBtn.innerText;
   
       submitBtn.classList.add('loading');
       submitBtn.innerText = '';
       submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(`${destinationUrl}/utilisateurs/inscription`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),  // Envoie des données JSON
+        });
+    
+        if (response.ok) {
+          //window.location.href = '/pages/connexion';
+        } else {
+          console.error("Erreur lors de l'enregistrement :", response.statusText);
+          alert("Une erreur s'est produite. Veuillez réessayer.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la requête :", error);
+        alert("Impossible d'enregistrer la réservation.");
+      }
   
       setTimeout(() => {
         submitBtn.classList.remove('loading');
