@@ -29,11 +29,11 @@ router.post('/verification', async (req, res) => {
 });
 
 router.post('/inscription', async (req, res) => {
-  const { nom, prenom, email, date_naissance, genre, plan_tarifaire, nom_utilisateur, password } = req.body;
+  const { prenom, nom, nom_utilisateur, email, genre, date_naissance, password, plan_tarifaire } = req.body;
   
   const client = new Client();
-
-  client.Inscription(nom, prenom, email, date_naissance, genre, plan_tarifaire, nom_utilisateur, password)
+  console.log(req.body);
+  client.inscrireUtilisateur(prenom, nom, nom_utilisateur, email, genre, date_naissance, password, plan_tarifaire, 'ceinture blanche', 'utilisateur')
       .then((result) => {
           res.status(201).json({ message: "Utilisateur inscrit avec succès", userId: result.insertId });
       })

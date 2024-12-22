@@ -56,31 +56,91 @@ export class Client{
         });
     }
 
-    Inscription(nom: string, prenom: string, email: string, date_naissance: string, genre: string, plan_tarifaire: string, nom_utilisateur: string, password: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+    async inscrireUtilisateur(
+        prenom: string,
+        nom: string,
+        nom_utilisateur: string,
+        email: string,
+        genreName: string,
+        date_naissance: string,
+        password: string,
+        statusName: string,
+        gradeName: string,
+        planTarifaireName: string
+    ): Promise<any> {
+        console.log(prenom, nom, nom_utilisateur, email, genreName, date_naissance,password, statusName, gradeName, planTarifaireName)
+        try {
             const mysqlConnector = new MysqlConnector();
+        
+            // Requête SQL pour insérer l'utilisateur avec la jointure pour récupérer les ids
             const sql = `
-                INSERT INTO utilisateurs (first_name, last_name, nom_utilisateur, email, password, gender, date_of_birth, status, grade, abonnement)
-                VALUES (?, ?, ?, ?, ?, ?, 'user', '1', ?)`;
+                INSERT INTO utilisateurs (first_name, last_name, nom_utilisateur, email, genre_id, date_of_birth, password, status_id, grade_id, abonnement_id)
+                SELECT 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    g.id, 
+                    ?, 
+                    ?, 
+                    s.id,  -- Jointure pour récupérer l'ID du statut
+                    gr.id, 
+                    p.id
+                FROM genres g
+                JOIN grades gr ON gr.grade_id = ?
+                JOIN plans_tarifaires p ON p.nom_plan = ?
+                JOIN status s ON s.nom_role = ?  -- Correction ici
+                WHERE g.genre_name = ?
+                LIMIT 1;
+            `;
+            // Liste des valeurs à passer à la requête SQL en respectant l'ordre des paramètres dans la requête
     
-            const values = [prenom, nom, nom_utilisateur, email, password, genre, plan_tarifaire];
-    
-            console.log("Exécution de la requête d'inscription avec les données:", values);
-    
-            mysqlConnector.query(sql, values, (error, results) => {
-                if (error) {
-                    console.error('Erreur lors de l\'insertion de l\'utilisateur : ' + error.message);
-                    reject(error);
-                } else {
-                    console.log('Utilisateur inséré avec succès, ID:', results.insertId);
-                    resolve(results);  // retourne les résultats, par exemple l'ID de l'utilisateur inséré
-                }
-    
-                // Fermez la connexion ici après avoir traité les résultats
-                mysqlConnector.close();
+            const values = [
+                prenom,
+                nom,
+                nom_utilisateur,
+                email,
+                date_naissance,
+                password,
+                gradeName,
+                statusName,
+                planTarifaireName,
+                genreName
+            ];
+            
+            // Affichage pour le débogage
+            console.log("Requête SQL:", sql);
+            console.log("Valeurs utilisées:", values);
+        
+            return new Promise((resolve, reject) => {
+                mysqlConnector.query(sql, values, (error, results) => {
+                    if (error) {
+                        console.error('Erreur lors de l\'insertion de l\'utilisateur : ' + error.message);
+                        reject(error);  // Rejeter la promesse en cas d'erreur
+                    } else {
+                        if (results.affectedRows === 0) {
+                            console.log("Aucun utilisateur inséré, vérifier les correspondances des valeurs.");
+                        } else {
+                            console.log('Utilisateur inséré avec succès, ID:', results.insertId);
+                        }
+                        resolve(results);  // Résoudre la promesse avec les résultats de l'insertion
+                    }
+                });
             });
-        });
+        } catch (error) {
+            console.error("Erreur dans l'inscription de l'utilisateur:", error);
+            throw error;  // Propager l'erreur si une exception est lancée
+        }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     obtenirLeStatus(): Promise<any> {
         return new Promise((resolve, reject) => {

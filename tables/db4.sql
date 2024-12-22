@@ -46,6 +46,7 @@ CREATE TABLE utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
+    nom_utilisateur VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,  -- Unicité de l'email
     genre_id INT,  -- Clé étrangère pour le genre
     date_of_birth DATE NOT NULL,
@@ -275,9 +276,9 @@ VALUES
 
 -- Insérer les trois plans tarifaires
 INSERT INTO plans_tarifaires (nom_plan, prix, periode, description) VALUES
-    ('Paiement mensuel', 25.00, 'mois', 'Abonnement de 25 EUR par mois'),
-    ('Paiement trimestriel', 100.00, 'trimestre', 'Abonnement de 100 EUR tous les 3 mois'),
-    ('Paiement annuel', 300.00, 'an', 'Abonnement de 300 EUR pour une année complète');
+    ('mensuel', 25.00, 'mois', 'Abonnement de 25 EUR par mois'),
+    ('trimestriel', 100.00, 'trimestre', 'Abonnement de 100 EUR tous les 3 mois'),
+    ('annuel', 300.00, 'an', 'Abonnement de 300 EUR pour une année complète');
 
 
 -- Insérer les différents grade_ids

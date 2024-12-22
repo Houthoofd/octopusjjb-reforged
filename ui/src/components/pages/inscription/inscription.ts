@@ -58,8 +58,8 @@ import {destinationUrl} from '../../../../../url';
                     <div class="dropdown">
                       <label for="genre">Genre</label>
                       <select id="genre" name="genre">
-                        <option value="homme" ?selected="${inscription.genre === 'homme'}">Homme</option>
-                        <option value="femme" ?selected="${inscription.genre === 'femme'}">Femme</option>
+                        <option value="Masculin" ?selected="${inscription.genre === 'Masculin'}">Masculin</option>
+                        <option value="Féminin" ?selected="${inscription.genre === 'Féminin'}">Féminin</option>
                       </select>
                     </div>
                     <div class="dropdown">
@@ -506,15 +506,16 @@ export class Inscription extends WebComponent {
 
   async submitForm(){
     const submitBtn = this.shadowRoot?.querySelectorAll("button")[1] as HTMLButtonElement;
+    
     const userData = {
-      nom: this.nom,
       prenom: this.prenom,
-      email: this.email, 
-      date_naissance: this.date_de_naissance,
-      genre: this.genre,
-      plan_tarifaire: this.plan_tarifaire,
+      nom: this.nom,
       nom_utilisateur: this.nom_utilisateur,
-      password: this.password
+      email: this.email, 
+      genre: this.genre,
+      date_naissance: this.date_de_naissance,
+      password: this.password,
+      plan_tarifaire: this.plan_tarifaire
     }
     console.log(userData)
     if (submitBtn) {
