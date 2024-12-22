@@ -1,11 +1,11 @@
-CREATE TABLE roles (
+CREATE TABLE status (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom_role VARCHAR(50) NOT NULL,
     description TEXT
 );
 
 -- Insérer les rôles
-INSERT INTO roles (nom_role, description)
+INSERT INTO status (nom_role, description)
 VALUES
     ('visiteur', "s'est rendu à un cours d'essai, pas encore inscrit dans le système"),
     ('utilisateur', "membre de l'équipe sportive"),

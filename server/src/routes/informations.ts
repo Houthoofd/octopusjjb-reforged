@@ -31,16 +31,16 @@ router.get('/genres', async (req, res) => {
       });
 });
 
-router.get('/roles', async (req, res) => {
+router.get('/status', async (req, res) => {
   const client = new Client();
 
-  client.obtenirLesRoles()
+  client.obtenirLeStatus()
       .then((roles) => {
           res.status(200).json({ roles });
       })
       .catch((error) => {
-          console.error('Erreur lors de la récupération des rôles :', error);
-          res.status(500).json({ message: "Erreur lors de la récupération des rôles", error: error.message });
+          console.error('Erreur lors de la récupération des status :', error);
+          res.status(500).json({ message: "Erreur lors de la récupération des status", error: error.message });
       });
 });
 

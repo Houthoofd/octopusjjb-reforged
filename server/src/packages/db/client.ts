@@ -82,10 +82,12 @@ export class Client{
         });
     }
 
-    obtenirLesRoles(): Promise<any> {
+    obtenirLeStatus(): Promise<any> {
         return new Promise((resolve, reject) => {
             const mysqlConnector = new MysqlConnector();
-            const sql = `SELECT * FROM roles`;
+            const sql = `SELECT * FROM status`;
+
+            console.log(sql)
     
             console.log("Exécution de la requête pour obtenir les rôles");
     
@@ -94,7 +96,7 @@ export class Client{
                     console.error('Erreur lors de la récupération des rôles : ' + error.message);
                     reject(error);
                 } else {
-                    console.log('Rôles récupérés avec succès :', results);
+                    console.log('Status récupérés avec succès :', results);
                     resolve(results);  // retourne les rôles obtenus
                 }
     
