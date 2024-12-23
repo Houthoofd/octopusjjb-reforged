@@ -2220,6 +2220,7 @@ Popup = (0, _tsDecorate._)([
         justify-content: center;
         flex-direction: column;
         gap: 20px;
+        background-color: #ffff;
       }
       /* span.title {
         background-color: #15c18263;
@@ -2282,6 +2283,7 @@ Popup = (0, _tsDecorate._)([
         justify-content: center;
         padding: 10px 10px;
         border-radius: 50%;
+        box-shadow: 0px 8px 5px -5px rgb(231 249 242);
       }
       .panel {
         display: flex;
