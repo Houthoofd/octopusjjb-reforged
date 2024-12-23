@@ -3,11 +3,13 @@ import '@lithium-framework/router-element';
 import 'unofficial-pf-v5-wc';
 import 'unofficial-pf-v5-wc-icons';
 import {destinationUrl} from '../../../../../url';
+import '../../modal';
 
 @customElement({
   name: 'page-inscription',
   template: html`${(inscription: Inscription) => {
     return html`
+      <modal-popup></modal-popup>
       <div id="inscription">
         <!-- Indicateurs d'étapes avec connexion verticale -->
         <div class="step-indicators">
@@ -535,6 +537,9 @@ export class Inscription extends WebComponent {
         });
     
         if (response.ok) {
+          const result = await response.json();
+          console.log(result)
+          submitBtn.disabled;
           //window.location.href = '/pages/connexion';
         } else {
           console.error("Erreur lors de l'enregistrement :", response.statusText);

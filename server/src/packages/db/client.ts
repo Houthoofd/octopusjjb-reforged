@@ -1,5 +1,5 @@
 import MysqlConnector from './mysqlconnector';
-
+import nodemailer from 'nodemailer';
 
 export class Client{
 

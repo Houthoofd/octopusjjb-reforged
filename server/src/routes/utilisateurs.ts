@@ -35,7 +35,7 @@ router.post('/inscription', async (req, res) => {
   console.log(req.body);
   client.inscrireUtilisateur(prenom, nom, nom_utilisateur, email, genre, date_naissance, password, plan_tarifaire, 'ceinture blanche', 'utilisateur')
       .then((result) => {
-          res.status(201).json({ message: "Utilisateur inscrit avec succès", userId: result.insertId });
+          res.status(200).json({ message: "Utilisateur inscrit avec succès", userId: result.insertId });
       })
       .catch((error) => {
           console.error('Erreur lors de l\'inscription de l\'utilisateur :', error);
