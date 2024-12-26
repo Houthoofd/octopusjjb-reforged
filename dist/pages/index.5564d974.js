@@ -2169,7 +2169,6 @@ var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class Popup extends (0, _core.WebComponent) {
-    // Méthode appelée à chaque fois qu'un attribut est modifié
     attributeChangedCallback(name, oldValue, newValue) {
         const isTrue = newValue !== null && newValue !== "false";
         switch(name){
@@ -2191,11 +2190,9 @@ class Popup extends (0, _core.WebComponent) {
     }
     constructor(...args){
         super(...args);
-        // États internes
         this.isSucces = false;
         this.isInfo = false;
         this.isFail = false;
-        // Attributs booléens
         this.success = false;
         this.info = false;
         this.fail = false;

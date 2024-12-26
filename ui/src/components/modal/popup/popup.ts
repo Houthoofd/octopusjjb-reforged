@@ -256,18 +256,16 @@ import 'unofficial-pf-v5-wc-icons';
   ]
 })
 export class Popup extends WebComponent {
-  // États internes
+
   @state() isSucces: boolean = false;
   @state() isInfo: boolean = false;
   @state() isFail: boolean = false;
 
-  // Attributs booléens
+
   @attr({ mode: 'boolean' }) success: boolean = false;
   @attr({ mode: 'boolean' }) info: boolean = false;
   @attr({ mode: 'boolean' }) fail: boolean = false;
 
-
-  // Méthode appelée à chaque fois qu'un attribut est modifié
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
     const isTrue = newValue !== null && newValue !== 'false';
 
