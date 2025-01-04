@@ -10,7 +10,6 @@ import 'unofficial-pf-v5-wc-icons';
         <div class="pop-up">
           <slot name="icon">
             <div class="panel">
-              <!-- Utilisez une classe dynamique basée sur success, fail et info -->
               <div class=${[
                   "icon-close",
                   popup.success ? '-success' : '',
@@ -270,8 +269,6 @@ export class Popup extends WebComponent {
     super.connectedCallback();
     console.log('modal connecté');
 
-
-    // Écoute l'événement 'close-modal' et 'open-modal' sur le document
     document.addEventListener('close-modal', this.closePopup.bind(this));
     document.addEventListener('open-modal', this.openPopup.bind(this));
   }
