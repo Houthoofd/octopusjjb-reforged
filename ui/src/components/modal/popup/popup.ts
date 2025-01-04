@@ -266,6 +266,16 @@ export class Popup extends WebComponent {
   @attr({ mode: 'boolean' }) info: boolean = false;
   @attr({ mode: 'boolean' }) fail: boolean = false;
 
+  connectedCallback() {
+    super.connectedCallback();
+    console.log('modal connecté');
+
+
+    // Écoute l'événement 'close-modal' et 'open-modal' sur le document
+    document.addEventListener('close-modal', this.closePopup.bind(this));
+    document.addEventListener('open-modal', this.openPopup.bind(this));
+  }
+
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
     const isTrue = newValue !== null && newValue !== 'false';
 
@@ -287,6 +297,10 @@ export class Popup extends WebComponent {
   closePopup(popup){
     const modal = this.shadowRoot?.querySelector('.pop-up');
     modal.classList.toggle('invisible');
+  }
+  openPopup(){
+    const modal = this.shadowRoot?.querySelector('.pop-up');
+    modal.classList.remove('visible');
   }
 }
 

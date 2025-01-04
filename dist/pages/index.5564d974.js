@@ -2169,6 +2169,13 @@ var _routerElement = require("@lithium-framework/router-element");
 var _unofficialPfV5Wc = require("unofficial-pf-v5-wc");
 var _unofficialPfV5WcIcons = require("unofficial-pf-v5-wc-icons");
 class Popup extends (0, _core.WebComponent) {
+    connectedCallback() {
+        super.connectedCallback();
+        console.log("modal connect\xe9");
+        // Écoute l'événement 'close-modal' et 'open-modal' sur le document
+        document.addEventListener("close-modal", this.closePopup.bind(this));
+        document.addEventListener("open-modal", this.openPopup.bind(this));
+    }
     attributeChangedCallback(name, oldValue, newValue) {
         const isTrue = newValue !== null && newValue !== "false";
         switch(name){
@@ -2187,6 +2194,10 @@ class Popup extends (0, _core.WebComponent) {
     closePopup(popup) {
         const modal = this.shadowRoot?.querySelector(".pop-up");
         modal.classList.toggle("invisible");
+    }
+    openPopup() {
+        const modal = this.shadowRoot?.querySelector(".pop-up");
+        modal.classList.remove("visible");
     }
     constructor(...args){
         super(...args);
